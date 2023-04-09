@@ -1,0 +1,11 @@
+
+.card-body.login-card-body{
+    height: 450px;
+    padding-top: 4rem;
+    background-color: #f1f5f9;
+}
+
+.signin-btn.google-login-btn{
+    margin-top: 7rem;
+    width: 225px;
+}

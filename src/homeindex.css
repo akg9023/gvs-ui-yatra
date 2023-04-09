@@ -1,0 +1,44 @@
+
+
+.card-body.register-card-body{
+    padding-top: 4rem;
+    background-color: #f1f5f9;
+    height: 400px;
+}
+
+.btn-success.btn-register {
+    margin-top: 7rem;
+    width:200px !important;
+}
+
+@media (max-width: 767px) {
+    .col.col-registration{
+        /* margin:20px 10px 0 !important; */
+        padding: 20px 35px 0 !important;
+    }
+}
+@media (max-width: 993px) {
+    .col.col-registration{
+        margin:20px auto !important;   
+    }
+    .col.col-yt-player{
+        margin:20px auto !important;
+    }
+}
+
+ .home{
+    background: url('../images/RadhaKund_bg.jpg') no-repeat center fixed;
+    background-size: cover;
+    /* background-image: linear-gradient(black,white); */
+    height:100vh;
+} 
+
+.blur {
+    background: rgba(11, 11, 11, 0.2); 
+    backdrop-filter: blur(2px); 
+    height: 100vh;
+      width: 100%;
+  }
+
+
+  
