@@ -6,7 +6,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import MemRegForm from './YatraMemRegForm/yatraRegForm';
 import { useContext, useEffect, useState } from 'react';
 import axiosGetUserDetail from './axios/axiosGetUserDetail';
-import axiosGetAllUserDetail from './axios/axiosGetAllUserDetail';
+import axiosGetAllUserDetail from './axios/axiosGetLimitedUserDetail';
 import Home from './home/Home';
 import {
   BrowserRouter,
@@ -15,8 +15,11 @@ import {
 } from "react-router-dom";
 import PleaseWait from './pleaseWait/PleaseWait';
 import { PleaseWaitContext } from './context/PleaseWaitContextProvider.js';
-import { GET_ALL_USER_DETAIL } from './constants/apiConstant';
+import {  GET_LIMITED_USER_DETAIL } from './constants/apiConstant';
 import axios from 'axios';
+import Dashboard from './dashboard/Dashboard';
+import NavBar from './nav/NavBar';
+import Success from './paymentResponse/Success';
 
 function App() {
 
@@ -26,7 +29,7 @@ function App() {
   useEffect( ()=>{
     const fun = async()=>{
       setGWaitOn(true)
-      const res = await axios.post(GET_ALL_USER_DETAIL)
+      const res = await axios.post(GET_LIMITED_USER_DETAIL)
       setDBUserData(res.data)
       setGWaitOn(false)
     }
@@ -37,17 +40,30 @@ function App() {
   const template = () => (
     <>
       <BrowserRouter>
+      <NavBar/>
         <Routes>
           <Route
             index
             element={
-              <Home dbUserData={dbUserData}/>
+              <Home/>
             }
           />
           <Route
             path="/yatraMemReg"
             element={
-              <MemRegForm />
+              <MemRegForm dbUserData={dbUserData}/>
+            }
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <Dashboard/>
+            }
+          />
+          <Route
+            path="/paymentDetails/:clientTxnId"
+            element={
+              <Success/>
             }
           />
       </Routes>
