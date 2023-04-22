@@ -15,25 +15,37 @@ import {
 } from "react-router-dom";
 import PleaseWait from './pleaseWait/PleaseWait';
 import { PleaseWaitContext } from './context/PleaseWaitContextProvider.js';
-import {  GET_LIMITED_USER_DETAIL } from './constants/apiConstant';
+import {  GET_ALL_REG_MEM_ID, GET_LIMITED_USER_DETAIL } from './constants/apiConstant';
 import axios from 'axios';
 import Dashboard from './dashboard/Dashboard';
 import NavBar from './nav/NavBar';
 import Success from './paymentResponse/Success';
+import ManageMembers from './members/ManageMembers';
 
 function App() {
 
   const{gWaitOn,setGWaitOn} = useContext(PleaseWaitContext)
   const [dbUserData,setDBUserData]=useState([]) 
+  const [dbRegMemIdList,setDBRegMemIdList]=useState([]) 
 
   useEffect( ()=>{
+   
     const fun = async()=>{
       setGWaitOn(true)
       const res = await axios.post(GET_LIMITED_USER_DETAIL)
       setDBUserData(res.data)
       setGWaitOn(false)
     }
+
+    const fun2 = async()=>{
+      setGWaitOn(true)
+      const res = await axios.post(GET_ALL_REG_MEM_ID)
+      setDBRegMemIdList(res.data)
+      setGWaitOn(false)
+    }
+
     fun()
+    fun2()
     
   },[])
 
@@ -51,7 +63,7 @@ function App() {
           <Route
             path="/yatraMemReg"
             element={
-              <MemRegForm dbUserData={dbUserData}/>
+              <MemRegForm dbUserData={dbUserData} dbRegMemIdList={dbRegMemIdList}/>
             }
           />
           <Route
@@ -64,6 +76,12 @@ function App() {
             path="/paymentDetails/:clientTxnId"
             element={
               <Success/>
+            }
+          />
+          <Route
+            path="/manageMem"
+            element={
+              <ManageMembers/>
             }
           />
       </Routes>

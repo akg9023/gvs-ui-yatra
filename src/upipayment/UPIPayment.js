@@ -6,9 +6,7 @@ import { BACKEND_UPI_GATEWAY_CREATE_ORDER_URL } from "../constants/apiConstant";
 //ADDED PROXY IN PACKAGE.JSON
 
 
-export const upiGatewayPayment = async (amt, membersList) => {
-
-
+export const upiGatewayPayment = async (amt, membersList, setGWaitOn) => {
 
     //create a new client txn id
     const client_id = uuidv4();
@@ -36,6 +34,7 @@ export const upiGatewayPayment = async (amt, membersList) => {
         const response = await axios.post(BACKEND_UPI_GATEWAY_CREATE_ORDER_URL, request)
         console.log(response);
         const payload = response.data.data;
+        setGWaitOn(false)
         redirect(payload.payment_url)
     }
     catch (error) {

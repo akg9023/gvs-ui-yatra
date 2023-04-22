@@ -9,23 +9,17 @@ export default function Home(props) {
 
     const { gWaitOn, setGWaitOn } = useContext(PleaseWaitContext)
     const [errMsg, setErrMsg] = useState("")
+    const navigate = useNavigate();
 
     setTimeout(() => {
         setErrMsg("")
     }, 4000)
 
-    // useEffect(() => {
-    //   const asyncFn = async () => {
-    //     setGWaitOn(true)
-    //     const res = await axiosGetAllUserDetail(setGWaitOn)
-    //     console.log(res.data);
-    //     setDBUserData(res.data)
-    //     setGWaitOn(false)
-    //   };
-    //   asyncFn();
-    // }, []);
+    useEffect(() =>{
+         if(sessionStorage.getItem("userEmail"))
+            navigate("/dashboard")
+    }, []);
 
-    const navigate = useNavigate();
 
     const googleFail = (e) => {
         console.log("google fial", e);

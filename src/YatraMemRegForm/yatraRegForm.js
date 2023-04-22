@@ -1,21 +1,41 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./yatraRegForm.css";
 import axiosGetUserDetail from "../axios/axiosGetUserDetail";
 import { useLocation, useNavigate } from "react-router-dom";
 import { upiGatewayPayment } from "../upipayment/UPIPayment";
+import { PleaseWaitContext } from "../context/PleaseWaitContextProvider.js";
 
-export default function MemRegForm({ dbUserData }) {
+export default function MemRegForm({ dbUserData, dbRegMemIdList }) {
   const [memId, setMemId] = useState("");
   const [mem, setMem] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+  const { gWaitOn, setGWaitOn } = useContext(PleaseWaitContext)
 
   useEffect(() => {
     if (!sessionStorage.getItem("userEmail")) navigate("/");
   }, []);
 
+  const checkAlreadyReg = (memId) =>{
+      const found = dbRegMemIdList.filter((one)=>one==memId)
+      if(found.length==0)
+        return false;
+      
+      return true;
+  }
+
+  setTimeout(()=>{
+     setErrorMessage("")
+  },5000)
+
   const handleSearch = (e) => {
     e.preventDefault();
+
+    if(checkAlreadyReg(memId.toUpperCase())){
+      setErrorMessage("Member already registered.");
+      return;
+    }
+    
     const found = dbUserData.filter(
       (one) => memId.toUpperCase() === one.id
     );
@@ -39,8 +59,9 @@ export default function MemRegForm({ dbUserData }) {
 
   const handlePayment = (e) => {
     e.preventDefault();
+    setGWaitOn(true)
     const amount = mem.length*1500;
-    upiGatewayPayment(1, mem);
+    upiGatewayPayment(1, mem,setGWaitOn);
   };
 
   return (

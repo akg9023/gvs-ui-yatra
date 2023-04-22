@@ -23,7 +23,7 @@ export default (props) => {
     }, [])
 
     const navigateToHome = () =>{
-            navigate("/")
+            navigate("/dashboard")
     }
 
     return (
