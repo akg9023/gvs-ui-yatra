@@ -63,7 +63,7 @@ export default function MemRegForm({ dbUserData, dbRegMemIdList }) {
 
     const childMem = mem.filter((one)=>one.age<=extempedAge)
     if(childMem.length == mem.length)
-      setErrorMessage("Only children are not allowed. You may add one adult member.")
+      setErrorMessage("Please add atleast one adult member.")
     else{
       setGWaitOn(true)
       upiGatewayPayment(mem,setGWaitOn);
@@ -81,7 +81,7 @@ export default function MemRegForm({ dbUserData, dbRegMemIdList }) {
               11-Aug to 15-Aug<br />Vrindavan
             </p>
             <div className="card">
-              <span className="badge text-bg-warning">Registration Fee: 1500/-</span>
+              <span className="badge text-bg-warning">Registration Fee: 2000/-</span>
               <br />
               <h2 className="text-center mb-4">Register Members</h2>
               <form className="form-card" onSubmit={(e) => e.preventDefault()}>
