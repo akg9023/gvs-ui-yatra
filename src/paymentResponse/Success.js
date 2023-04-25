@@ -60,7 +60,7 @@ export default (props) => {
                         </tr>
                         <tr>
                             <td scope="row" colSpan={10}>Transaction Date</td>
-                            <td>{memDetail.txnDate}</td>
+                            <td>{memDetail.created_date_time}</td>
 
                         </tr>
 
