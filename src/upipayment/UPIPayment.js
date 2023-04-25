@@ -6,7 +6,7 @@ import { BACKEND_UPI_GATEWAY_CREATE_ORDER_URL } from "../constants/apiConstant";
 //ADDED PROXY IN PACKAGE.JSON
 
 
-export const upiGatewayPayment = async (amt, membersList, setGWaitOn) => {
+export const upiGatewayPayment = async ( membersList, setGWaitOn) => {
 
     //create a new client txn id
     const client_id = uuidv4();
@@ -20,12 +20,10 @@ export const upiGatewayPayment = async (amt, membersList, setGWaitOn) => {
     const request =
     {
 
-        "amount": amt + "",
         "clientTransactionId": client_id,
         "customerEmail": sessionStorage.getItem("userEmail"),
         "info": "ISKCON Haldia",
         "memberDetails": membersList,
-        "amount": "1"
     }
 
     console.log("request", request)

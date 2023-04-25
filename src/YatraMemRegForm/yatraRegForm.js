@@ -26,7 +26,7 @@ export default function MemRegForm({ dbUserData, dbRegMemIdList }) {
 
   setTimeout(()=>{
      setErrorMessage("")
-  },5000)
+  },10000)
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -59,9 +59,15 @@ export default function MemRegForm({ dbUserData, dbRegMemIdList }) {
 
   const handlePayment = (e) => {
     e.preventDefault();
-    setGWaitOn(true)
-    const amount = mem.length*1500;
-    upiGatewayPayment(1, mem,setGWaitOn);
+
+    const childMem = mem.filter((one)=>one.age<=5)
+    if(childMem.length == mem.length)
+      setErrorMessage("Only children are not allowed. You may add one adult member.")
+    else{
+      setGWaitOn(true)
+      upiGatewayPayment(mem,setGWaitOn);
+    }
+
   };
 
   return (
