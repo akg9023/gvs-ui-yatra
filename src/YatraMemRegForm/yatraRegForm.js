@@ -11,6 +11,7 @@ export default function MemRegForm({ dbUserData, dbRegMemIdList }) {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   const { gWaitOn, setGWaitOn } = useContext(PleaseWaitContext)
+  const extempedAge = 5
 
   useEffect(() => {
     if (!sessionStorage.getItem("userEmail")) navigate("/");
@@ -60,7 +61,7 @@ export default function MemRegForm({ dbUserData, dbRegMemIdList }) {
   const handlePayment = (e) => {
     e.preventDefault();
 
-    const childMem = mem.filter((one)=>one.age<=5)
+    const childMem = mem.filter((one)=>one.age<=extempedAge)
     if(childMem.length == mem.length)
       setErrorMessage("Only children are not allowed. You may add one adult member.")
     else{
@@ -107,13 +108,13 @@ export default function MemRegForm({ dbUserData, dbRegMemIdList }) {
                 </h5>
                 <hr />
                 <div className="accordion" id="accordionExample">
-                  {mem.map(({ id, fname, gender }, index) => (
+                  {mem.map(({ id, fname, gender,age }, index) => (
                     <div key={id} className="container">
                       <div className="row align-items-start">
                         <div className="col">
                           <div style={{ display: "flex" }}>
                             <h6>
-                              {index + 1} | {id} | {fname} | {gender}
+                              {index + 1} | {id} | {fname} | {gender} | {age<=extempedAge?<span style={{color:"orange"}}>Child</span> :<span style={{color:"olive"}}>Adult</span>}
                             </h6>
                           </div>
                         </div>
