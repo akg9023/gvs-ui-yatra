@@ -12,31 +12,32 @@ export default function MemRegForm({ dbUserData, dbRegMemIdList }) {
   const navigate = useNavigate();
   const { gWaitOn, setGWaitOn } = useContext(PleaseWaitContext)
   const extempedAge = 5
+  const teenAge = 10
 
   useEffect(() => {
     if (!sessionStorage.getItem("userEmail")) navigate("/");
   }, []);
 
-  const checkAlreadyReg = (memId) =>{
-      const found = dbRegMemIdList.filter((one)=>one==memId)
-      if(found.length==0)
-        return false;
-      
-      return true;
+  const checkAlreadyReg = (memId) => {
+    const found = dbRegMemIdList.filter((one) => one == memId)
+    if (found.length == 0)
+      return false;
+
+    return true;
   }
 
-  setTimeout(()=>{
-     setErrorMessage("")
-  },10000)
+  setTimeout(() => {
+    setErrorMessage("")
+  }, 10000)
 
   const handleSearch = (e) => {
     e.preventDefault();
 
-    if(checkAlreadyReg(memId.toUpperCase())){
+    if (checkAlreadyReg(memId.toUpperCase())) {
       setErrorMessage("Member already registered.");
       return;
     }
-    
+
     const found = dbUserData.filter(
       (one) => memId.toUpperCase() === one.id
     );
@@ -61,28 +62,50 @@ export default function MemRegForm({ dbUserData, dbRegMemIdList }) {
   const handlePayment = (e) => {
     e.preventDefault();
 
-    const childMem = mem.filter((one)=>one.age<=extempedAge)
-    if(childMem.length == mem.length)
+    const childMem = mem.filter((one) => one.age <= extempedAge)
+    if (childMem.length == mem.length)
       setErrorMessage("Please add atleast one adult member.")
-    else{
+    else {
       setGWaitOn(true)
-      upiGatewayPayment(mem,setGWaitOn);
+      upiGatewayPayment(mem, setGWaitOn);
     }
 
   };
 
   return (
     <>
+
       <div className="container-fluid px-1 py-5 mx-auto">
         <div className="row d-flex justify-content-center">
           <div className="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
-            <h3>Yatra 2023</h3>
-            <p className="blue-text">
-              11-Aug to 15-Aug<br />Vrindavan
-            </p>
+            <div class="jumbotron jumbotron-fluid">
+              <div class="container">
+                <h1 class="display-4">ISKCON YATRA</h1>
+                <p class="lead">Organized by Haldia VOICE</p>
+                <hr />
+                <p class="lead"><b>11th to 15th August 2023 - Vrindavan</b></p>
+                <hr />
+              </div>
+            </div>
             <div className="card">
-              <span className="badge text-bg-warning">Registration Fee: 2000/-</span>
+              <div class="container" style={{ display: "flex", "flex-direction": "column", "alignItems": "start" }}>
+                <div class="row">
+                  <div class="col-sm">
+                    <span class="badge text-bg-secondary">Adult (Above 10) : Rs.2000/-</span>
+                  </div>
+                  <div class="col-sm">
+                    <span class="badge text-bg-secondary">Teens (Age less than or equal to 10) : Rs.1000/-</span>
+                  </div>
+                  <div class="col-sm">
+                    <span class="badge text-bg-secondary">Child (Age less than or equal to 5) : FREE</span>
+                  </div>
+                </div>
+
+
+              </div>
+
               <br />
+
               <h2 className="text-center mb-4">Register Members</h2>
               <form className="form-card" onSubmit={(e) => e.preventDefault()}>
                 <div className="row justify-content-between text-left">
@@ -108,13 +131,13 @@ export default function MemRegForm({ dbUserData, dbRegMemIdList }) {
                 </h5>
                 <hr />
                 <div className="accordion" id="accordionExample">
-                  {mem.map(({ id, fname, gender,age }, index) => (
+                  {mem.map(({ id, fname, gender, age }, index) => (
                     <div key={id} className="container">
                       <div className="row align-items-start">
                         <div className="col">
                           <div style={{ display: "flex" }}>
                             <h6>
-                              {index + 1} | {id} | {fname} | {gender} | {age<=extempedAge?<span style={{color:"orange"}}>Child</span> :<span style={{color:"olive"}}>Adult</span>}
+                              {index + 1} | {id} | {fname} | {gender} | {age <= extempedAge ? <span style={{ color: "orange" }}>Child</span> : age <= teenAge ? <span style={{ color: "green" }}>Teen</span> : <span style={{ color: "olive" }}>Adult</span>}
                             </h6>
                           </div>
                         </div>
@@ -144,6 +167,7 @@ export default function MemRegForm({ dbUserData, dbRegMemIdList }) {
                 </div>
               </form>
             </div>
+
           </div>
         </div>
       </div>
