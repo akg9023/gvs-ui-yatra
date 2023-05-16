@@ -12,7 +12,7 @@ import { PleaseWaitContext } from "../context/PleaseWaitContextProvider.js";
 
 export default () => {
     const { state } = useLocation();
-    const { amount, memberList } = state?state:"";
+    const { amount, memberList } = state ? state : "";
     const [qr, setQR] = useState("")
     const [errMessage, setErrorMessage] = useState("")
     const { gWaitOn, setGWaitOn } = useContext(PleaseWaitContext)
@@ -88,48 +88,53 @@ export default () => {
     }
 
     return <>
-        <div class="container-fluid mpg-wrapper">
-            <div class="jumbotron">
-                <h1 class="display-4">Payment</h1>
-                <p class="lead">
-                    <p class="display-6">Amount: <b>{amount}</b></p>
-                </p>
-                <hr />
-                <p>Scan here</p>
-                <div className="qrDiv">{parse(qr)}</div>
+        <div class=" mpg-wrapper">
+            <div class="content">
+                <div class="jumbotron">
+                    <h1 class="display-4">Payment</h1>
+                    <p class="lead">
+                        <p class="display-6">Amount: <b>{amount}</b></p>
+                    </p>
+                    <hr />
+                    <p>Scan here</p>
+                    <div className="qrDiv">{parse(qr)}</div>
 
-                <hr />
+                    <hr />
 
+                </div>
+                <p style={{ "color": "red" }}>{errMessage}</p>
+                <form>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">UPI App used</label>
+                        <input type="text" required class="form-control" id="customerUPIApp" onChange={(e) => change(e)} />
+                        <small id="emailHelp" class="form-text text-muted ">Google Pay / PhonePay etc   </small>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Transaction ID/ UTR</label>
+                        <input type="text" class="form-control" id="customerUTR" aria-describedby="emailHelp" onChange={(e) => change(e)} required />
+                        <small id="emailHelp" class="form-text text-muted ">Subject to verfiy.</small>
+                    </div>
+                    <small class="highlight">GooglePay: UPI transaction ID  </small><a target="_blank" href="https://drive.google.com/file/d/1elCNsKNKHw2EgYZ_VKaMsAjthyyO1qq-/view">Sample</a><br/>
+                    <small class="highlight">PhonePay: UTR </small><a target="_blank" href="https://drive.google.com/file/d/1gxpfkZb7SekVSyN4HQS28ATTnhQ1Iyna/view">Sample</a><br/>
+                    <small class="highlight">Paytm: UPI Ref No </small><a target="_blank" href="https://drive.google.com/file/d/1d77p2gtVKaHMohazQEMCtpt29hzRA83c/view">Sample</a><br/>
+                    <small class="highlight">Amazon Pay: Bank Reference ID </small><a target="_blank" href="https://drive.google.com/file/d/1NiI2cOPhDL4LoE8eGcRr965z-wMgFMQM/view">Sample</a><br/>
+                    <br />
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Your Name</label>
+                        <input type="text" class="form-control" id="customerName" aria-describedby="emailHelp" onChange={(e) => change(e)} required />
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Contact Number</label>
+                        <input type="text" class="form-control" id="customerPhoneNo" aria-describedby="emailHelp" onChange={(e) => change(e)} required />
+                    </div>
+                    <br />
+                    <hr />
+                    <br />
+                    <button type="button" onClick={onSubmit} class="btn btn-secondary btn-lg btn-block">Submit for Verification</button>
+                </form>
             </div>
-            <p style={{ "color": "red" }}>{errMessage}</p>
-            <form>
-                <div class="form-group">
-                    <label for="exampleInputPassword1">UPI App used</label>
-                    <input type="text" required class="form-control" id="customerUPIApp" onChange={(e) => change(e)} />
-                    <small id="emailHelp" class="form-text text-muted ">Google Pay / PhonePay etc   </small>
-                </div>
-                <br />
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Transaction ID/ UTR</label>
-                    <input type="text" class="form-control" id="customerUTR" aria-describedby="emailHelp" onChange={(e) => change(e)} required />
-                    <small id="emailHelp" class="form-text text-muted ">Subject to verfiy.</small>
-                </div>
-                <br />
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Name</label>
-                    <input type="text" class="form-control" id="customerName" aria-describedby="emailHelp" onChange={(e) => change(e)} required />
-                </div>
-                <br />
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Contact Number</label>
-                    <input type="text" class="form-control" id="customerPhoneNo" aria-describedby="emailHelp" onChange={(e) => change(e)} required />
-                </div>
-                <br />
-                <hr />
-                <br />
-                <button type="button" onClick={onSubmit} class="btn btn-secondary btn-lg btn-block">Submit for Verification</button>
-            </form>
-
         </div>
     </>
 }
