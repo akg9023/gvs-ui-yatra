@@ -12,7 +12,7 @@ import { PleaseWaitContext } from "../context/PleaseWaitContextProvider.js";
 
 export default () => {
     const { state } = useLocation();
-    const { amount,memberList } = state;
+    const { amount, memberList } = state?state:"";
     const [qr, setQR] = useState("")
     const [errMessage, setErrorMessage] = useState("")
     const { gWaitOn, setGWaitOn } = useContext(PleaseWaitContext)
@@ -27,17 +27,23 @@ export default () => {
         amount: amount
     }
     const [formData, setFormData] = useState(template);
+
     useEffect(() => {
-        // Converting the data into base64
-        QRCode.toString(paymentUrl, function (err, code) {
-            if (err) return console.log("error occurred")
-            setQR(code)
-        })
+        if (!sessionStorage.getItem("userEmail")) navigate("/");
+        else {
+
+            // Converting the data into base64
+            QRCode.toString(paymentUrl, function (err, code) {
+                if (err) return console.log("error occurred")
+                setQR(code)
+            })
+        }
+
     }, [])
 
-    setTimeout(()=>{
+    setTimeout(() => {
         setErrorMessage("")
-    },5000)
+    }, 5000)
     const change = (e) => {
 
         let updatedForm = { ...formData, [e.target.id]: e.target.value }
@@ -55,18 +61,18 @@ export default () => {
         const reqForMemList = {
             "memberIdList": memberList,
             "userEmail": sessionStorage.getItem("userEmail"),
-            "amount":amount,
-            "paymentStatus":"pending",
-            "upiTxnId":formData.customerUTR,
-            "customerVPA":formData.customerUPIApp,
-            "customerEmail":sessionStorage.getItem("userEmail"),
-            "txnDate":Date.now()
+            "amount": amount,
+            "paymentStatus": "pending",
+            "upiTxnId": formData.customerUTR,
+            "customerVPA": formData.customerUPIApp,
+            "customerEmail": sessionStorage.getItem("userEmail"),
+            "txnDate": Date.now()
         }
 
         console.log(reqForMemList);
         setGWaitOn(true)
         //save in member registraion table
-        await axios.post(SAVE_MEM_LIST,reqForMemList)
+        await axios.post(SAVE_MEM_LIST, reqForMemList)
 
         //save request
         await axios.post(SAVE_PAYMENT_REQUEST, formData)
@@ -82,7 +88,7 @@ export default () => {
     }
 
     return <>
-        <div class="mpg-wrapper">
+        <div class="container-fluid mpg-wrapper">
             <div class="jumbotron">
                 <h1 class="display-4">Payment</h1>
                 <p class="lead">
