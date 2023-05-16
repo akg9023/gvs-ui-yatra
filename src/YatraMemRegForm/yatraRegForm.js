@@ -4,6 +4,8 @@ import axiosGetUserDetail from "../axios/axiosGetUserDetail";
 import { useLocation, useNavigate } from "react-router-dom";
 import { upiGatewayPayment } from "../upipayment/UPIPayment";
 import { PleaseWaitContext } from "../context/PleaseWaitContextProvider.js";
+import axios from "axios";
+import { CALCULATE_MEM_REG_AMOUNT } from "../constants/apiConstant";
 
 export default function MemRegForm({ dbUserData, dbRegMemIdList }) {
   const [memId, setMemId] = useState("");
@@ -59,15 +61,35 @@ export default function MemRegForm({ dbUserData, dbRegMemIdList }) {
     setMem(seggMem);
   };
 
-  const handlePayment = (e) => {
+  const handlePayment = async (e) => {
     e.preventDefault();
 
     const childMem = mem.filter((one) => one.age <= extempedAge)
     if (childMem.length == mem.length)
       setErrorMessage("Please add atleast one adult member.")
     else {
+
+      // upiGatewayPayment(mem, setGWaitOn);
+      const req = {
+        userEmail: sessionStorage.getItem("userEmail"),
+        devoteeList: mem
+      }
       setGWaitOn(true)
-      upiGatewayPayment(mem, setGWaitOn);
+      const res = await axios.post(CALCULATE_MEM_REG_AMOUNT, req)
+      setGWaitOn(false)
+
+      //transforming data as per memReg
+      let memList = [];
+      mem.map((one) => {
+        memList = [...memList
+          , {
+          dbDevId: one.id,
+          dbDevName: one.fname,
+          dbDevGender: one.gender,
+          dbDevAge: one.age
+        }]
+      })
+      navigate("/paymentForm", { state: { memberList: memList, amount: res.data } })
     }
 
   };

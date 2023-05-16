@@ -54,7 +54,7 @@ export default () => {
                                 <li class="list-group-item">Transaction Id: {one.upiTxnId}</li>
                                 <li class="list-group-item">UPI Id : {one.customerVPA}</li>
                                 <li class="list-group-item">Amount : {one.amount} </li>
-                                <li class="list-group-item">Transaction Date : {one.txnDate}</li>
+                                <li class="list-group-item">Transaction Date : {one.createdDateTime}</li>
                             </ul>
                         </a>
                     </div>

@@ -1,0 +1,11 @@
+
+.mpg-wrapper{
+    display: flex;
+    align-items: baseline;
+    flex-direction: column;
+}
+
+.qrDiv{
+    width:400px;
+    height:400px;
+}

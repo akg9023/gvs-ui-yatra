@@ -21,6 +21,7 @@ import Dashboard from './dashboard/Dashboard';
 import NavBar from './nav/NavBar';
 import Success from './paymentResponse/Success';
 import ManageMembers from './members/ManageMembers';
+import PaymentForm from './manualPG/PaymentForm';
 
 function App() {
 
@@ -82,6 +83,12 @@ function App() {
             path="/manageMem"
             element={
               <ManageMembers/>
+            }
+          />
+           <Route
+            path="/paymentForm"
+            element={
+              <PaymentForm/>
             }
           />
       </Routes>
