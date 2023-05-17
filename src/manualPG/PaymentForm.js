@@ -17,6 +17,7 @@ export default () => {
     const [errMessage, setErrorMessage] = useState("")
     const { gWaitOn, setGWaitOn } = useContext(PleaseWaitContext)
     const navigate = useNavigate();
+    const [isMobile, setIsMobile] = useState(false);
     const paymentUrl = `upi://pay?pa=${PAYMENT_UPI_ID}&pn=${PAYMENT_MERCHANT_NAME}&am=${amount}&tn=yatra&cu=INR`
     const template = {
         userEmail: sessionStorage.getItem("userEmail"),
@@ -27,6 +28,16 @@ export default () => {
         amount: amount
     }
     const [formData, setFormData] = useState(template);
+
+    useEffect(() => {
+        window.addEventListener('resize', () => {
+            if (window.innerWidth < 991) {
+                setIsMobile(true);
+            } else {
+                setIsMobile(false);
+            }
+        });
+    }, []);
 
     useEffect(() => {
         if (!sessionStorage.getItem("userEmail")) navigate("/");
@@ -46,7 +57,7 @@ export default () => {
     }, 5000)
     const change = (e) => {
 
-        let updatedForm = { ...formData, [e.target.id]: e.target.value }
+        let updatedForm = { ...formData, [e.target.id]: e.target.value.trim() }
         setFormData(updatedForm);
 
     }
@@ -97,8 +108,11 @@ export default () => {
                     </p>
                     <hr />
                     <p>Scan here</p>
-                    <div className="qrDiv">{parse(qr)}</div>
-
+                    <div className="qrDiv">
+                        {parse(qr)}
+                        {isMobile?<a  class="pay-button" href={paymentUrl}><button className="btn btn-warning ">Pay using UPI</button></a>:""}
+                        </div>
+                       
                     <hr />
 
                 </div>
@@ -113,7 +127,7 @@ export default () => {
                     <div class="form-group">
                         <label for="exampleInputEmail1">Transaction ID/ UTR</label>
                         <input type="text" class="form-control" id="customerUTR" aria-describedby="emailHelp" onChange={(e) => change(e)} required />
-                        <small id="emailHelp" class="form-text text-muted ">Subject to verfiy.</small>
+                        <small id="emailHelp" class="form-text text-muted ">Please follow below guidelines to get transactionID</small>
                     </div>
                     <small class="highlight">GooglePay: UPI transaction ID  </small><a target="_blank" href="https://drive.google.com/file/d/1elCNsKNKHw2EgYZ_VKaMsAjthyyO1qq-/view">Sample</a><br/>
                     <small class="highlight">PhonePay: UTR </small><a target="_blank" href="https://drive.google.com/file/d/1gxpfkZb7SekVSyN4HQS28ATTnhQ1Iyna/view">Sample</a><br/>
