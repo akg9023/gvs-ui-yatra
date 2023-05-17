@@ -82,18 +82,30 @@ export default () => {
 
         console.log(reqForMemList);
         setGWaitOn(true)
-        //save in member registraion table
+        try{
+                   //save in member registraion table
         await axios.post(SAVE_MEM_LIST, reqForMemList)
 
         //save request
         await axios.post(SAVE_PAYMENT_REQUEST, formData)
-        setGWaitOn(false)
         navigate("/dashboard")
         const swalRes = await Swal.fire(
             'Successfully submitted for verification!',
             'It may take upto 2-4 days.\n Please visit MANAGE MEMBER for status.',
             'success'
         )
+        }
+        catch(e){
+            navigate("/dashboard")
+        const swalRes = await Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Something went wrong. Make sure transactionID is unique. ',
+          })
+        }
+     
+        setGWaitOn(false)
+       
 
 
     }
