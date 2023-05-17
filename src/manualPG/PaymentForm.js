@@ -57,7 +57,7 @@ export default () => {
     }, 5000)
     const change = (e) => {
 
-        let updatedForm = { ...formData, [e.target.id]: e.target.value.trim() }
+        let updatedForm = { ...formData, [e.target.id]: e.target.value}
         setFormData(updatedForm);
 
     }
@@ -80,7 +80,7 @@ export default () => {
             "txnDate": Date.now()
         }
 
-        console.log(reqForMemList);
+        // console.log(reqForMemList);
         setGWaitOn(true)
         try{
                    //save in member registraion table
