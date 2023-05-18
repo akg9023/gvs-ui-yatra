@@ -57,7 +57,7 @@ export default () => {
     }, 5000)
     const change = (e) => {
 
-        let updatedForm = { ...formData, [e.target.id]: e.target.value}
+        let updatedForm = { ...formData, [e.target.id]: e.target.value.trim()}
         setFormData(updatedForm);
 
     }
