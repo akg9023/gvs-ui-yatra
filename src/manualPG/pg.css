@@ -22,9 +22,17 @@
 }
 
 .highlight{
-    color:red;
+    color:green;
 }
 
 .pay-button{
     margin: auto;
+}
+
+.copy{
+    cursor: pointer;
+}
+
+.inline{
+    display: inline;
 }

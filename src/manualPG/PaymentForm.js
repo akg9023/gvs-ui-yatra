@@ -19,6 +19,9 @@ export default () => {
     const navigate = useNavigate();
     const [isMobile, setIsMobile] = useState(false);
     const paymentUrl = `upi://pay?pa=${PAYMENT_UPI_ID}&pn=${PAYMENT_MERCHANT_NAME}&am=${amount}&tn=yatra&cu=INR`
+    const upiId = "samlyt1915149@okicici"
+    const [toCopy,setToCopy] = useState(false)
+    const [toCopyAmount,setToCopyAmount] = useState(false)
     const template = {
         userEmail: sessionStorage.getItem("userEmail"),
         customerUPIApp: "",
@@ -54,12 +57,24 @@ export default () => {
 
     setTimeout(() => {
         setErrorMessage("")
+        setToCopy(false)
+        setToCopyAmount(false)
     }, 5000)
     const change = (e) => {
 
         let updatedForm = { ...formData, [e.target.id]: e.target.value.trim() }
         setFormData(updatedForm);
 
+    }
+
+    const copyUpiId = async () => {
+        await navigator.clipboard.writeText(upiId);
+        setToCopy(true)
+    }
+
+    const copyAmount = async () => {
+        await navigator.clipboard.writeText(amount);
+        setToCopyAmount(true)
     }
 
     const onSubmit = async () => {
@@ -116,18 +131,19 @@ export default () => {
                 <div class="jumbotron">
                     <h1 class="display-4">Payment</h1>
                     <p class="lead">
-                        <p class="display-6">Amount: <b>{amount}</b></p>
+                        <p class="display-6 inline">Amount: <b>{amount}</b></p><span onClick={copyAmount} class="material-symbols-outlined copy">content_copy</span>{toCopyAmount?<span class="highlight"><b>Copied!</b></span>:""}
                     </p>
                     <hr />
                     <p>Pay Here</p>
-                    <h4>samlyt1915149@okicici</h4>
+                    <h4 class="inline">{upiId} </h4><span onClick={copyUpiId} class="material-symbols-outlined copy">content_copy</span>{toCopy?<span class="highlight"><b>Copied!</b></span>:""}
+                    
                     {/* <div className="qrDiv">
                         {parse(qr)}
                         {isMobile ? <a class="pay-button" href={paymentUrl}><button className="btn btn-warning ">Pay using UPI</button></a> : ""}
                     </div> */}
 
                     <hr />
-                    <p>Please note that, your registration is considered to be completed when full amount is paid.</p>
+                    <p style={{ "color": "red" }}><b>Please note that, your registration is considered only if full amount is paid.</b></p>
 
                 </div>
                 <p style={{ "color": "red" }}>{errMessage}</p>
