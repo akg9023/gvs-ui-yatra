@@ -57,7 +57,7 @@ export default () => {
     }, 5000)
     const change = (e) => {
 
-        let updatedForm = { ...formData, [e.target.id]: e.target.value.trim()}
+        let updatedForm = { ...formData, [e.target.id]: e.target.value.trim() }
         setFormData(updatedForm);
 
     }
@@ -82,30 +82,30 @@ export default () => {
 
         // console.log(reqForMemList);
         setGWaitOn(true)
-        try{
-                   //save in member registraion table
-        await axios.post(SAVE_MEM_LIST, reqForMemList)
+        try {
+            //save in member registraion table
+            await axios.post(SAVE_MEM_LIST, reqForMemList)
 
-        //save request
-        await axios.post(SAVE_PAYMENT_REQUEST, formData)
-        navigate("/dashboard")
-        const swalRes = await Swal.fire(
-            'Successfully submitted for verification!',
-            'It may take upto 2-4 days.\n Please visit MANAGE MEMBER for status.',
-            'success'
-        )
-        }
-        catch(e){
+            //save request
+            await axios.post(SAVE_PAYMENT_REQUEST, formData)
             navigate("/dashboard")
-        const swalRes = await Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'Something went wrong. Make sure transactionID is unique. ',
-          })
+            const swalRes = await Swal.fire(
+                'Successfully submitted for verification!',
+                'It may take upto 2-4 days.\n Please visit MANAGE MEMBER for status.',
+                'success'
+            )
         }
-     
+        catch (e) {
+            navigate("/dashboard")
+            const swalRes = await Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong. Make sure transactionID is unique. ',
+            })
+        }
+
         setGWaitOn(false)
-       
+
 
 
     }
@@ -119,13 +119,15 @@ export default () => {
                         <p class="display-6">Amount: <b>{amount}</b></p>
                     </p>
                     <hr />
-                    <p>Scan here</p>
-                    <div className="qrDiv">
+                    <p>Pay Here</p>
+                    <h4>samlyt1915149@okicici</h4>
+                    {/* <div className="qrDiv">
                         {parse(qr)}
-                        {isMobile?<a  class="pay-button" href={paymentUrl}><button className="btn btn-warning ">Pay using UPI</button></a>:""}
-                        </div>
-                       
+                        {isMobile ? <a class="pay-button" href={paymentUrl}><button className="btn btn-warning ">Pay using UPI</button></a> : ""}
+                    </div> */}
+
                     <hr />
+                    <p>Please note that, your registration is considered to be completed when full amount is paid.</p>
 
                 </div>
                 <p style={{ "color": "red" }}>{errMessage}</p>
@@ -141,10 +143,10 @@ export default () => {
                         <input type="text" class="form-control" id="customerUTR" aria-describedby="emailHelp" onChange={(e) => change(e)} required />
                         <small id="emailHelp" class="form-text text-muted ">Please follow below guidelines to get transactionID</small>
                     </div>
-                    <small class="highlight">GooglePay: UPI transaction ID  </small><a target="_blank" href="https://drive.google.com/file/d/1elCNsKNKHw2EgYZ_VKaMsAjthyyO1qq-/view">Sample</a><br/>
-                    <small class="highlight">PhonePay: UTR </small><a target="_blank" href="https://drive.google.com/file/d/1gxpfkZb7SekVSyN4HQS28ATTnhQ1Iyna/view">Sample</a><br/>
-                    <small class="highlight">Paytm: UPI Ref No </small><a target="_blank" href="https://drive.google.com/file/d/1d77p2gtVKaHMohazQEMCtpt29hzRA83c/view">Sample</a><br/>
-                    <small class="highlight">Amazon Pay: Bank Reference ID </small><a target="_blank" href="https://drive.google.com/file/d/1NiI2cOPhDL4LoE8eGcRr965z-wMgFMQM/view">Sample</a><br/>
+                    <small class="highlight">GooglePay: UPI transaction ID  </small><a target="_blank" href="https://drive.google.com/file/d/1elCNsKNKHw2EgYZ_VKaMsAjthyyO1qq-/view">Sample</a><br />
+                    <small class="highlight">PhonePay: UTR </small><a target="_blank" href="https://drive.google.com/file/d/1gxpfkZb7SekVSyN4HQS28ATTnhQ1Iyna/view">Sample</a><br />
+                    <small class="highlight">Paytm: UPI Ref No </small><a target="_blank" href="https://drive.google.com/file/d/1d77p2gtVKaHMohazQEMCtpt29hzRA83c/view">Sample</a><br />
+                    <small class="highlight">Amazon Pay: Bank Reference ID </small><a target="_blank" href="https://drive.google.com/file/d/1NiI2cOPhDL4LoE8eGcRr965z-wMgFMQM/view">Sample</a><br />
                     <br />
                     <div class="form-group">
                         <label for="exampleInputEmail1">Your Name</label>
