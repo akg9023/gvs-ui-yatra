@@ -56,7 +56,7 @@ function App() {
       <NavBar/>
         <Routes>
           <Route
-             path="/maint/test"
+             index
             element={
               <Home/>
             }
