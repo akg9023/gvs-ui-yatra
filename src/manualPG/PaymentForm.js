@@ -59,7 +59,7 @@ export default () => {
         setErrorMessage("")
         setToCopy(false)
         setToCopyAmount(false)
-    }, 5000)
+    }, 120000)
     const change = (e) => {
 
         let updatedForm = { ...formData, [e.target.id]: e.target.value.trim() }
