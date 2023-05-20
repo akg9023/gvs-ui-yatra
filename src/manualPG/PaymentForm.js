@@ -83,6 +83,11 @@ export default () => {
             setErrorMessage("Please fill all the fields.")
             return;
         }
+        
+        if(formData.customerUTR.length!=12){
+            setErrorMessage("Transaction Id should be of 12 digits/characters. Please refer the sample below.")
+            return;
+        }
 
         const reqForMemList = {
             "memberIdList": memberList,
