@@ -151,7 +151,7 @@ export default () => {
                     <p style={{ "color": "red" }}><b>Please note that, your registration is considered only if full amount is paid.</b></p>
 
                 </div>
-                <p style={{ "color": "red" }}>{errMessage}</p>
+               
                 <form>
                     <div class="form-group">
                         <label for="exampleInputPassword1">UPI App used</label>
@@ -180,6 +180,7 @@ export default () => {
                     </div>
                     <br />
                     <hr />
+                       <p style={{ "color": "red" }}>{errMessage}</p>
                     <br />
                     <button type="button" onClick={onSubmit} class="btn btn-secondary btn-lg btn-block">Submit for Verification</button>
                 </form>
