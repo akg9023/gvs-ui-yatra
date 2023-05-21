@@ -85,7 +85,12 @@ export default () => {
         }
         
         if(formData.customerUTR.length!=12){
-            setErrorMessage("Transaction Id should be of 12 digits/characters. Please refer the sample below.")
+            setErrorMessage("Transaction Id should be of 12 digits. Please refer the sample below.")
+            return;
+        }
+
+        if(formData.customerPhoneNo.length!=10){
+            setErrorMessage("Phone number should be of 10 digits.")
             return;
         }
 
