@@ -19,7 +19,7 @@ export default () => {
     const navigate = useNavigate();
     const [isMobile, setIsMobile] = useState(false);
     const paymentUrl = `upi://pay?pa=${PAYMENT_UPI_ID}&pn=${PAYMENT_MERCHANT_NAME}&am=${amount}&tn=yatra&cu=INR`
-    const upiId = "samlyt1915149@okicici"
+    const upiId = "7870823920@paytm"
     const [toCopy,setToCopy] = useState(false)
     const [toCopyAmount,setToCopyAmount] = useState(false)
     const template = {
