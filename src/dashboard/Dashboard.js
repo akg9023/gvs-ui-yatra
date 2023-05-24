@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 export default () => {
     const navigate = useNavigate()
-    const [message,setMessage] = useState("")
 
     useEffect(() =>{
         if(!sessionStorage.getItem("userEmail"))
@@ -19,17 +18,12 @@ export default () => {
     const manageMem = () => {
         navigate("/manageMem")
     }
-
-    const closed = () => {
-        setMessage("Yatra Member Registration Closed.")
-    }
     
     return (
         <>
             <div class="album py-5 bg-light">
                 
                 <div class="container">
-                <p style={{"color":"red"}}>{message}</p>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="card mb-4 box-shadow">
@@ -41,7 +35,7 @@ export default () => {
                                     <small>Last Date of Registration: <span style={{ color: "green" }}>07-May-2023</span></small><br /><br />
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="btn-group">
-                                            <button type="button" class="btn btn-sm btn-outline-success" onClick={closed}>Register</button>&nbsp;
+                                            <button type="button" class="btn btn-sm btn-outline-success" onClick={navigateToMemForm}>Register</button>&nbsp;
                                             <button type="button" class="btn btn-sm btn-outline-success" onClick={manageMem}>Manage</button>
                                         </div>
 
