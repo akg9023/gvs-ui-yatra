@@ -22,6 +22,7 @@ import NavBar from './nav/NavBar';
 import Success from './paymentResponse/Success';
 import ManageMembers from './members/ManageMembers';
 import PaymentForm from './manualPG/PaymentForm';
+import Accomodation from './accomodation/Accomodation';
 
 function App() {
 
@@ -89,6 +90,12 @@ function App() {
             path="/paymentForm"
             element={
               <PaymentForm/>
+            }
+          />
+           <Route
+            path="/accomodation"
+            element={
+              <Accomodation/>
             }
           />
       </Routes>
