@@ -5,13 +5,14 @@ import axios from "axios"
 import PleaseWait from "../pleaseWait/PleaseWait.js"
 import { GET_ALL_REG_MEM_DETAILS, GET_ALL_ROOMS } from "../constants/apiConstant"
 import { PleaseWaitContext } from "../context/PleaseWaitContextProvider.js"
+import AccomodationModal from "./AccomodationModal"
 
 
 export default () => {
 
     const [regMemDetails, setRegMemDetails] = useState([])
     const [successMem, setSuccessMem] = useState([])
-    const [rooms, setRooms] = useState([])
+    const [rooms, setRooms] = useState([1])
     const { gWaitOn, setGWaitOn } = useContext(PleaseWaitContext)
     const getMembers = (regMemDetails) => {
         let temp = []
@@ -33,7 +34,7 @@ export default () => {
             setRegMemDetails(regMemRes.data)
             getMembers(regMemRes.data)
             const res = await axios.post(GET_ALL_ROOMS)
-            setRooms(res.data)
+            setRooms([1])
             // setGWaitOn(false)
         }
 
@@ -76,8 +77,9 @@ export default () => {
                                 </div>
 
                                 <div class="card-body">
-                                    <button class="btn btn-warning" disabled={!avail}>Book Now</button>
+                                    <button class="btn btn-warning" disabled={!avail} >Book Now</button>
                                 </div>
+                                 <AccomodationModal open={true} members={successMem}/> 
                             </div>
                         </div>
                     )
