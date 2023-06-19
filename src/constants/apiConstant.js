@@ -1,4 +1,4 @@
- const BASE_URL = "https://hlz-global-reg-boot.herokuapp.com"
+ const BASE_URL = "http://54.144.248.72:8080/"
 //  const BASE_URL = "http://localhost:8080"
 export const GET_USER_DETAIL = BASE_URL+"/v1/hlzGlobalReg/fetchSpecefic"
 export const GET_LIMITED_USER_DETAIL = BASE_URL+"/v1/hlzGlobalReg/fetchAllDevWithLimitedData"

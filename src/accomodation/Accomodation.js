@@ -9,7 +9,7 @@ import AccomodationModal from "./AccomodationModal"
 
 
 export default () => {
-
+    const [isOpen,setIsOpen]=useState(false)
     const [regMemDetails, setRegMemDetails] = useState([])
     const [successMem, setSuccessMem] = useState([])
     const [rooms, setRooms] = useState([1])
@@ -77,9 +77,9 @@ export default () => {
                                 </div>
 
                                 <div class="card-body">
-                                    <button class="btn btn-warning" disabled={!avail} >Book Now</button>
+                                    <button class="btn btn-warning"  onClick={()=>setIsOpen(true)}>Book Now</button>
                                 </div>
-                                 <AccomodationModal open={true} members={successMem}/> 
+                                 <AccomodationModal open={isOpen} members={successMem} onClose={()=>setIsOpen(false)}/> 
                             </div>
                         </div>
                     )

@@ -4,13 +4,16 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import PleaseWaitContextProvider from './context/PleaseWaitContextProvider.js';
+import BookingDetailContextProvider from './context/BookingDetailContextProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <StrictMode>
+    <BookingDetailContextProvider>
     <PleaseWaitContextProvider>
       <App />
     </PleaseWaitContextProvider>
+    </BookingDetailContextProvider>
   </StrictMode>
 );
 
