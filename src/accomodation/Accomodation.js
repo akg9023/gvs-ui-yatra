@@ -8,7 +8,8 @@ import { PleaseWaitContext } from "../context/PleaseWaitContextProvider.js"
 import AccomodationModal from "./AccomodationModal"
 
 
-export default () => {
+export default ({ dbUserData, dbRegMemIdList }) => {
+    console.log(dbUserData)
     const [isOpen,setIsOpen]=useState(false)
     const [regMemDetails, setRegMemDetails] = useState([])
     const [successMem, setSuccessMem] = useState([])
@@ -25,17 +26,20 @@ export default () => {
         })
         setSuccessMem(temp)
     }
-
+     const saveBookingData=()=>{
+        
+     }
     useEffect(() => {
 
         const fetchAllRoomsAndRegMem = async () => {
-            // setGWaitOn(true)
+             setGWaitOn(true)
             const regMemRes = await axios.post(GET_ALL_REG_MEM_DETAILS, { email: "saurav109677@gmail.com" })
             setRegMemDetails(regMemRes.data)
             getMembers(regMemRes.data)
             const res = await axios.post(GET_ALL_ROOMS)
-            setRooms([1])
-            // setGWaitOn(false)
+            console.log(res);
+            setRooms(res.data)
+             setGWaitOn(false)
         }
 
         fetchAllRoomsAndRegMem()
@@ -61,7 +65,7 @@ export default () => {
             <h5>Please choose your accommodation</h5>
             <div class="row card-wrapper">
                 {rooms.map((one, index) => {
-                    let avail = one.availability > 0 ? true : false
+                    let avail = one.count > 0 ? true : false
                     return (
                         <div class="col ">
                             <div class="card" style={{ "width": "18rem", "padding": "0px" }}>
@@ -69,17 +73,19 @@ export default () => {
                                 <div class="card-body">
                                     <h4>{one.type}</h4>
                                     <p>{one.description}</p>
+                                    <p>CheckIn Time:{one.checkInTime}</p>
+                                    <p>CheckOut Time: {one.checkOutTime}</p>
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-item"><b>Price: </b><h4 style={{ "display": "inline-block" }}>{one.price}</h4></li>
-                                        {avail ? <li class="list-group-item" style={{ "color": "green" }}><b>AVAILABLE: </b><h5 style={{ "display": "inline-block" }}>{one.availability}</h5></li>
-                                            : <li class="list-group-item" style={{ "color": "red" }}><b>AVAILABLE: </b><h5 style={{ "display": "inline-block" }}>{one.availability}</h5></li>}
+                                        {avail ? <li class="list-group-item" style={{ "color": "green" }}><b>AVAILABLE: </b><h5 style={{ "display": "inline-block" }}>{one.count}</h5></li>
+                                            : <li class="list-group-item" style={{ "color": "red" }}><b>AVAILABLE: </b><h5 style={{ "display": "inline-block" }}>{one.count}</h5></li>}
                                     </ul>
                                 </div>
 
                                 <div class="card-body">
                                     <button class="btn btn-warning"  onClick={()=>setIsOpen(true)}>Book Now</button>
                                 </div>
-                                 <AccomodationModal open={isOpen} members={successMem} onClose={()=>setIsOpen(false)}/> 
+                                 <AccomodationModal dbUserData={dbUserData} dbRegMemIdList={dbRegMemIdList} open={isOpen} members={successMem} onClose={()=>setIsOpen(false)} onSave={saveBookingData}/> 
                             </div>
                         </div>
                     )
@@ -88,6 +94,19 @@ export default () => {
 
 
             </div>
+            <h4>Booking Details</h4>
+
+            <table class="table">
+                <tbody>
+                    {successMem.map((mem, index) => (
+
+                        <tr>
+                            <td>{index + 1}. {mem.dbDevId} | {mem.dbDevName} |  {mem.dbDevGender}  </td>
+                        </tr>
+                    ))}
+                </tbody>
+
+            </table>
         </div>
 
     return <>{gWaitOn ? <PleaseWait /> : template}</>

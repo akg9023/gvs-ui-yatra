@@ -29,6 +29,8 @@ function App() {
   const{gWaitOn,setGWaitOn} = useContext(PleaseWaitContext)
   const [dbUserData,setDBUserData]=useState([]) 
   const [dbRegMemIdList,setDBRegMemIdList]=useState([]) 
+  const [dbBookedMemIdList,setDbBookedMemIdList]=useState([]) 
+
 
   useEffect( ()=>{
    
@@ -45,9 +47,16 @@ function App() {
       setDBRegMemIdList(res.data)
       setGWaitOn(false)
     }
+    const fun3 = async()=>{
+      setGWaitOn(true)
+       const res = await axios.post(GET_ALL_REG_MEM_ID)
+      setDbBookedMemIdList(res.data)
+      setGWaitOn(false)
+    }
 
     fun()
     fun2()
+    fun3()
     
   },[])
 
@@ -95,7 +104,7 @@ function App() {
            <Route
             path="/accomodation"
             element={
-              <Accomodation/>
+              <Accomodation dbUserData={dbUserData} dbRegMemIdList={dbBookedMemIdList}/>
             }
           />
       </Routes>
