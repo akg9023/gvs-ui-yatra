@@ -7,6 +7,7 @@ import axios from "axios";
 
 export default function AccomodationModal(props){
   console.log(props.roomType)
+  console.log(props.memCount)
   const [mem, setMem] = useState([]);
   const [arrDate,setArrDate]=useState("")
   const [depDate,setDepDate]=useState("");
@@ -49,14 +50,20 @@ export default function AccomodationModal(props){
     );
     if (found.length !== 0) {
       const existMem = mem.filter((one) => found[0].id === one.id);
-      if (existMem.length === 0) {
+      if(1){
+      if (existMem.length === 0 ) {
         setMem([...mem, found[0]]);
       } else {
         setErrorMessage("Member already exists.");
       }
+     }
+     else {
+      setErrorMessage("Selected members exceeds room capacity")
+     }
     } else {
       setErrorMessage("Member doesn't exist.");
     }
+  
   };
 
 
@@ -68,11 +75,22 @@ export default function AccomodationModal(props){
 
   const saveBookingDetails=()=>{
     console.log(bookingDetails)
+    if(bookingDetails.members.length===0){
+      setErrorMessage("Please Add Members before Saving");
+    }
+    else if(bookingDetails.memCheckInTime.length===0){
+      setErrorMessage("please select Arrival Date and Time");
+    }
+    else if(bookingDetails.memCheckOutTime.length===0){
+      setErrorMessage("please select Departure Date and Time");
+    }
+    else{
     props.onSave(bookingDetails)
     setMem([]);
     setArrDate("");
     setDepDate("");
     props.onClose()
+    }
   }
 
     return (

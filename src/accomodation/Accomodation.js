@@ -11,12 +11,14 @@ import AccomodationModal from "./AccomodationModal"
 export default ({ dbUserData, dbRegMemIdList }) => {
     console.log(dbUserData)
     const [isOpen,setIsOpen]=useState(false)
+    const [bookingDetails,setBookingDetails]=useState([])
+    const [roomType,setRoomType]=useState("")
+    const [memCount,setMemCount]=useState()
     const [regMemDetails, setRegMemDetails] = useState([])
     const [successMem, setSuccessMem] = useState([])
     const [rooms, setRooms] = useState([1])
     const { gWaitOn, setGWaitOn } = useContext(PleaseWaitContext)
-    const [bookingDetails,setBookingDetails]=useState([])
-    const [roomType,setRoomType]=useState("")
+    
     const getMembers = (regMemDetails) => {
         let temp = []
         regMemDetails.map((one) => {
@@ -49,6 +51,11 @@ export default ({ dbUserData, dbRegMemIdList }) => {
         fetchAllRoomsAndRegMem()
 
     }, [])
+    const handleRemove = (e, i) => {
+        e.preventDefault();
+        const removeBooking = bookingDetails.filter((a, index) => index !== i);
+        setBookingDetails(removeBooking);
+      };
 
     const template =
         <div class="container">
@@ -87,13 +94,13 @@ export default ({ dbUserData, dbRegMemIdList }) => {
                                 </div>
 
                                 <div class="card-body">
-                                    <button class="btn btn-warning"  onClick={()=>{setIsOpen(true);setRoomType(one.type)}}>Book Now</button>
+                                    <button class="btn btn-warning"  onClick={()=>{setIsOpen(true);setRoomType(one.roomId);setMemCount(one.memberCount)}}>Book Now</button>
                                 </div>
                             </div>
                         </div>
                     )
                 })}
-                                 <AccomodationModal dbUserData={dbUserData} dbRegMemIdList={dbRegMemIdList} open={isOpen} roomType={roomType} onClose={()=>setIsOpen(false)} onSave={saveBookingData}/> 
+                                 <AccomodationModal dbUserData={dbUserData} dbRegMemIdList={dbRegMemIdList} open={isOpen} roomType={roomType} memCount={memCount} onClose={()=>setIsOpen(false)} onSave={saveBookingData}/> 
 
 
 
@@ -105,9 +112,22 @@ export default ({ dbUserData, dbRegMemIdList }) => {
                     {bookingDetails.map((e, index) => (
 
                       <table class="table card">
+                       <tr><th><td>Room Id</td>
+                        <td>Added Members</td>
+                        <td>Arrival Time</td>
+                        <td>Departure Time</td>
+                        <td>Action</td></th></tr>
                         <tbody>
                         <tr>
-                            <td>{index + 1}.  {e.roomType?.roomId} | {e.members?.map((e)=>(e.fname + " ."))} |  {e?.memCheckInTime.replace("T"," ")} | {e?.memCheckOutTime.replace("T"," ")}  </td>
+                            <td> {e.roomType?.roomId} </td>
+                            <td> {e.members?.map((e)=>(e.fname + " ."))} </td>
+                            <td>  {e?.memCheckInTime.replace("T"," ")} </td>
+                            <td> {e?.memCheckOutTime.replace("T"," ")}  </td>
+                            <td> <div className="col-2">
+                        <button onClick={(e) => handleRemove(e, index)}>
+                          <i className="bi bi-trash"></i>
+                        </button>
+                      </div></td>
                         </tr>
                         </tbody>
 
