@@ -4,42 +4,17 @@ import { useNavigate } from "react-router-dom";
 import {BookingDetailContext} from "../context/BookingDetailContextProvider";
 import { PleaseWaitContext } from "../context/PleaseWaitContextProvider";
 import axios from "axios";
-import { AddCircle } from "@emotion-icons/fluentui-system-regular";
-
 
 export default function AccomodationModal(props){
-  const {bookingDetails,setBookingDetail} = useContext(BookingDetailContext);
-  const [membersName,setMembersName]=useState([]);
+  console.log(props.roomType)
+  const [mem, setMem] = useState([]);
+  const [arrDate,setArrDate]=useState("")
+  const [depDate,setDepDate]=useState("");
+  let bookingDetails={roomType:{roomId:props.roomType},members:mem,memCheckInTime:arrDate,memCheckOutTime:depDate}
   console.log(props.dbUserData);
   
-  const selectedMember=(e)=>{
-    console.log(e);
-    switch (e.target.id) {
-      case "selectMember":{
-        let {selectedMembers}=bookingDetails
-        selectedMembers=[...selectedMembers,e.target.value]
-        const bookingDetail={...bookingDetails,selectedMembers}
-        console.log(bookingDetail)
-        setBookingDetail(bookingDetail);
-        console.log(bookingDetails)}
-        break;
-      case "arrDate":{
-         const bookingDetail={...bookingDetails,arrivalDate:`${e.target.value.toString()}`}
-         setBookingDetail(bookingDetail);}
-         break;
-      case "depDate":{
-        const bookingDetail={...bookingDetails,departDate:e.target.value.toString()}
-         setBookingDetail(bookingDetail);}
-         break;
-      default:
-        break;
-    }
-    
-    
-  }
   console.log(props.members);
   const [memId, setMemId] = useState("");
-  const [mem, setMem] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   const { gWaitOn, setGWaitOn } = useContext(PleaseWaitContext)
@@ -84,23 +59,21 @@ export default function AccomodationModal(props){
     }
   };
 
+
   const handleRemove = (e, i) => {
     e.preventDefault();
     const seggMem = mem.filter((a, index) => index !== i);
     setMem(seggMem);
   };
 
-  const handlePayment = async (e) => {
-    e.preventDefault();
-
-    const childMem = mem.filter((one) => one.age <= extempedAge)
-    if (childMem.length == mem.length)
-      setErrorMessage("Please add atleast one adult member.")
-    else {
-
-      console.log("now save the data for further processing")
-    }
-  };
+  const saveBookingDetails=()=>{
+    console.log(bookingDetails)
+    props.onSave(bookingDetails)
+    setMem([]);
+    setArrDate("");
+    setDepDate("");
+    props.onClose()
+  }
 
     return (
         <>
@@ -157,8 +130,8 @@ export default function AccomodationModal(props){
                 ))}
                 <hr/>
                 <h5>
-               <td><a>Arrival: <input type="dateTime-local" style={{height:"20px",fontSize:2}}></input></a><br/>
-               <a>Depart: <input type="dateTime-local" style={{height:"20px",fontSize:2}}></input></a></td>
+               <td><a>Arrival: <input type="dateTime-local" id="arrDate"style={{height:"20px",fontSize:2}} onChange={(e)=>setArrDate(e.target.value)}></input></a><br/>
+               <a>Depart: <input type="dateTime-local" id="depDate"style={{height:"20px",fontSize:2}} onChange={(e)=>setDepDate(e.target.value)}></input></a></td>
                </h5>
               </div>
               <br />
@@ -172,7 +145,7 @@ export default function AccomodationModal(props){
               </DialogContentText>
             </DialogContent>
             <DialogActions>
-            <Button onClick={props.onClose} 
+            <Button onClick={saveBookingDetails} 
                       color="success" >
                 Save
               </Button>

@@ -15,6 +15,8 @@ export default ({ dbUserData, dbRegMemIdList }) => {
     const [successMem, setSuccessMem] = useState([])
     const [rooms, setRooms] = useState([1])
     const { gWaitOn, setGWaitOn } = useContext(PleaseWaitContext)
+    const [bookingDetails,setBookingDetails]=useState([])
+    const [roomType,setRoomType]=useState("")
     const getMembers = (regMemDetails) => {
         let temp = []
         regMemDetails.map((one) => {
@@ -26,8 +28,10 @@ export default ({ dbUserData, dbRegMemIdList }) => {
         })
         setSuccessMem(temp)
     }
-     const saveBookingData=()=>{
-        
+     const saveBookingData=(e)=>{
+        console.log(e);
+        setBookingDetails([...bookingDetails,e])
+        console.log(bookingDetails)
      }
     useEffect(() => {
 
@@ -83,30 +87,33 @@ export default ({ dbUserData, dbRegMemIdList }) => {
                                 </div>
 
                                 <div class="card-body">
-                                    <button class="btn btn-warning"  onClick={()=>setIsOpen(true)}>Book Now</button>
+                                    <button class="btn btn-warning"  onClick={()=>{setIsOpen(true);setRoomType(one.type)}}>Book Now</button>
                                 </div>
-                                 <AccomodationModal dbUserData={dbUserData} dbRegMemIdList={dbRegMemIdList} open={isOpen} members={successMem} onClose={()=>setIsOpen(false)} onSave={saveBookingData}/> 
                             </div>
                         </div>
                     )
                 })}
+                                 <AccomodationModal dbUserData={dbUserData} dbRegMemIdList={dbRegMemIdList} open={isOpen} roomType={roomType} onClose={()=>setIsOpen(false)} onSave={saveBookingData}/> 
 
 
 
             </div>
-            <h4>Booking Details</h4>
+            {bookingDetails.length!==0 ?<h4>Booking Details</h4>:""}
 
-            <table class="table">
-                <tbody>
-                    {successMem.map((mem, index) => (
+            
+                
+                    {bookingDetails.map((e, index) => (
 
+                      <table class="table card">
+                        <tbody>
                         <tr>
-                            <td>{index + 1}. {mem.dbDevId} | {mem.dbDevName} |  {mem.dbDevGender}  </td>
+                            <td>{index + 1}.  {e.roomType?.roomId} | {e.members?.map((e)=>(e.fname + " ."))} |  {e?.memCheckInTime.replace("T"," ")} | {e?.memCheckOutTime.replace("T"," ")}  </td>
                         </tr>
-                    ))}
-                </tbody>
+                        </tbody>
 
             </table>
+                    ))}
+                
         </div>
 
     return <>{gWaitOn ? <PleaseWait /> : template}</>
