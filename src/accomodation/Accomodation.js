@@ -8,7 +8,7 @@ import { PleaseWaitContext } from "../context/PleaseWaitContextProvider.js"
 import AccomodationModal from "./AccomodationModal"
 
 
-export default ({ dbUserData, dbRegMemIdList }) => {
+export default ({ dbUserData, dbBookedMemIdList }) => {
     console.log(dbUserData)
     const [isOpen,setIsOpen]=useState(false)
     const [bookingDetails,setBookingDetails]=useState([])
@@ -18,6 +18,7 @@ export default ({ dbUserData, dbRegMemIdList }) => {
     const [successMem, setSuccessMem] = useState([])
     const [rooms, setRooms] = useState([1])
     const { gWaitOn, setGWaitOn } = useContext(PleaseWaitContext)
+    const [savedMembersForBooking,setSavedMembersForBooking]=useState([])
     
     const getMembers = (regMemDetails) => {
         let temp = []
@@ -33,6 +34,7 @@ export default ({ dbUserData, dbRegMemIdList }) => {
      const saveBookingData=(e)=>{
         console.log(e);
         setBookingDetails([...bookingDetails,e])
+        setSavedMembersForBooking([...savedMembersForBooking,...e.members])
         console.log(bookingDetails)
      }
     useEffect(() => {
@@ -76,6 +78,7 @@ export default ({ dbUserData, dbRegMemIdList }) => {
             <h5>Please choose your accommodation</h5>
             <div class="row card-wrapper">
                 {rooms.map((one, index) => {
+                    console.log(one)
                     let avail = one.count > 0 ? true : false
                     return (
                         <div class="col ">
@@ -100,7 +103,7 @@ export default ({ dbUserData, dbRegMemIdList }) => {
                         </div>
                     )
                 })}
-                                 <AccomodationModal dbUserData={dbUserData} dbRegMemIdList={dbRegMemIdList} open={isOpen} roomType={roomType} memCount={memCount} onClose={()=>setIsOpen(false)} onSave={saveBookingData}/> 
+                                 <AccomodationModal dbUserData={dbUserData} dbBookedMemIdList={dbBookedMemIdList} open={isOpen} roomType={roomType} memCount={memCount} onClose={()=>setIsOpen(false)} savedMembersForBooking={savedMembersForBooking} onSave={saveBookingData}/> 
 
 
 

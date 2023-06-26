@@ -104,7 +104,7 @@ function App() {
            <Route
             path="/accomodation"
             element={
-              <Accomodation dbUserData={dbUserData} dbRegMemIdList={dbBookedMemIdList}/>
+              <Accomodation dbUserData={dbUserData} dbBookedMemIdList={dbBookedMemIdList} />
             }
           />
       </Routes>

@@ -1,32 +1,32 @@
 import { Dialog,DialogTitle,DialogActions,DialogContent,Button,DialogContentText } from "@mui/material";
 import { useContext, useState,useEffect} from "react";
-import { useNavigate } from "react-router-dom";
 import {BookingDetailContext} from "../context/BookingDetailContextProvider";
-import { PleaseWaitContext } from "../context/PleaseWaitContextProvider";
-import axios from "axios";
+
 
 export default function AccomodationModal(props){
-  console.log(props.roomType)
-  console.log(props.memCount)
   const [mem, setMem] = useState([]);
   const [arrDate,setArrDate]=useState("")
   const [depDate,setDepDate]=useState("");
   let bookingDetails={roomType:{roomId:props.roomType},members:mem,memCheckInTime:arrDate,memCheckOutTime:depDate}
-  console.log(props.dbUserData);
-  
+  console.log(props.savedMembersForBooking)
   console.log(props.members);
   const [memId, setMemId] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const navigate = useNavigate();
-  const { gWaitOn, setGWaitOn } = useContext(PleaseWaitContext)
   const extempedAge = 5
   const teenAge = 10
 
   useEffect(() => {
   }, []);
  
-  const checkAlreadyReg = (memId) => {
-    const found = props.dbRegMemIdList.filter((one) => one == memId)
+  const checkAlreadyBooked = (memId) => {
+    const found = props.dbBookedMemIdList.filter((one) => one === memId)
+    if (found.length == 0)
+      return false;
+
+    return true;
+  }
+  const checkAlreadySaved = (memId) => {
+    const found = props.savedMembersForBooking.filter((one) => one.id === memId)
     if (found.length == 0)
       return false;
 
@@ -40,8 +40,12 @@ export default function AccomodationModal(props){
   const handleSearch = (e) => {
     e.preventDefault();
 
-    if (checkAlreadyReg(memId.toUpperCase())) {
+    if (checkAlreadyBooked(memId.toUpperCase())) {
       setErrorMessage("Member already Booked.");
+      return;
+    }
+    if (checkAlreadySaved(memId.toUpperCase())) {
+      setErrorMessage("Member already Saved for Booking.");
       return;
     }
 
@@ -50,7 +54,7 @@ export default function AccomodationModal(props){
     );
     if (found.length !== 0) {
       const existMem = mem.filter((one) => found[0].id === one.id);
-      if(1){
+      if(mem.length<props.memCount){
       if (existMem.length === 0 ) {
         setMem([...mem, found[0]]);
       } else {
