@@ -23,6 +23,7 @@ import Success from './paymentResponse/Success';
 import ManageMembers from './members/ManageMembers';
 import PaymentForm from './manualPG/PaymentForm';
 import Accomodation from './accomodation/Accomodation';
+import ManualPaymentReview from './payment/ManualPaymentReview';
 
 function App() {
 
@@ -47,16 +48,16 @@ function App() {
       setDBRegMemIdList(res.data)
       setGWaitOn(false)
     }
-    const fun3 = async()=>{
-      setGWaitOn(true)
-       const res = await axios.post(GET_ALL_REG_MEM_ID)
-      setDbBookedMemIdList(res.data)
-      setGWaitOn(false)
-    }
+    // const fun3 = async()=>{
+    //   setGWaitOn(true)
+    //    const res = await axios.post(GET_ALL_REG_MEM_ID)
+    //   setDbBookedMemIdList(res.data)
+    //   setGWaitOn(false)
+    // }
 
     fun()
     fun2()
-    fun3()
+    //fun3()
     
   },[])
 
@@ -104,7 +105,13 @@ function App() {
            <Route
             path="/accomodation"
             element={
-              <Accomodation dbUserData={dbUserData} dbBookedMemIdList={dbBookedMemIdList} />
+              <Accomodation />
+            }
+          />
+           <Route
+            path="/bookingPaymentApproval"
+            element={
+              <ManualPaymentReview />
             }
           />
       </Routes>

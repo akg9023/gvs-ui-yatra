@@ -3,18 +3,20 @@ import { useContext, useEffect, useState } from "react"
 import "./acc.css"
 import axios from "axios"
 import PleaseWait from "../pleaseWait/PleaseWait.js"
-import { GET_ALL_REG_MEM_DETAILS, GET_ALL_ROOMS } from "../constants/apiConstant"
+import { GET_ALL_ROOMS,YATRA_REGISTERED_MEMBERS,FETCH_ALL_APPROVED_MEMBERS,FETCH_ALL_PENDING_MEMBERS } from "../constants/apiConstant"
 import { PleaseWaitContext } from "../context/PleaseWaitContextProvider.js"
 import AccomodationModal from "./AccomodationModal"
 
 
-export default ({ dbUserData, dbBookedMemIdList }) => {
-    console.log(dbUserData)
+export default () => {
     const [isOpen,setIsOpen]=useState(false)
     const [bookingDetails,setBookingDetails]=useState([])
     const [roomType,setRoomType]=useState("")
     const [memCount,setMemCount]=useState()
     const [regMemDetails, setRegMemDetails] = useState([])
+    const [membersListForBooking,setMembersListForBooking]=useState([])
+    const [membersAccomoBooked,setMembersAccomoBooked]=useState([])
+    const [membersPendingApproval,setMembersPendingApproval]=useState([])
     const [successMem, setSuccessMem] = useState([])
     const [rooms, setRooms] = useState([1])
     const { gWaitOn, setGWaitOn } = useContext(PleaseWaitContext)
@@ -39,16 +41,27 @@ export default ({ dbUserData, dbBookedMemIdList }) => {
      }
     useEffect(() => {
 
-        const fetchAllRoomsAndRegMem = async () => {
+         const fetchAllRoomsAndRegMem = async () => {
              setGWaitOn(true)
-            const regMemRes = await axios.post(GET_ALL_REG_MEM_DETAILS, { email: "saurav109677@gmail.com" })
-            setRegMemDetails(regMemRes.data)
-            getMembers(regMemRes.data)
+        //     const regMemRes = await axios.post(GET_ALL_REG_MEM_DETAILS, { email: "saurav109677@gmail.com" })
+        //     setRegMemDetails(regMemRes.data)
+        //     getMembers(regMemRes.data)
             const res = await axios.post(GET_ALL_ROOMS)
             console.log(res);
             setRooms(res.data)
+             
+             const memRes = await axios.post(YATRA_REGISTERED_MEMBERS)
+            console.log(memRes);
+            setMembersListForBooking(memRes.data)
+             const memBookedRes = await axios.post(FETCH_ALL_APPROVED_MEMBERS)
+            console.log(memBookedRes);
+            setMembersAccomoBooked(memBookedRes.data)
+            const memsPendingRes = await axios.post(FETCH_ALL_PENDING_MEMBERS)
+            console.log(memsPendingRes);
+            setMembersPendingApproval(memsPendingRes.data)
              setGWaitOn(false)
         }
+        
 
         fetchAllRoomsAndRegMem()
 
@@ -62,7 +75,7 @@ export default ({ dbUserData, dbBookedMemIdList }) => {
     const template =
         <div class="container">
             <h1 class="display-4">Accommodation</h1><br /><br />
-            <h4>Registered Members</h4>
+            {/* <h4>Registered Members</h4>
 
             <table class="table">
                 <tbody>
@@ -74,7 +87,7 @@ export default ({ dbUserData, dbBookedMemIdList }) => {
                     ))}
                 </tbody>
 
-            </table>
+            </table> */}
             <h5>Please choose your accommodation</h5>
             <div class="row card-wrapper">
                 {rooms.map((one, index) => {
@@ -103,7 +116,7 @@ export default ({ dbUserData, dbBookedMemIdList }) => {
                         </div>
                     )
                 })}
-                                 <AccomodationModal dbUserData={dbUserData} dbBookedMemIdList={dbBookedMemIdList} open={isOpen} roomType={roomType} memCount={memCount} onClose={()=>setIsOpen(false)} savedMembersForBooking={savedMembersForBooking} onSave={saveBookingData}/> 
+                                 <AccomodationModal yatraRegisteredUsers={membersListForBooking} membersAccomoBooked={membersAccomoBooked} membersPendingApproval={membersPendingApproval} open={isOpen} roomType={roomType} memCount={memCount} onClose={()=>setIsOpen(false)} savedMembersForBooking={savedMembersForBooking} onSave={saveBookingData}/> 
 
 
 
@@ -123,7 +136,7 @@ export default ({ dbUserData, dbBookedMemIdList }) => {
                         <tbody>
                         <tr>
                             <td> {e.roomType?.roomId} </td>
-                            <td> {e.members?.map((e)=>(e.fname + " ."))} </td>
+                            <td> {e.members?.map((e)=>(e.dbDevName + " ."))} </td>
                             <td>  {e?.memCheckInTime.replace("T"," ")} </td>
                             <td> {e?.memCheckOutTime.replace("T"," ")}  </td>
                             <td> <div className="col-2">
