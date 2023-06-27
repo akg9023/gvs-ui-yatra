@@ -35,29 +35,19 @@ function App() {
 
   useEffect( ()=>{
    
-    const fun = async()=>{
       setGWaitOn(true)
-      const res = await axios.post(GET_LIMITED_USER_DETAIL)
-      setDBUserData(res.data)
+      const res1 = axios.post(GET_LIMITED_USER_DETAIL)
+      res1.then(data => setDBUserData(data.data))
       setGWaitOn(false)
-    }
 
-    const fun2 = async()=>{
       setGWaitOn(true)
-      const res = await axios.post(GET_ALL_REG_MEM_ID)
-      setDBRegMemIdList(res.data)
+      const res2 = axios.post(GET_ALL_REG_MEM_ID)
+      res2.then(data => setDBRegMemIdList(data.data))
       setGWaitOn(false)
-    }
-    // const fun3 = async()=>{
     //   setGWaitOn(true)
     //    const res = await axios.post(GET_ALL_REG_MEM_ID)
     //   setDbBookedMemIdList(res.data)
     //   setGWaitOn(false)
-    // }
-
-    fun()
-    fun2()
-    //fun3()
     
   },[])
 

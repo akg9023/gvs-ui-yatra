@@ -41,34 +41,26 @@ export default () => {
      }
     useEffect(() => {
 
-         const fetchAllRoomsAndRegMem = async () => {
              setGWaitOn(true)
         //     const regMemRes = await axios.post(GET_ALL_REG_MEM_DETAILS, { email: "saurav109677@gmail.com" })
         //     setRegMemDetails(regMemRes.data)
         //     getMembers(regMemRes.data)
-            const res = await axios.post(GET_ALL_ROOMS)
-            console.log(res);
-            setRooms(res.data)
+            const res = axios.post(GET_ALL_ROOMS)
+            res.then(data => setRooms(data.data))
              
-             const memRes = await axios.post(YATRA_REGISTERED_MEMBERS)
-            console.log(memRes);
-            setMembersListForBooking(memRes.data)
-             const memBookedRes = await axios.post(FETCH_ALL_APPROVED_MEMBERS)
-            console.log(memBookedRes);
-            setMembersAccomoBooked(memBookedRes.data)
-            const memsPendingRes = await axios.post(FETCH_ALL_PENDING_MEMBERS)
-            console.log(memsPendingRes);
-            setMembersPendingApproval(memsPendingRes.data)
-             setGWaitOn(false)
-        }
+            const memRes = axios.post(YATRA_REGISTERED_MEMBERS)
+            memRes.then(data => setMembersListForBooking(data.data))
+            const memBookedRes = axios.post(FETCH_ALL_APPROVED_MEMBERS)
+            memBookedRes.then((data) => setMembersAccomoBooked(data.data))
+            const memsPendingRes = axios.post(FETCH_ALL_PENDING_MEMBERS)
+            memsPendingRes.then((data) => setMembersPendingApproval(data.data))
+            setGWaitOn(false)
         
-
-        fetchAllRoomsAndRegMem()
 
     }, [])
     const handleRemove = (e, i) => {
         e.preventDefault();
-        const removeBooking = bookingDetails.filter((a, index) => index !== i);
+        const removeBooking = bookingDetails?.filter((a, index) => index !== i);
         setBookingDetails(removeBooking);
       };
 
@@ -90,7 +82,7 @@ export default () => {
             </table> */}
             <h5>Please choose your accommodation</h5>
             <div class="row card-wrapper">
-                {rooms.map((one, index) => {
+                {rooms?.map((one, index) => {
                     console.log(one)
                     let avail = one.count > 0 ? true : false
                     return (
@@ -110,7 +102,7 @@ export default () => {
                                 </div>
 
                                 <div class="card-body">
-                                    <button class="btn btn-warning"  onClick={()=>{setIsOpen(true);setRoomType(one.roomId);setMemCount(one.memberCount)}}>Book Now</button>
+                                    <button class="btn btn-warning"  onClick={()=>{setIsOpen(true);setRoomType(one?.roomId);setMemCount(one?.memberCount)}}>Book Now</button>
                                 </div>
                             </div>
                         </div>
@@ -125,7 +117,7 @@ export default () => {
 
             
                 
-                    {bookingDetails.map((e, index) => (
+                    {bookingDetails?.map((e, index) => (
 
                       <table class="table card">
                        <tr><th><td>Room Id</td>

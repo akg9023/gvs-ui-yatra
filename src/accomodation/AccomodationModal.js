@@ -62,7 +62,8 @@ export default function AccomodationModal(props){
     );
     if (found.length !== 0) {
       const existMem = mem.filter((one) => found[0].dbDevId == one.dbDevId);
-      if(mem.length<props.memCount || found[0].dbDevAge<10){
+      const memAdultCount=mem.filter((mem)=>mem.dbDevAge>10)
+      if(memAdultCount.length<props.memCount){
       if (existMem.length == 0 ) {
         setMem([...mem, found[0]]);
       } else {
