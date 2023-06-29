@@ -15,7 +15,7 @@ import {
 } from "react-router-dom";
 import PleaseWait from './pleaseWait/PleaseWait';
 import { PleaseWaitContext } from './context/PleaseWaitContextProvider.js';
-import {  GET_ALL_REG_MEM_ID, GET_LIMITED_USER_DETAIL } from './constants/apiConstant';
+import { GET_ALL_REG_MEM_ID, GET_LIMITED_USER_DETAIL } from './constants/apiConstant';
 import axios from 'axios';
 import Dashboard from './dashboard/Dashboard';
 import NavBar from './nav/NavBar';
@@ -23,33 +23,34 @@ import Success from './paymentResponse/Success';
 import ManageMembers from './members/ManageMembers';
 import PaymentForm from './manualPG/PaymentForm';
 import Accomodation from './accomodation/Accomodation';
+import AccomodataionPaymentFrom from './manualPG/AccomodataionPaymentFrom';
 
 function App() {
 
-  const{gWaitOn,setGWaitOn} = useContext(PleaseWaitContext)
-  const [dbUserData,setDBUserData]=useState([]) 
-  const [dbRegMemIdList,setDBRegMemIdList]=useState([]) 
-  const [dbBookedMemIdList,setDbBookedMemIdList]=useState([]) 
+  const { gWaitOn, setGWaitOn } = useContext(PleaseWaitContext)
+  const [dbUserData, setDBUserData] = useState([])
+  const [dbRegMemIdList, setDBRegMemIdList] = useState([])
+  const [dbBookedMemIdList, setDbBookedMemIdList] = useState([])
 
 
-  useEffect( ()=>{
-   
-    const fun = async()=>{
+  useEffect(() => {
+
+    const fun = async () => {
       setGWaitOn(true)
       const res = await axios.post(GET_LIMITED_USER_DETAIL)
       setDBUserData(res.data)
       setGWaitOn(false)
     }
 
-    const fun2 = async()=>{
+    const fun2 = async () => {
       setGWaitOn(true)
       const res = await axios.post(GET_ALL_REG_MEM_ID)
       setDBRegMemIdList(res.data)
       setGWaitOn(false)
     }
-    const fun3 = async()=>{
+    const fun3 = async () => {
       setGWaitOn(true)
-       const res = await axios.post(GET_ALL_REG_MEM_ID)
+      const res = await axios.post(GET_ALL_REG_MEM_ID)
       setDbBookedMemIdList(res.data)
       setGWaitOn(false)
     }
@@ -57,63 +58,69 @@ function App() {
     fun()
     fun2()
     fun3()
-    
-  },[])
+
+  }, [])
 
   const template = () => (
     <>
       <BrowserRouter>
-      <NavBar/>
+        <NavBar />
         <Routes>
           <Route
-             index
+            index
             element={
-              <Home/>
+              <Home />
             }
           />
           <Route
             path="/yatraMemReg"
             element={
-              <MemRegForm dbUserData={dbUserData} dbRegMemIdList={dbRegMemIdList}/>
+              <MemRegForm dbUserData={dbUserData} dbRegMemIdList={dbRegMemIdList} />
             }
           />
           <Route
             path="/dashboard"
             element={
-              <Dashboard/>
+              <Dashboard />
             }
           />
           <Route
             path="/paymentDetails/:clientTxnId"
             element={
-              <Success/>
+              <Success />
             }
           />
           <Route
             path="/manageMem"
             element={
-              <ManageMembers/>
+              <ManageMembers />
             }
           />
-           <Route
+          <Route
             path="/paymentForm"
             element={
-              <PaymentForm/>
+              <PaymentForm />
             }
           />
-           <Route
+          <Route
             path="/accomodation"
             element={
-              <Accomodation dbUserData={dbUserData} dbRegMemIdList={dbBookedMemIdList}/>
+              <Accomodation dbUserData={dbUserData} dbRegMemIdList={dbBookedMemIdList} />
             }
           />
-      </Routes>
+          <Route
+            path="/payAcc"
+            element={
+              <AccomodataionPaymentFrom />
+            }
+          />
+        </Routes>
       </BrowserRouter>
     </>
   );
 
 
-  return <div className="App">{gWaitOn ? <PleaseWait/> : template()}</div>;
+  return <div className="App">{gWaitOn ? <PleaseWait /> : template()}</div>;
 
 }
 

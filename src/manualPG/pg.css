@@ -36,3 +36,12 @@
 .inline{
     display: inline;
 }
+
+.timer{
+    background:rgb(4, 65, 10);
+    color:white;
+    display:block;
+    text-align:right;
+    border-radius: 5px;
+    padding: 5px;
+}

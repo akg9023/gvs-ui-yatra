@@ -3,9 +3,10 @@ import { useContext, useEffect, useState } from "react"
 import "./acc.css"
 import axios from "axios"
 import PleaseWait from "../pleaseWait/PleaseWait.js"
-import { GET_ALL_REG_MEM_DETAILS, GET_ALL_ROOMS } from "../constants/apiConstant"
+import { GET_ALL_REG_MEM_DETAILS, GET_ALL_ROOMS, SAVE_ACCOMODATAION_DETAIL_WITHOUT_PAYMENT } from "../constants/apiConstant"
 import { PleaseWaitContext } from "../context/PleaseWaitContextProvider.js"
 import AccomodationModal from "./AccomodationModal"
+import { useNavigate } from "react-router-dom"
 
 
 export default ({ dbUserData, dbRegMemIdList }) => {
@@ -18,7 +19,8 @@ export default ({ dbUserData, dbRegMemIdList }) => {
     const [successMem, setSuccessMem] = useState([])
     const [rooms, setRooms] = useState([1])
     const { gWaitOn, setGWaitOn } = useContext(PleaseWaitContext)
-    
+    const navigate = useNavigate()
+
     const getMembers = (regMemDetails) => {
         let temp = []
         regMemDetails.map((one) => {
@@ -56,6 +58,60 @@ export default ({ dbUserData, dbRegMemIdList }) => {
         const removeBooking = bookingDetails.filter((a, index) => index !== i);
         setBookingDetails(removeBooking);
       };
+
+      const proceedAndPay = async() => {
+        //save the data in db with INITIATED status
+        const temp = {
+            "roomSet": [
+                {
+                    "roomType": {
+                        "roomId": "ABC213"
+                    },
+                    "member": [
+                        {
+                            "id": "25"
+                        },
+                        {
+                            "id": "26"
+                        }
+                    ],
+                    "memCheckInTime": "21-06-2023",
+                    "memCheckOutTime": "21-06-2023"
+                },
+                {
+                    "roomType": {
+                        "roomId": "BKNT"
+                    },
+                    "member": [
+                        {
+                            "id": "27"
+                        },
+                        {
+                            "id": "28"
+                        }
+                    ],
+                    "memCheckInTime": "21-06-2023",
+                    "memCheckOutTime": "21-06-2023"
+                }
+            ],
+            "amount": "4000",
+            "customerTxnId": "dunny"
+
+        }
+
+        //save the data in db
+        try {
+            const response = await axios.post(SAVE_ACCOMODATAION_DETAIL_WITHOUT_PAYMENT, temp)
+            const bookingId = response.data.bookingId
+            const amount = response.data.amount
+            //procced to payment page
+            navigate("/payAcc",{state:{bookingId:bookingId,amount:amount}})
+        }
+        catch (e) {
+            console.log(e);
+        }
+
+    }
 
     const template =
         <div class="container">
@@ -133,6 +189,8 @@ export default ({ dbUserData, dbRegMemIdList }) => {
 
             </table>
                     ))}
+
+            <button onClick={()=>proceedAndPay()}>Proceed to Pay</button>
                 
         </div>
 
