@@ -13,9 +13,7 @@ import { right } from "@popperjs/core";
 
 export default () => {
     const { state } = useLocation();
-    // const { amount, bookingId } = state ? state : "";
-    const amount=3000
-    const bookingId = 1096
+    const { amount, bookingId } = state ? state : "";
     const [errMessage, setErrorMessage] = useState("")
     const { gWaitOn, setGWaitOn } = useContext(PleaseWaitContext)
     const navigate = useNavigate();
@@ -24,15 +22,13 @@ export default () => {
     const upiId = "7870823920@paytm"
     const [toCopy,setToCopy] = useState(false)
     const [toCopyAmount,setToCopyAmount] = useState(false)
-    const TIMEFORTXN = 3000
+    const TIMEFORTXN = 30
     const [seconds, setSeconds] = useState(TIMEFORTXN);
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
 
 
     const template = {
-        bookingId:bookingId,
-        userEmail: sessionStorage.getItem("userEmail"),
         customerUPIApp: "",
         customerUTR: "",
         customerName: "",
@@ -54,6 +50,7 @@ export default () => {
         const timer = setTimeout(() => {
           setSeconds((prevSeconds) => prevSeconds - 1);
         }, 1000);
+    
 
         if(seconds==0){
             clearTimeout(timer);
@@ -121,7 +118,7 @@ export default () => {
         }
 
         const apiReq = {
-            "bookingId":"1046",
+            "bookingId":bookingId,
             "upiTxnId": formData.customerUTR,
             "customerVPA": formData.customerUPIApp,
             "customerEmail": sessionStorage.getItem("userEmail"),
@@ -131,14 +128,17 @@ export default () => {
 
             console.log(apiReq);
             //save Transaction details in db
-            await axios.post(SAVE_ACC_TXN, apiReq)
+            setGWaitOn(true)
+            const res = await axios.post(SAVE_ACC_TXN, apiReq)
+            setGWaitOn(false)
 
             navigate("/dashboard")
             const swalRes = await Swal.fire(
                 'Successfully submitted for verification!',
-                'It may take upto 2-4 days.\n Please visit MANAGE MEMBER for status.',
+                'It may take upto 2-4 days.\n Please visit MANAGE BOOKING for status.',
                 'success'
             )
+            
         }
         catch (e) {
             navigate("/dashboard")

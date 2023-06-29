@@ -21,6 +21,8 @@ export default () => {
     const [successMem, setSuccessMem] = useState([])
     const [rooms, setRooms] = useState([1])
     const { gWaitOn, setGWaitOn } = useContext(PleaseWaitContext)
+    const [savedMembersForBooking,setSavedMembersForBooking]=useState([])
+    const navigate = useNavigate();
     
     const getMembers = (regMemDetails) => {
         let temp = []
@@ -36,7 +38,7 @@ export default () => {
      const saveBookingData=(e)=>{
         console.log(e);
         setBookingDetails([...bookingDetails,e])
-        setSavedMembersForBooking([...savedMembersForBooking,...e.members])
+        setSavedMembersForBooking([...savedMembersForBooking,...e.member])
         console.log(bookingDetails)
      }
     useEffect(() => {
@@ -66,47 +68,16 @@ export default () => {
 
       const proceedAndPay = async() => {
         //save the data in db with INITIATED status
-        const temp = {
-            "roomSet": [
-                {
-                    "roomType": {
-                        "roomId": "ABC213"
-                    },
-                    "member": [
-                        {
-                            "id": "25"
-                        },
-                        {
-                            "id": "26"
-                        }
-                    ],
-                    "memCheckInTime": "21-06-2023",
-                    "memCheckOutTime": "21-06-2023"
-                },
-                {
-                    "roomType": {
-                        "roomId": "BKNT"
-                    },
-                    "member": [
-                        {
-                            "id": "27"
-                        },
-                        {
-                            "id": "28"
-                        }
-                    ],
-                    "memCheckInTime": "21-06-2023",
-                    "memCheckOutTime": "21-06-2023"
-                }
-            ],
-            "amount": "4000",
-            "customerTxnId": "dunny"
-
+        const reqBody = {
+            "roomSet":[...bookingDetails]
         }
 
+    
         //save the data in db
         try {
-            const response = await axios.post(SAVE_ACCOMODATAION_DETAIL_WITHOUT_PAYMENT, temp)
+            setGWaitOn(true)
+            const response = await axios.post(SAVE_ACCOMODATAION_DETAIL_WITHOUT_PAYMENT, reqBody)
+            setGWaitOn(false)
             const bookingId = response.data.bookingId
             const amount = response.data.amount
             //procced to payment page
@@ -182,7 +153,7 @@ export default () => {
                         <tbody>
                         <tr>
                             <td> {e.roomType?.roomId} </td>
-                            <td> {e.members?.map((e)=>(e.dbDevName + " ."))} </td>
+                            <td> {e.member?.map((e)=>(e.dbDevName + " ."))} </td>
                             <td>  {e?.memCheckInTime.replace("T"," ")} </td>
                             <td> {e?.memCheckOutTime.replace("T"," ")}  </td>
                             <td> <div className="col-2">

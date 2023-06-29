@@ -7,7 +7,7 @@ export default function AccomodationModal(props){
   const [mem, setMem] = useState([]);
   const [arrDate,setArrDate]=useState("")
   const [depDate,setDepDate]=useState("");
-  let bookingDetails={roomType:{roomId:props.roomType},members:mem,memCheckInTime:arrDate,memCheckOutTime:depDate}
+  let bookingDetails={roomType:{roomId:props.roomType},member:mem,memCheckInTime:arrDate,memCheckOutTime:depDate}
   console.log(props.savedMembersForBooking)
   console.log(props.yatraRegisteredUsers)
   const [memId, setMemId] = useState("");
@@ -88,7 +88,7 @@ export default function AccomodationModal(props){
 
   const saveBookingDetails=()=>{
     console.log(bookingDetails)
-    if(bookingDetails.members.length===0){
+    if(bookingDetails.member.length===0){
       setErrorMessage("Please Add Members before Saving");
     }
     else if(bookingDetails.memCheckInTime.length===0){
