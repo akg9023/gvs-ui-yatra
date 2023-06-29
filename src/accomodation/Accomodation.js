@@ -3,24 +3,25 @@ import { useContext, useEffect, useState } from "react"
 import "./acc.css"
 import axios from "axios"
 import PleaseWait from "../pleaseWait/PleaseWait.js"
-import { GET_ALL_REG_MEM_DETAILS, GET_ALL_ROOMS, SAVE_ACCOMODATAION_DETAIL_WITHOUT_PAYMENT } from "../constants/apiConstant"
+import { GET_ALL_ROOMS,YATRA_REGISTERED_MEMBERS,FETCH_ALL_APPROVED_MEMBERS,FETCH_ALL_PENDING_MEMBERS,SAVE_ACCOMODATAION_DETAIL_WITHOUT_PAYMENT } from "../constants/apiConstant"
 import { PleaseWaitContext } from "../context/PleaseWaitContextProvider.js"
 import AccomodationModal from "./AccomodationModal"
 import { useNavigate } from "react-router-dom"
 
 
-export default ({ dbUserData, dbRegMemIdList }) => {
-    console.log(dbUserData)
+export default () => {
     const [isOpen,setIsOpen]=useState(false)
     const [bookingDetails,setBookingDetails]=useState([])
     const [roomType,setRoomType]=useState("")
     const [memCount,setMemCount]=useState()
     const [regMemDetails, setRegMemDetails] = useState([])
+    const [membersListForBooking,setMembersListForBooking]=useState([])
+    const [membersAccomoBooked,setMembersAccomoBooked]=useState([])
+    const [membersPendingApproval,setMembersPendingApproval]=useState([])
     const [successMem, setSuccessMem] = useState([])
     const [rooms, setRooms] = useState([1])
     const { gWaitOn, setGWaitOn } = useContext(PleaseWaitContext)
-    const navigate = useNavigate()
-
+    
     const getMembers = (regMemDetails) => {
         let temp = []
         regMemDetails.map((one) => {
@@ -35,27 +36,31 @@ export default ({ dbUserData, dbRegMemIdList }) => {
      const saveBookingData=(e)=>{
         console.log(e);
         setBookingDetails([...bookingDetails,e])
+        setSavedMembersForBooking([...savedMembersForBooking,...e.members])
         console.log(bookingDetails)
      }
     useEffect(() => {
 
-        const fetchAllRoomsAndRegMem = async () => {
              setGWaitOn(true)
-            const regMemRes = await axios.post(GET_ALL_REG_MEM_DETAILS, { email: "saurav109677@gmail.com" })
-            setRegMemDetails(regMemRes.data)
-            getMembers(regMemRes.data)
-            const res = await axios.post(GET_ALL_ROOMS)
-            console.log(res);
-            setRooms(res.data)
-             setGWaitOn(false)
-        }
-
-        fetchAllRoomsAndRegMem()
+        //     const regMemRes = await axios.post(GET_ALL_REG_MEM_DETAILS, { email: "saurav109677@gmail.com" })
+        //     setRegMemDetails(regMemRes.data)
+        //     getMembers(regMemRes.data)
+            const res = axios.post(GET_ALL_ROOMS)
+            res.then(data => setRooms(data.data))
+             
+            const memRes = axios.post(YATRA_REGISTERED_MEMBERS)
+            memRes.then(data => setMembersListForBooking(data.data))
+            const memBookedRes = axios.post(FETCH_ALL_APPROVED_MEMBERS)
+            memBookedRes.then((data) => setMembersAccomoBooked(data.data))
+            const memsPendingRes = axios.post(FETCH_ALL_PENDING_MEMBERS)
+            memsPendingRes.then((data) => setMembersPendingApproval(data.data))
+            setGWaitOn(false)
+        
 
     }, [])
     const handleRemove = (e, i) => {
         e.preventDefault();
-        const removeBooking = bookingDetails.filter((a, index) => index !== i);
+        const removeBooking = bookingDetails?.filter((a, index) => index !== i);
         setBookingDetails(removeBooking);
       };
 
@@ -116,7 +121,7 @@ export default ({ dbUserData, dbRegMemIdList }) => {
     const template =
         <div class="container">
             <h1 class="display-4">Accommodation</h1><br /><br />
-            <h4>Registered Members</h4>
+            {/* <h4>Registered Members</h4>
 
             <table class="table">
                 <tbody>
@@ -128,10 +133,11 @@ export default ({ dbUserData, dbRegMemIdList }) => {
                     ))}
                 </tbody>
 
-            </table>
+            </table> */}
             <h5>Please choose your accommodation</h5>
             <div class="row card-wrapper">
-                {rooms.map((one, index) => {
+                {rooms?.map((one, index) => {
+                    console.log(one)
                     let avail = one.count > 0 ? true : false
                     return (
                         <div class="col ">
@@ -150,13 +156,13 @@ export default ({ dbUserData, dbRegMemIdList }) => {
                                 </div>
 
                                 <div class="card-body">
-                                    <button class="btn btn-warning"  onClick={()=>{setIsOpen(true);setRoomType(one.roomId);setMemCount(one.memberCount)}}>Book Now</button>
+                                    <button class="btn btn-warning"  onClick={()=>{setIsOpen(true);setRoomType(one?.roomId);setMemCount(one?.memberCount)}}>Book Now</button>
                                 </div>
                             </div>
                         </div>
                     )
                 })}
-                                 <AccomodationModal dbUserData={dbUserData} dbRegMemIdList={dbRegMemIdList} open={isOpen} roomType={roomType} memCount={memCount} onClose={()=>setIsOpen(false)} onSave={saveBookingData}/> 
+                                 <AccomodationModal yatraRegisteredUsers={membersListForBooking} membersAccomoBooked={membersAccomoBooked} membersPendingApproval={membersPendingApproval} open={isOpen} roomType={roomType} memCount={memCount} onClose={()=>setIsOpen(false)} savedMembersForBooking={savedMembersForBooking} onSave={saveBookingData}/> 
 
 
 
@@ -165,7 +171,7 @@ export default ({ dbUserData, dbRegMemIdList }) => {
 
             
                 
-                    {bookingDetails.map((e, index) => (
+                    {bookingDetails?.map((e, index) => (
 
                       <table class="table card">
                        <tr><th><td>Room Id</td>
@@ -176,7 +182,7 @@ export default ({ dbUserData, dbRegMemIdList }) => {
                         <tbody>
                         <tr>
                             <td> {e.roomType?.roomId} </td>
-                            <td> {e.members?.map((e)=>(e.fname + " ."))} </td>
+                            <td> {e.members?.map((e)=>(e.dbDevName + " ."))} </td>
                             <td>  {e?.memCheckInTime.replace("T"," ")} </td>
                             <td> {e?.memCheckOutTime.replace("T"," ")}  </td>
                             <td> <div className="col-2">

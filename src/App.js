@@ -23,6 +23,7 @@ import Success from './paymentResponse/Success';
 import ManageMembers from './members/ManageMembers';
 import PaymentForm from './manualPG/PaymentForm';
 import Accomodation from './accomodation/Accomodation';
+import ManualPaymentReview from './payment/ManualPaymentReview';
 import AccomodataionPaymentFrom from './manualPG/AccomodataionPaymentFrom';
 
 function App() {
@@ -33,33 +34,23 @@ function App() {
   const [dbBookedMemIdList, setDbBookedMemIdList] = useState([])
 
 
-  useEffect(() => {
-
-    const fun = async () => {
+  useEffect( ()=>{
+   
       setGWaitOn(true)
-      const res = await axios.post(GET_LIMITED_USER_DETAIL)
-      setDBUserData(res.data)
+      const res1 = axios.post(GET_LIMITED_USER_DETAIL)
+      res1.then(data => setDBUserData(data.data))
       setGWaitOn(false)
-    }
 
-    const fun2 = async () => {
       setGWaitOn(true)
-      const res = await axios.post(GET_ALL_REG_MEM_ID)
-      setDBRegMemIdList(res.data)
+      const res2 = axios.post(GET_ALL_REG_MEM_ID)
+      res2.then(data => setDBRegMemIdList(data.data))
       setGWaitOn(false)
-    }
-    const fun3 = async () => {
-      setGWaitOn(true)
-      const res = await axios.post(GET_ALL_REG_MEM_ID)
-      setDbBookedMemIdList(res.data)
-      setGWaitOn(false)
-    }
-
-    fun()
-    fun2()
-    fun3()
-
-  }, [])
+    //   setGWaitOn(true)
+    //    const res = await axios.post(GET_ALL_REG_MEM_ID)
+    //   setDbBookedMemIdList(res.data)
+    //   setGWaitOn(false)
+    
+  },[])
 
   const template = () => (
     <>
@@ -105,7 +96,13 @@ function App() {
           <Route
             path="/accomodation"
             element={
-              <Accomodation dbUserData={dbUserData} dbRegMemIdList={dbBookedMemIdList} />
+              <Accomodation />
+            }
+          />
+           <Route
+            path="/bookingPaymentApproval"
+            element={
+              <ManualPaymentReview  />
             }
           />
           <Route

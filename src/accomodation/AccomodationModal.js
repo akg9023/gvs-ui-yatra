@@ -1,32 +1,36 @@
 import { Dialog,DialogTitle,DialogActions,DialogContent,Button,DialogContentText } from "@mui/material";
 import { useContext, useState,useEffect} from "react";
-import { useNavigate } from "react-router-dom";
 import {BookingDetailContext} from "../context/BookingDetailContextProvider";
-import { PleaseWaitContext } from "../context/PleaseWaitContextProvider";
-import axios from "axios";
+
 
 export default function AccomodationModal(props){
-  console.log(props.roomType)
-  console.log(props.memCount)
   const [mem, setMem] = useState([]);
   const [arrDate,setArrDate]=useState("")
   const [depDate,setDepDate]=useState("");
   let bookingDetails={roomType:{roomId:props.roomType},members:mem,memCheckInTime:arrDate,memCheckOutTime:depDate}
-  console.log(props.dbUserData);
-  
-  console.log(props.members);
+  console.log(props.savedMembersForBooking)
+  console.log(props.yatraRegisteredUsers)
   const [memId, setMemId] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const navigate = useNavigate();
-  const { gWaitOn, setGWaitOn } = useContext(PleaseWaitContext)
   const extempedAge = 5
   const teenAge = 10
-
-  useEffect(() => {
-  }, []);
  
-  const checkAlreadyReg = (memId) => {
-    const found = props.dbRegMemIdList.filter((one) => one == memId)
+  const checkAlreadyBooked = (memId) => {
+    const found = props.membersAccomoBooked.filter((one) => one.dbDevId === memId)
+    if (found.length == 0)
+      return false;
+
+    return true;
+  }
+  const checkAlreadySaved = (memId) => {
+    const found = props.savedMembersForBooking.filter((one) => one.dbDevId === memId)
+    if (found.length == 0)
+      return false;
+
+    return true;
+  }
+  const checkPendingApproval = (memId) => {
+    const found = props.membersPendingApproval.filter((one) => one.dbDevId === memId)
     if (found.length == 0)
       return false;
 
@@ -40,18 +44,27 @@ export default function AccomodationModal(props){
   const handleSearch = (e) => {
     e.preventDefault();
 
-    if (checkAlreadyReg(memId.toUpperCase())) {
+    if (checkAlreadyBooked(memId.toUpperCase())) {
       setErrorMessage("Member already Booked.");
       return;
     }
+    if (checkAlreadySaved(memId.toUpperCase())) {
+      setErrorMessage("Member already Saved for Booking.");
+      return;
+    }
+    if (checkPendingApproval(memId.toUpperCase())) {
+      setErrorMessage("Member already in Approval Stage.");
+      return;
+    }
 
-    const found =  props.dbUserData.filter(
-      (one) => memId.toUpperCase() === one.id
+    const found =  props.yatraRegisteredUsers.filter(
+      (one) => memId.toUpperCase() === one.dbDevId
     );
     if (found.length !== 0) {
-      const existMem = mem.filter((one) => found[0].id === one.id);
-      if(1){
-      if (existMem.length === 0 ) {
+      const existMem = mem.filter((one) => found[0].dbDevId == one.dbDevId);
+      const memAdultCount=mem.filter((mem)=>mem.dbDevAge>10)
+      if(memAdultCount.length<props.memCount){
+      if (existMem.length == 0 ) {
         setMem([...mem, found[0]]);
       } else {
         setErrorMessage("Member already exists.");
@@ -128,13 +141,13 @@ export default function AccomodationModal(props){
               <hr />
               
               <div className="accordion" id="accordionExample">
-                {mem.map(({ id, fname, gender, age }, index) => (
+                {mem.map(({ id,dbDevId, dbDevName, dbDevGender, dbDevAge }, index) => (
                   <div key={id} className="container">
                     <div className="row align-items-start">
                       <div className="col">
                         <div style={{ display: "flex" }}>
                           <h6>
-                            {index + 1} | {id} | {fname} | {gender} | {age <= extempedAge ? <span style={{ color: "orange" }}>Child</span> : age <= teenAge ? <span style={{ color: "green" }}>Teen</span> : <span style={{ color: "olive" }}>Adult</span>}
+                            {index + 1} | {dbDevId} | {dbDevName} | {dbDevGender} | {dbDevAge <= extempedAge ? <span style={{ color: "orange" }}>Child</span> : dbDevAge <= teenAge ? <span style={{ color: "green" }}>Teen</span> : <span style={{ color: "olive" }}>Adult</span>}
                           </h6>
                         </div>
                       </div>
