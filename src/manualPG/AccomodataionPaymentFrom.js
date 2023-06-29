@@ -182,12 +182,16 @@ export default () => {
                         <p class="display-6 inline">Amount: <b>{amount}</b></p><span onClick={copyAmount} class="material-symbols-outlined copy">content_copy</span>{toCopyAmount?<span class="highlight"><b>Copied!</b></span>:""}
                     </p>
                     <hr />
-                    <p>Pay Here</p>
-                    <h4 class="inline">{upiId} </h4><span onClick={copyUpiId} class="material-symbols-outlined copy">content_copy</span>{toCopy?<span class="highlight"><b>Copied!</b></span>:""}
+                    <h2>Scan and Pay</h2><br/>
+                    <img src="https://tse3.mm.bing.net/th?id=OIP.CelPKhMjGBiNmRTLQCYpOgAAAA&pid=Api&P=0&h=180" />
+                    {/* <h4 class="inline">{upiId} </h4><span onClick={copyUpiId} class="material-symbols-outlined copy">content_copy</span>{toCopy?<span class="highlight"><b>Copied!</b></span>:""} */}
                     
                     <div className="qrDiv" >
-                        <span id="qr-code">{parse(qr)}</span>
-                        {isMobile ? <button onClick={handleDownload} className="btn btn-warning ">Downalod QR</button> : ""}
+                        <span id="qr-code">
+                            {parse(qr)} 
+                    
+                        </span>
+                        <button onClick={handleDownload} className="btn btn-warning ">Download QR</button>
                     </div>
 
                     <hr />
