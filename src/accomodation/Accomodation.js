@@ -92,19 +92,6 @@ export default () => {
     const template =
         <div class="container">
             <h1 class="display-4">Accommodation</h1><br /><br />
-            {/* <h4>Registered Members</h4>
-
-            <table class="table">
-                <tbody>
-                    {successMem.map((mem, index) => (
-
-                        <tr>
-                            <td>{index + 1}. {mem.dbDevId} | {mem.dbDevName} |  {mem.dbDevGender}  </td>
-                        </tr>
-                    ))}
-                </tbody>
-
-            </table> */}
             <h5>Please choose your accommodation</h5>
             <div class="row card-wrapper">
                 {rooms?.map((one, index) => {

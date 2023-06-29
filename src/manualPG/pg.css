@@ -9,7 +9,7 @@
 }
 
 .qrDiv{
-    width: 75%;
+    width: 70%;
     margin: auto;
     display: flex;
     /* align-items: center; */
@@ -34,7 +34,7 @@
 }
 
 .inline{
-    display: inline;
+    display: inline;    
 }
 
 .timer{

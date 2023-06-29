@@ -8,6 +8,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { PleaseWaitContext } from "../context/PleaseWaitContextProvider.js";
 import { right } from "@popperjs/core";
+import {toPng} from 'html-to-image';
 // import * as dotenv from 'dotenv' 
 
 
@@ -15,6 +16,7 @@ export default () => {
     const { state } = useLocation();
     const { amount, bookingId } = state ? state : "";
     const [errMessage, setErrorMessage] = useState("")
+    const [qr, setQR] = useState("")
     const { gWaitOn, setGWaitOn } = useContext(PleaseWaitContext)
     const navigate = useNavigate();
     const [isMobile, setIsMobile] = useState(false);
@@ -69,12 +71,12 @@ export default () => {
         // if (!sessionStorage.getItem("userEmail")) navigate("/");
         // else {
 
-        //     // Converting the data into base64
-        //     QRCode.toString(paymentUrl, function (err, code) {
-        //         if (err) return console.log("error occurred")
-        //         setQR(code)
-        //     })
-        // }
+            // Converting the data into base64
+            QRCode.toString(paymentUrl, function (err, code) {
+                if (err) return console.log("error occurred")
+                setQR(code)
+            })
+        
 
     }, [])
 
@@ -99,6 +101,24 @@ export default () => {
         await navigator.clipboard.writeText(amount);
         setToCopyAmount(true)
     }
+
+    const handleDownload = () => {
+        const qrCode = document.getElementById('qr-code'); // Get the DOM element for the QR code
+      
+        toPng(qrCode)
+          .then(function (dataUrl) {
+            const link = document.createElement('a');
+            link.href = dataUrl;
+            link.download = 'qr-code.png';
+            link.click();
+          })
+          .catch(function (error) {
+            console.error('An error occurred while generating and downloading the QR code image:', error);
+          });
+      };
+      
+      
+      
 
     const onSubmit = async () => {
 
@@ -165,13 +185,12 @@ export default () => {
                     <p>Pay Here</p>
                     <h4 class="inline">{upiId} </h4><span onClick={copyUpiId} class="material-symbols-outlined copy">content_copy</span>{toCopy?<span class="highlight"><b>Copied!</b></span>:""}
                     
-                    {/* <div className="qrDiv">
-                        {parse(qr)}
-                        {isMobile ? <a class="pay-button" href={paymentUrl}><button className="btn btn-warning ">Pay using UPI</button></a> : ""}
-                    </div> */}
+                    <div className="qrDiv" >
+                        <span id="qr-code">{parse(qr)}</span>
+                        {isMobile ? <button onClick={handleDownload} className="btn btn-warning ">Downalod QR</button> : ""}
+                    </div>
 
                     <hr />
-                    <p style={{ "color": "red" }}><b>Please note that, your registration is considered only if full amount is paid.</b></p>
 
                 </div>
                
