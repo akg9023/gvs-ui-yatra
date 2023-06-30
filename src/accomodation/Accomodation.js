@@ -61,9 +61,11 @@ export default () => {
 
     }, [])
     const handleRemove = (e, i) => {
-        e.preventDefault();
+        const removeSavedMems=savedMembersForBooking.filter((element)=> !e.member.includes(element))
+        console.log("removed",removeSavedMems)
         const removeBooking = bookingDetails?.filter((a, index) => index !== i);
         setBookingDetails(removeBooking);
+        setSavedMembersForBooking(removeSavedMems);
       };
 
       const proceedAndPay = async() => {
@@ -144,7 +146,7 @@ export default () => {
                             <td>  {e?.memCheckInTime.replace("T"," ")} </td>
                             <td> {e?.memCheckOutTime.replace("T"," ")}  </td>
                             <td> <div className="col-2">
-                        <button onClick={(e) => handleRemove(e, index)}>
+                        <button onClick={() => handleRemove(e, index)}>
                           <i className="bi bi-trash"></i>
                         </button>
                       </div></td>
