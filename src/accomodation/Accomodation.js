@@ -133,12 +133,12 @@ export default () => {
                 
                     {bookingDetails?.map((e, index) => (
 
-                      <table className="table card">
-                       <tr><th><td>Room Id</td>
+                      <div className="table card">
+                       <div className="row"><th><td>Room Id</td>
                         <td>Added Members</td>
                         <td>Arrival Time</td>
                         <td>Departure Time</td>
-                        <td>Action</td></th></tr>
+                        <td>Action</td></th></div>
                         <tbody>
                         <tr>
                             <td> {e.roomType?.roomId} </td>
@@ -153,7 +153,7 @@ export default () => {
                         </tr>
                         </tbody>
 
-            </table>
+            </div>
                     ))}
 
             <button onClick={()=>proceedAndPay()}>Proceed to Pay</button>

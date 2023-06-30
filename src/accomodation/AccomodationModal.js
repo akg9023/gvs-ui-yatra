@@ -6,6 +6,7 @@ import {BookingDetailContext} from "../context/BookingDetailContextProvider";
 export default function AccomodationModal(props){
   const [mem, setMem] = useState([]);
   const [arrDate,setArrDate]=useState("")
+  const [arrDepError,setArrDepError]=useState("")
   const [depDate,setDepDate]=useState("");
   let bookingDetails={roomType:{roomId:props.roomType},member:mem,memCheckInTime:arrDate,memCheckOutTime:depDate}
   // console.log(props.savedMembersForBooking)
@@ -36,10 +37,6 @@ export default function AccomodationModal(props){
 
     return true;
   }
-
-  setTimeout(() => {
-    setErrorMessage("")
-  }, 1000000)
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -87,15 +84,15 @@ export default function AccomodationModal(props){
   };
 
   const saveBookingDetails=()=>{
-    console.log(bookingDetails)
+    //console.log(bookingDetails)
     if(bookingDetails.member.length===0){
-      setErrorMessage("Please Add Members before Saving");
+      setArrDepError("Please Add Members before Saving");
     }
     else if(bookingDetails.memCheckInTime.length===0){
-      setErrorMessage("please select Arrival Date and Time");
+      setArrDepError("please select Arrival Date and Time");
     }
     else if(bookingDetails.memCheckOutTime.length===0){
-      setErrorMessage("please select Departure Date and Time");
+      setArrDepError("please select Departure Date and Time");
     }
     else{
     props.onSave(bookingDetails)
@@ -126,14 +123,14 @@ export default function AccomodationModal(props){
 
             <h2 className="text-center mb-4">Add Members to the room</h2>
             <form className="form-card" onSubmit={(e) => e.preventDefault()}>
-              <div className="row justify-content-between text-left">
+              <div className="row justify text-left">
                 <div className="form-group col-sm-8 flex-column d-flex">
                   <input
                     type="text"
                     id="fname"
                     name="fname"
                     placeholder="Enter Registration ID"
-                    onChange={(e) => setMemId(e.target.value)}
+                    onChange={(e) => {setMemId(e.target.value);setErrorMessage("");setArrDepError("")}}
                   />
                 </div>
                 <button
@@ -143,8 +140,11 @@ export default function AccomodationModal(props){
                 >
                   Add
                 </button>
+                <i style={{ width:"250px",color: "red",display:"block" }} >
+                {errorMessage}
+                </i>
               </div>
-              <br />
+              {errorMessage?"":<br/>}
               <h5 className="text " style={{ display: "flex" }}>
                <td >  Selected Members</td> 
              </h5>
@@ -173,14 +173,13 @@ export default function AccomodationModal(props){
                 ))}
                 <hr/>
                 <h5>
-               <td><a>Arrival: <input type="dateTime-local" id="arrDate" min="2023-08-10T09:07" max="2023-08-16T09:07"style={{height:"20px",fontSize:2}} onChange={(e)=>setArrDate(e.target.value)}></input></a><br/>
-               <a>Depart: <input type="dateTime-local" id="depDate" min="2023-08-10T09:07" max="2023-08-16T09:07"style={{height:"20px",fontSize:2}} onChange={(e)=>setDepDate(e.target.value)}></input></a></td>
+               <td><a>Arrival: <input type="dateTime-local" id="arrDate" min="2023-08-10T09:07" max="2023-08-16T09:07"style={{height:"20px",fontSize:2}} onChange={(e)=>{setArrDate(e.target.value);setArrDepError("")}}></input></a><br/>
+               <a>Depart: <input type="dateTime-local" id="depDate" min="2023-08-10T09:07" max="2023-08-16T09:07"style={{height:"20px",fontSize:2}} onChange={(e)=>{setDepDate(e.target.value);setArrDepError("")}}></input></a></td>
                </h5>
               </div>
-              <br />
-              <p style={{ display: "flex", color: "red" }}>
-                {errorMessage}
-              </p>
+             {arrDepError ? <i style={{ width:"350px",color: "red",display:"block" }} >
+                {arrDepError}
+                </i>:<br/>}
             </form>
           </div>          
               <DialogContentText>
