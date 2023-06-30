@@ -134,22 +134,22 @@ export default () => {
                     {bookingDetails?.map((e, index) => (
 
                       <div className="table card">
-                       <div className="row"><th><td>Room Id</td>
-                        <td>Added Members</td>
-                        <td>Arrival Time</td>
-                        <td>Departure Time</td>
-                        <td>Action</td></th></div>
+                       <div className="row"><th><td style={{width:"100px"}}>Room Id</td>
+                        <td style={{width:"290px"}}>Added Members</td>
+                        <td style={{width:"190px"}}>Arrival Time</td>
+                        <td style={{width:"190px"}}>Departure Time</td>
+                        <td style={{width:"90px"}}>Action</td></th></div>
                         <tbody>
                         <tr>
-                            <td> {e.roomType?.roomId} </td>
-                            <td> {e.member?.map((e)=>(e.dbDevName + " ."))} </td>
-                            <td>  {e?.memCheckInTime.replace("T"," ")} </td>
-                            <td> {e?.memCheckOutTime.replace("T"," ")}  </td>
-                            <td> <div className="col-2">
+                            <td style={{width:"100px"}}> {e.roomType?.roomId} </td>
+                            <td style={{width:"290px"}}> {e.member?.map((e)=>(e.dbDevName + " | "))} </td>
+                            <td style={{width:"190px"}}>  {e?.memCheckInTime.replace("T"," ")} </td>
+                            <td style={{width:"190px"}}> {e?.memCheckOutTime.replace("T"," ")}  </td>
+                            <td style={{width:"90px"}}> 
                         <button onClick={() => handleRemove(e, index)}>
                           <i className="bi bi-trash"></i>
                         </button>
-                      </div></td>
+                      </td>
                         </tr>
                         </tbody>
 
