@@ -27,15 +27,15 @@ export default (props) => {
     }
 
     return (
-        <div class="wrapper">
-            <div class="card ">
+        <div className="wrapper">
+            <div className="card ">
                 <div style={{ "border-radius": "200px", "height": "200px", width: "200px", background: "#F8FAF5", margin: "0 auto" }}>
-                    <i class="checkmark">✓</i>
+                    <i className="checkmark">✓</i>
                 </div>
                 <h1>Success</h1>
                 <p>We received your payment.</p><br />
                 <h6>Transaction Details</h6>
-                <table class="table table-striped tbl">
+                <table className="table table-striped tbl">
 
                     <tbody>
                         <tr>
@@ -66,7 +66,7 @@ export default (props) => {
 
                     </tbody>
                 </table>
-                <button class="btn btn-warning" onClick={navigateToHome}>Go to Home</button>
+                <button className="btn btn-warning" onClick={navigateToHome}>Go to Home</button>
             </div>
         </div>
     )

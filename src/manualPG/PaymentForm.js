@@ -136,20 +136,20 @@ export default () => {
     }
 
     return <>
-        <div class=" mpg-wrapper">
-            <div class="content">
-                <div class="jumbotron">
-                    <h1 class="display-4">Payment</h1>
-                    <p class="lead">
-                        <p class="display-6 inline">Amount: <b>{amount}</b></p><span onClick={copyAmount} class="material-symbols-outlined copy">content_copy</span>{toCopyAmount?<span class="highlight"><b>Copied!</b></span>:""}
+        <div className=" mpg-wrapper">
+            <div className="content">
+                <div className="jumbotron">
+                    <h1 className="display-4">Payment</h1>
+                    <p className="lead">
+                        <p className="display-6 inline">Amount: <b>{amount}</b></p><span onClick={copyAmount} className="material-symbols-outlined copy">content_copy</span>{toCopyAmount?<span className="highlight"><b>Copied!</b></span>:""}
                     </p>
                     <hr />
                     <p>Pay Here</p>
-                    <h4 class="inline">{upiId} </h4><span onClick={copyUpiId} class="material-symbols-outlined copy">content_copy</span>{toCopy?<span class="highlight"><b>Copied!</b></span>:""}
+                    <h4 className="inline">{upiId} </h4><span onClick={copyUpiId} className="material-symbols-outlined copy">content_copy</span>{toCopy?<span className="highlight"><b>Copied!</b></span>:""}
                     
                     {/* <div className="qrDiv">
                         {parse(qr)}
-                        {isMobile ? <a class="pay-button" href={paymentUrl}><button className="btn btn-warning ">Pay using UPI</button></a> : ""}
+                        {isMobile ? <a className="pay-button" href={paymentUrl}><button className="btn btn-warning ">Pay using UPI</button></a> : ""}
                     </div> */}
 
                     <hr />
@@ -158,36 +158,36 @@ export default () => {
                 </div>
                
                 <form>
-                    <div class="form-group">
+                    <div className="form-group">
                         <label for="exampleInputPassword1">UPI App used</label>
-                        <input type="text" required class="form-control" id="customerUPIApp" onChange={(e) => change(e)} />
-                        <small id="emailHelp" class="form-text text-muted ">Google Pay / PhonePay etc   </small>
+                        <input type="text" required className="form-control" id="customerUPIApp" onChange={(e) => change(e)} />
+                        <small id="emailHelp" className="form-text text-muted ">Google Pay / PhonePay etc   </small>
                     </div>
                     <br />
-                    <div class="form-group">
+                    <div className="form-group">
                         <label for="exampleInputEmail1">Transaction ID/ UTR</label>
-                        <input type="text" class="form-control" id="customerUTR" aria-describedby="emailHelp" onChange={(e) => change(e)} required />
-                        <small id="emailHelp" class="form-text text-muted ">Please follow below guidelines to get transactionID</small>
+                        <input type="text" className="form-control" id="customerUTR" aria-describedby="emailHelp" onChange={(e) => change(e)} required />
+                        <small id="emailHelp" className="form-text text-muted ">Please follow below guidelines to get transactionID</small>
                     </div>
-                    <small class="highlight">GooglePay: UPI transaction ID  </small><a target="_blank" href="https://drive.google.com/file/d/1elCNsKNKHw2EgYZ_VKaMsAjthyyO1qq-/view">Sample</a><br />
-                    <small class="highlight">PhonePay: UTR </small><a target="_blank" href="https://drive.google.com/file/d/1gxpfkZb7SekVSyN4HQS28ATTnhQ1Iyna/view">Sample</a><br />
-                    <small class="highlight">Paytm: UPI Ref No </small><a target="_blank" href="https://drive.google.com/file/d/1d77p2gtVKaHMohazQEMCtpt29hzRA83c/view">Sample</a><br />
-                    <small class="highlight">Amazon Pay: Bank Reference ID </small><a target="_blank" href="https://drive.google.com/file/d/1NiI2cOPhDL4LoE8eGcRr965z-wMgFMQM/view">Sample</a><br />
+                    <small className="highlight">GooglePay: UPI transaction ID  </small><a target="_blank" href="https://drive.google.com/file/d/1elCNsKNKHw2EgYZ_VKaMsAjthyyO1qq-/view">Sample</a><br />
+                    <small className="highlight">PhonePay: UTR </small><a target="_blank" href="https://drive.google.com/file/d/1gxpfkZb7SekVSyN4HQS28ATTnhQ1Iyna/view">Sample</a><br />
+                    <small className="highlight">Paytm: UPI Ref No </small><a target="_blank" href="https://drive.google.com/file/d/1d77p2gtVKaHMohazQEMCtpt29hzRA83c/view">Sample</a><br />
+                    <small className="highlight">Amazon Pay: Bank Reference ID </small><a target="_blank" href="https://drive.google.com/file/d/1NiI2cOPhDL4LoE8eGcRr965z-wMgFMQM/view">Sample</a><br />
                     <br />
-                    <div class="form-group">
+                    <div className="form-group">
                         <label for="exampleInputEmail1">Your Name</label>
-                        <input type="text" class="form-control" id="customerName" aria-describedby="emailHelp" onChange={(e) => change(e)} required />
+                        <input type="text" className="form-control" id="customerName" aria-describedby="emailHelp" onChange={(e) => change(e)} required />
                     </div>
                     <br />
-                    <div class="form-group">
+                    <div className="form-group">
                         <label for="exampleInputEmail1">Contact Number</label>
-                        <input type="text" class="form-control" id="customerPhoneNo" aria-describedby="emailHelp" onChange={(e) => change(e)} required />
+                        <input type="text" className="form-control" id="customerPhoneNo" aria-describedby="emailHelp" onChange={(e) => change(e)} required />
                     </div>
                     <br />
                     <hr />
                        <p style={{ "color": "red" }}>{errMessage}</p>
                     <br />
-                    <button type="button" onClick={onSubmit} class="btn btn-secondary btn-lg btn-block">Submit for Verification</button>
+                    <button type="button" onClick={onSubmit} className="btn btn-secondary btn-lg btn-block">Submit for Verification</button>
                 </form>
             </div>
         </div>

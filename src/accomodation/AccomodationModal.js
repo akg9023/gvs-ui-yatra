@@ -8,8 +8,8 @@ export default function AccomodationModal(props){
   const [arrDate,setArrDate]=useState("")
   const [depDate,setDepDate]=useState("");
   let bookingDetails={roomType:{roomId:props.roomType},member:mem,memCheckInTime:arrDate,memCheckOutTime:depDate}
-  console.log(props.savedMembersForBooking)
-  console.log(props.yatraRegisteredUsers)
+  // console.log(props.savedMembersForBooking)
+  // console.log(props.yatraRegisteredUsers)
   const [memId, setMemId] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const extempedAge = 5
@@ -39,7 +39,7 @@ export default function AccomodationModal(props){
 
   setTimeout(() => {
     setErrorMessage("")
-  }, 10000)
+  }, 1000000)
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -63,7 +63,7 @@ export default function AccomodationModal(props){
     if (found.length !== 0) {
       const existMem = mem.filter((one) => found[0].dbDevId == one.dbDevId);
       const memAdultCount=mem.filter((mem)=>mem.dbDevAge>10)
-      if(memAdultCount.length<props.memCount){
+      if(memAdultCount.length<props.memCount || found[0].dbDevAge<10){
       if (existMem.length == 0 ) {
         setMem([...mem, found[0]]);
       } else {
@@ -106,9 +106,19 @@ export default function AccomodationModal(props){
     }
   }
 
+  const onClose=()=>{
+
+    
+      setMem([]);
+      setMemId("");
+      setArrDate("");
+      setDepDate("");
+      props.onClose();
+    }
+
     return (
         <>
-          <Dialog open={props.open}  onClose={props.onClose} >
+          <Dialog open={props.open}  onClose={onClose} >
             <DialogTitle bgcolor="blue" color="whitesmoke"> Add Booking Details</DialogTitle>
             <DialogContent>
               
@@ -117,7 +127,7 @@ export default function AccomodationModal(props){
             <h2 className="text-center mb-4">Add Members to the room</h2>
             <form className="form-card" onSubmit={(e) => e.preventDefault()}>
               <div className="row justify-content-between text-left">
-                <div className="form-group col-sm-10 flex-column d-flex">
+                <div className="form-group col-sm-8 flex-column d-flex">
                   <input
                     type="text"
                     id="fname"
@@ -126,12 +136,13 @@ export default function AccomodationModal(props){
                     onChange={(e) => setMemId(e.target.value)}
                   />
                 </div>
-                <div
-                  className="form-group col-sm-2 flex-column d-flex "
+                <button
+                  className="form-group col-sm-2 flex-column d-flex btn btn-success "
                   onClick={handleSearch}
+                  style={{color:"btn-success"}}
                 >
-                  <i className="bi bi-search search-icon"></i>
-                </div>
+                  Add
+                </button>
               </div>
               <br />
               <h5 className="text " style={{ display: "flex" }}>
@@ -141,7 +152,8 @@ export default function AccomodationModal(props){
               <hr />
               
               <div className="accordion" id="accordionExample">
-                {mem.map(({ id,dbDevId, dbDevName, dbDevGender, dbDevAge }, index) => (
+                {mem.length===0 ? <><br/><br/><br/></>:
+                mem?.map(({ id,dbDevId, dbDevName, dbDevGender, dbDevAge }, index) => (
                   <div key={id} className="container">
                     <div className="row align-items-start">
                       <div className="col">
@@ -161,8 +173,8 @@ export default function AccomodationModal(props){
                 ))}
                 <hr/>
                 <h5>
-               <td><a>Arrival: <input type="dateTime-local" id="arrDate"style={{height:"20px",fontSize:2}} onChange={(e)=>setArrDate(e.target.value)}></input></a><br/>
-               <a>Depart: <input type="dateTime-local" id="depDate"style={{height:"20px",fontSize:2}} onChange={(e)=>setDepDate(e.target.value)}></input></a></td>
+               <td><a>Arrival: <input type="dateTime-local" id="arrDate" min="2023-08-10T09:07" max="2023-08-16T09:07"style={{height:"20px",fontSize:2}} onChange={(e)=>setArrDate(e.target.value)}></input></a><br/>
+               <a>Depart: <input type="dateTime-local" id="depDate" min="2023-08-10T09:07" max="2023-08-16T09:07"style={{height:"20px",fontSize:2}} onChange={(e)=>setDepDate(e.target.value)}></input></a></td>
                </h5>
               </div>
               <br />
@@ -180,7 +192,7 @@ export default function AccomodationModal(props){
                       color="success" >
                 Save
               </Button>
-              <Button onClick={props.onClose} 
+              <Button onClick={onClose} 
                       color="success" >
                 Close
               </Button>

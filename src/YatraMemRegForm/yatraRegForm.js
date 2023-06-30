@@ -98,26 +98,26 @@ export default function MemRegForm({ dbUserData, dbRegMemIdList }) {
     <div className="container-fluid px-1 py-5 mx-auto">
       <div className="row d-flex justify-content-center">
         <div className="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
-          <div class="jumbotron jumbotron-fluid">
-            <div class="container">
-              <h1 class="display-4">ISKCON YATRA</h1>
-              <p class="lead">Organized by Haldia VOICE</p>
+          <div className="jumbotron jumbotron-fluid">
+            <div className="container">
+              <h1 className="display-4">ISKCON YATRA</h1>
+              <p className="lead">Organized by Haldia VOICE</p>
               <hr />
-              <p class="lead"><b>11th to 15th August 2023 - Vrindavan</b></p>
+              <p className="lead"><b>11th to 15th August 2023 - Vrindavan</b></p>
               <hr />
             </div>
           </div>
           <div className="card">
-            <div class="container" style={{ display: "flex", "flex-direction": "column", "alignItems": "start" }}>
-              <div class="row">
-                <div class="col-sm">
-                  <span class="badge text-bg-secondary">Adult (Above 10) : Rs.2000/-</span>
+            <div className="container" style={{ display: "flex", "flex-direction": "column", "alignItems": "start" }}>
+              <div className="row">
+                <div className="col-sm">
+                  <span className="badge text-bg-secondary">Adult (Above 10) : Rs.2000/-</span>
                 </div>
-                <div class="col-sm">
-                  <span class="badge text-bg-secondary">Teens (Age less than or equal to 10) : Rs.1000/-</span>
+                <div className="col-sm">
+                  <span className="badge text-bg-secondary">Teens (Age less than or equal to 10) : Rs.1000/-</span>
                 </div>
-                <div class="col-sm">
-                  <span class="badge text-bg-secondary">Child (Age less than or equal to 5) : FREE</span>
+                <div className="col-sm">
+                  <span className="badge text-bg-secondary">Child (Age less than or equal to 5) : FREE</span>
                 </div>
               </div>
 

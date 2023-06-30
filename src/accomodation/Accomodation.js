@@ -36,10 +36,10 @@ export default () => {
         setSuccessMem(temp)
     }
      const saveBookingData=(e)=>{
-        console.log(e);
+       // console.log(e);
         setBookingDetails([...bookingDetails,e])
         setSavedMembersForBooking([...savedMembersForBooking,...e.member])
-        console.log(bookingDetails)
+      //  console.log(bookingDetails)
      }
     useEffect(() => {
 
@@ -62,7 +62,7 @@ export default () => {
     }, [])
     const handleRemove = (e, i) => {
         const removeSavedMems=savedMembersForBooking.filter((element)=> !e.member.includes(element))
-        console.log("removed",removeSavedMems)
+      //  console.log("removed",removeSavedMems)
         const removeBooking = bookingDetails?.filter((a, index) => index !== i);
         setBookingDetails(removeBooking);
         setSavedMembersForBooking(removeSavedMems);
@@ -92,31 +92,31 @@ export default () => {
     }
 
     const template =
-        <div class="container">
-            <h1 class="display-4">Accommodation</h1><br /><br />
+        <div className="container">
+            <h1 className="display-4">Accommodation</h1><br /><br />
             <h5>Please choose your accommodation</h5>
-            <div class="row card-wrapper">
+            <div className="row card-wrapper">
                 {rooms?.map((one, index) => {
                     console.log(one)
                     let avail = one.count > 0 ? true : false
                     return (
-                        <div class="col ">
-                            <div class="card" style={{ "width": "18rem", "padding": "0px" }}>
-                                <img class="card-img-top" src="https://th.bing.com/th/id/OIP.qLVYj_t-HU2Yyx3v_wFgLwHaE6?pid=ImgDet&rs=1" alt="Card image cap" />
-                                <div class="card-body">
+                        <div className="col ">
+                            <div className="card" style={{ "width": "18rem", "padding": "0px" }}>
+                                <img className="card-img-top" src="https://th.bing.com/th/id/OIP.qLVYj_t-HU2Yyx3v_wFgLwHaE6?pid=ImgDet&rs=1" alt="Card image cap" />
+                                <div className="card-body">
                                     <h4>{one.type}</h4>
                                     <p>{one.description}</p>
                                     <p>CheckIn Time:{one.checkInTime}</p>
                                     <p>CheckOut Time: {one.checkOutTime}</p>
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item"><b>Price: </b><h4 style={{ "display": "inline-block" }}>{one.price}</h4></li>
-                                        {avail ? <li class="list-group-item" style={{ "color": "green" }}><b>AVAILABLE: </b><h5 style={{ "display": "inline-block" }}>{one.count}</h5></li>
-                                            : <li class="list-group-item" style={{ "color": "red" }}><b>AVAILABLE: </b><h5 style={{ "display": "inline-block" }}>{one.count}</h5></li>}
+                                    <ul className="list-group list-group-flush">
+                                        <li className="list-group-item"><b>Price: </b><h4 style={{ "display": "inline-block" }}>{one.price}</h4></li>
+                                        {avail ? <li className="list-group-item" style={{ "color": "green" }}><b>AVAILABLE: </b><h5 style={{ "display": "inline-block" }}>{one.count}</h5></li>
+                                            : <li className="list-group-item" style={{ "color": "red" }}><b>AVAILABLE: </b><h5 style={{ "display": "inline-block" }}>{one.count}</h5></li>}
                                     </ul>
                                 </div>
 
-                                <div class="card-body">
-                                    <button class="btn btn-warning"  onClick={()=>{setIsOpen(true);setRoomType(one?.roomId);setMemCount(one?.memberCount)}}>Book Now</button>
+                                <div className="card-body">
+                                    <button className="btn btn-warning"  onClick={()=>{setIsOpen(true);setRoomType(one?.roomId);setMemCount(one?.memberCount)}}>Book Now</button>
                                 </div>
                             </div>
                         </div>
@@ -133,7 +133,7 @@ export default () => {
                 
                     {bookingDetails?.map((e, index) => (
 
-                      <table class="table card">
+                      <table className="table card">
                        <tr><th><td>Room Id</td>
                         <td>Added Members</td>
                         <td>Arrival Time</td>

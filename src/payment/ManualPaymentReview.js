@@ -110,7 +110,7 @@ export default ()=>{
         {console.log(pendingApprovals)}
         <h4>Booked Rooms</h4>
 
-            <table class="table">
+            <table className="table">
                 <tbody>
                     {pendingApprovals.map((obj, index) => (
 
