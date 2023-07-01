@@ -68,8 +68,7 @@ export default () => {
       }, [seconds]);
 
     useEffect(() => {
-        // if (!sessionStorage.getItem("userEmail")) navigate("/");
-        // else {
+        if (!sessionStorage.getItem("userEmail")) navigate("/");
 
             // Converting the data into base64
             QRCode.toString(paymentUrl, function (err, code) {
@@ -183,7 +182,7 @@ export default () => {
                     </p>
                     <hr />
                     <h2>Scan and Pay</h2><br/>
-                    <img src="https://tse3.mm.bing.net/th?id=OIP.CelPKhMjGBiNmRTLQCYpOgAAAA&pid=Api&P=0&h=180" />
+                    <img src="https://tse3.mm.bing.net/th?id=OIP.CelPKhMjGBiNmRTLQCYpOgAAAA&pid=Api&P=0&h=180" width="230px" />
                     {/* <h4 className="inline">{upiId} </h4><span onClick={copyUpiId} className="material-symbols-outlined copy">content_copy</span>{toCopy?<span className="highlight"><b>Copied!</b></span>:""} */}
                     
                     <div className="qrDiv" >

@@ -42,11 +42,8 @@ export default () => {
       //  console.log(bookingDetails)
      }
     useEffect(() => {
-
+        if (!sessionStorage.getItem("userEmail")) navigate("/");
              setGWaitOn(true)
-        //     const regMemRes = await axios.post(GET_ALL_REG_MEM_DETAILS, { email: "saurav109677@gmail.com" })
-        //     setRegMemDetails(regMemRes.data)
-        //     getMembers(regMemRes.data)
             const res = axios.post(GET_ALL_ROOMS)
             res.then(data => setRooms(data.data))
              
@@ -69,6 +66,9 @@ export default () => {
       };
 
       const proceedAndPay = async() => {
+
+       
+
         //save the data in db with INITIATED status
         const reqBody = {
             "roomSet":[...bookingDetails]
@@ -148,7 +148,7 @@ export default () => {
                             <td style={{width:"90px"}}> 
                         <button onClick={() => handleRemove(e, index)}>
                           <i className="bi bi-trash"></i>
-                        </button>
+                        </button>   
                       </td>
                         </tr>
                         </tbody>
@@ -156,7 +156,7 @@ export default () => {
             </div>
                     ))}
 
-            <button onClick={()=>proceedAndPay()}>Proceed to Pay</button>
+            <div className="payButton"><button className="btn btn-success " onClick={()=>proceedAndPay()} disabled={bookingDetails.length==0}>Proceed to Pay</button></div>
                 
         </div>
 

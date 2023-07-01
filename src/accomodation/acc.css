@@ -6,3 +6,9 @@
     margin: auto;
     margin-top: 20px;
 }
+
+.payButton{
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+}
