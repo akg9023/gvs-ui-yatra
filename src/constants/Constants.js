@@ -10,11 +10,12 @@ export const SAVE_MEM_LIST = BASE_URL+"/v1/memReg/saveInput"
 export const GET_ALL_ROOMS = BASE_URL+"/v1/accomodation/rooms/fetchAll"
 export const SAVE_ACCOMODATAION_DETAIL_WITHOUT_PAYMENT = BASE_URL+"/v1/room/bookings/reserveRoomAndProceedForPayment"
 export const SAVE_ACC_TXN = BASE_URL+"/v1/room/bookings/saveTxn"
+export const GET_ALL_BOOKING_DETAILS_BY_EMAIL = BASE_URL+"/v1/room/bookings/fetchAllBookingsByEmail"
 
 //manual  
 export const CALCULATE_MEM_REG_AMOUNT = BASE_URL+"/v1/manualPayment/memRegAmt"
 export const PAYMENT_UPI_ID = "7870823920@paytm"
-export const PAYMENT_MERCHANT_NAME = "HALDIA VOICE"
+export const PAYMENT_MERCHANT_NAME = "HALDIA_VOICE"
 export const SAVE_PAYMENT_REQUEST= BASE_URL+"/v1/manualPayment/saveInput"
 
 //manual Room booking Payment approval

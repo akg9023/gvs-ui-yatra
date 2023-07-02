@@ -56,7 +56,7 @@ export default () => {
                                     <div className="d-flex justify-content-between align-items-center">
                                         <div className="btn-group">
                                             <button onClick={()=>navigate("/accomodation")} type="button" className="btn btn-sm btn-outline-success">Book</button>
-                                            <button type="button" className="btn btn-sm btn-outline-success">Manage</button>
+                                            <button type="button" onClick={()=>navigate("/manageBookings")} className="btn btn-sm btn-outline-success">Manage</button>
                                         </div>  
 
                                     </div>

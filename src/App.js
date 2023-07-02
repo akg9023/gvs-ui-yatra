@@ -25,6 +25,7 @@ import PaymentForm from './manualPG/PaymentForm';
 import Accomodation from './accomodation/Accomodation';
 import ManualPaymentReview from './payment/ManualPaymentReview';
 import AccomodataionPaymentFrom from './manualPG/AccomodataionPaymentFrom';
+import ManageBookings from './accomodation/ManageBookings';
 
 function App() {
 
@@ -34,23 +35,23 @@ function App() {
   const [dbBookedMemIdList, setDbBookedMemIdList] = useState([])
 
 
-  useEffect( ()=>{
-   
-      setGWaitOn(true)
-      const res1 = axios.post(GET_LIMITED_USER_DETAIL)
-      res1.then(data => setDBUserData(data.data))
-      setGWaitOn(false)
+  useEffect(() => {
 
-      setGWaitOn(true)
-      const res2 = axios.post(GET_ALL_REG_MEM_ID)
-      res2.then(data => setDBRegMemIdList(data.data))
-      setGWaitOn(false)
+    setGWaitOn(true)
+    const res1 = axios.post(GET_LIMITED_USER_DETAIL)
+    res1.then(data => setDBUserData(data.data))
+    setGWaitOn(false)
+
+    setGWaitOn(true)
+    const res2 = axios.post(GET_ALL_REG_MEM_ID)
+    res2.then(data => setDBRegMemIdList(data.data))
+    setGWaitOn(false)
     //   setGWaitOn(true)
     //    const res = await axios.post(GET_ALL_REG_MEM_ID)
     //   setDbBookedMemIdList(res.data)
     //   setGWaitOn(false)
-    
-  },[])
+
+  }, [])
 
   const template = () => (
     <>
@@ -99,16 +100,23 @@ function App() {
               <Accomodation />
             }
           />
-           <Route
+          <Route
             path="/yAdmin"
             element={
-              <ManualPaymentReview  />
+              <ManualPaymentReview />
             }
           />
           <Route
             path="/payAcc"
             element={
               <AccomodataionPaymentFrom />
+            }
+          />
+
+          <Route
+            path="/manageBookings"
+            element={
+              <ManageBookings />
             }
           />
         </Routes>
