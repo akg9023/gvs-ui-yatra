@@ -15,7 +15,7 @@ import {
 } from "react-router-dom";
 import PleaseWait from './pleaseWait/PleaseWait';
 import { PleaseWaitContext } from './context/PleaseWaitContextProvider.js';
-import { GET_ALL_REG_MEM_ID, GET_LIMITED_USER_DETAIL } from './constants/apiConstant';
+import { GET_ALL_REG_MEM_ID, GET_LIMITED_USER_DETAIL } from './constants/Constants';
 import axios from 'axios';
 import Dashboard from './dashboard/Dashboard';
 import NavBar from './nav/NavBar';
@@ -100,7 +100,7 @@ function App() {
             }
           />
            <Route
-            path="/bookingPaymentApproval"
+            path="/yAdmin"
             element={
               <ManualPaymentReview  />
             }

@@ -1,6 +1,6 @@
 import axios from "axios"
 import { v4 as uuidv4 } from 'uuid';
-import { BACKEND_UPI_GATEWAY_CREATE_ORDER_URL } from "../constants/apiConstant";
+import { BACKEND_UPI_GATEWAY_CREATE_ORDER_URL } from "../constants/Constants";
 
 
 //ADDED PROXY IN PACKAGE.JSON

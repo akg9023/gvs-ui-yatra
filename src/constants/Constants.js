@@ -20,15 +20,18 @@ export const SAVE_PAYMENT_REQUEST= BASE_URL+"/v1/manualPayment/saveInput"
 //manual Room booking Payment approval
 
 export const FETCH_ALL_PENDING_BOOKING = BASE_URL + "/v1/room/bookings/fetchAllPendingBookings"
+export const FETCH_ALL_APPROVED_BOOKING = BASE_URL + "/v1/room/bookings/fetchAllApprovedBookings"
+export const FETCH_ALL_DECLINE_BOOKING = BASE_URL + "/v1/room/bookings/fetchAllDeclineBookings"
 
 //members room booking list
 export const FETCH_ALL_PENDING_MEMBERS = BASE_URL + "/v1/room/bookings/fetchAllPendingMembers"
 export const FETCH_ALL_APPROVED_MEMBERS = BASE_URL + "/v1/room/bookings/fetchAllApprovedMembers"
 
 //members list who has successfully registered for yatra
-
 export const YATRA_REGISTERED_MEMBERS = BASE_URL + "/v1/memReg/successMembers"
 
+//approval and decline
+export const APPROVE_BOOKING = BASE_URL + "/v1/room/bookings/approve/"
+export const DECLINE_BOOKING = BASE_URL + "/v1/room/bookings/decline/"
 
-
-
+export const ADMIN_EMAIL_LIST = ["saurav109677@gmail.com","gyan0prakash0@gmail.com","akg9023@gmail.com"]

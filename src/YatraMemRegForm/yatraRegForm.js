@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { upiGatewayPayment } from "../upipayment/UPIPayment";
 import { PleaseWaitContext } from "../context/PleaseWaitContextProvider.js";
 import axios from "axios";
-import { CALCULATE_MEM_REG_AMOUNT } from "../constants/apiConstant";
+import { CALCULATE_MEM_REG_AMOUNT } from "../constants/Constants";
 
 export default function MemRegForm({ dbUserData, dbRegMemIdList }) {
   const [memId, setMemId] = useState("");

@@ -3,7 +3,7 @@ import QRCode from "qrcode";
 import "./pg.css"
 import { useContext, useEffect, useState } from "react";
 import parse from 'html-react-parser';
-import { PAYMENT_MERCHANT_NAME, PAYMENT_UPI_ID, SAVE_ACC_TXN, SAVE_MEM_LIST, SAVE_PAYMENT_REQUEST } from "../constants/apiConstant";
+import { PAYMENT_MERCHANT_NAME, PAYMENT_UPI_ID, SAVE_ACC_TXN, SAVE_MEM_LIST, SAVE_PAYMENT_REQUEST } from "../constants/Constants";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { PleaseWaitContext } from "../context/PleaseWaitContextProvider.js";

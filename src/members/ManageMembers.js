@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useContext, useEffect, useState } from 'react';
 import { PleaseWaitContext } from '../context/PleaseWaitContextProvider.js';
 import axios from 'axios';
-import { GET_ALL_REG_MEM_DETAILS } from '../constants/apiConstant';
+import { GET_ALL_REG_MEM_DETAILS } from '../constants/Constants.js';
 import PleaseWait from "../pleaseWait/PleaseWait.js"
 import { useNavigate } from 'react-router-dom';
 

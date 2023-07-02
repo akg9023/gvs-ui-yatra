@@ -1,5 +1,5 @@
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { GET_FULL_REG_DETAILS_BY_TXN_ID } from "../constants/apiConstant";
+import { GET_FULL_REG_DETAILS_BY_TXN_ID } from "../constants/Constants";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { PleaseWaitContext } from "../context/PleaseWaitContextProvider.js";
