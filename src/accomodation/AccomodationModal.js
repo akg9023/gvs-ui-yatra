@@ -120,7 +120,7 @@ export default function AccomodationModal(props) {
         <DialogTitle bgcolor="blue" color="whitesmoke"> Add Booking Details</DialogTitle>
         <DialogContent>
 
-          <div className="card" style={{ "overflow": "scroll" }}>
+          <div>
 
             <h2 className="text-center mb-4">Add Members to the room</h2>
             <div><p><i>You cannot accomodate more than {oneRoom.memberCount} adults in this room.</i></p></div>
