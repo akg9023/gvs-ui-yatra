@@ -14,6 +14,7 @@ export default () => {
     const [bookingDetails, setBookingDetails] = useState([])
     const [roomType, setRoomType] = useState("")
     const [memCount, setMemCount] = useState()
+    const [minMemCount, setMinMemCount] = useState()
     const [oneRoom,setOneRoom] = useState({})
     const [regMemDetails, setRegMemDetails] = useState([])
     const [membersListForBooking, setMembersListForBooking] = useState([])
@@ -87,7 +88,7 @@ export default () => {
             navigate("/payAcc", { state: { bookingId: bookingId, amount: amount } })
         }
         catch (e) {
-            console.log(e);
+           // console.log(e);
         }
 
     }
@@ -98,10 +99,10 @@ export default () => {
             <h5>Please choose your accommodation</h5>
             <div className="row card-wrapper">
                 {rooms?.map((one, index) => {
-                    console.log(one)
+                   // console.log(one)
                     let avail = one.count > 0 ? true : false
                     return (
-                        <div className="col ">
+                        <div className="col " key={index}>
                             <div className="card" style={{ "width": "18rem", "padding": "0px" }}>
                                 <img className="card-img-top" src="https://th.bing.com/th/id/OIP.qLVYj_t-HU2Yyx3v_wFgLwHaE6?pid=ImgDet&rs=1" alt="Card image cap" />
                                 <div className="card-body">
@@ -117,13 +118,13 @@ export default () => {
                                 </div>
 
                                 <div className="card-body">
-                                    <button className="btn btn-warning" onClick={() => { setIsOpen(true); setRoomType(one?.roomId); setMemCount(one?.memberCount); setOneRoom(one) }}>Book Now</button>
+                                    <button className="btn btn-warning" onClick={() => { setIsOpen(true); setRoomType(one?.roomId); setMemCount(one?.memberCount); setOneRoom(one); setMinMemCount(one?.minMemberCount) }}>Book Now</button>
                                 </div>
                             </div>
                         </div>
                     )
                 })}
-                <AccomodationModal yatraRegisteredUsers={membersListForBooking} membersAccomoBooked={membersAccomoBooked} membersPendingApproval={membersPendingApproval} open={isOpen} oneRoom = {oneRoom} roomType={roomType} memCount={memCount} onClose={() => setIsOpen(false)} savedMembersForBooking={savedMembersForBooking} onSave={saveBookingData} />
+                <AccomodationModal yatraRegisteredUsers={membersListForBooking} membersAccomoBooked={membersAccomoBooked} membersPendingApproval={membersPendingApproval} open={isOpen} oneRoom = {oneRoom} roomType={roomType} minMemCount={minMemCount} memCount={memCount} onClose={() => setIsOpen(false)} savedMembersForBooking={savedMembersForBooking} onSave={saveBookingData} />
 
 
 

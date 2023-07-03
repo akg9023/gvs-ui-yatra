@@ -86,8 +86,12 @@ export default function AccomodationModal(props) {
 
   const saveBookingDetails = () => {
     //console.log(bookingDetails)
-    if (bookingDetails.member.length === 0) {
-      setArrDepError("Please Add Members before Saving");
+    const memAdultCount = mem.filter((mem) => mem.dbDevAge > 10)
+    if (bookingDetails.member.length < props.minMemCount) {
+      setArrDepError(`Please Add atleast ${props.minMemCount} Members before Saving`);
+    }
+    else if(memAdultCount.length===0){
+      setArrDepError("please select Atleast one Adult in the room");
     }
     else if (bookingDetails.memCheckInTime.length === 0) {
       setArrDepError("please select Arrival Date and Time");
