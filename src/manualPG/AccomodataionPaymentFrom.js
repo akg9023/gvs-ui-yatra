@@ -141,6 +141,8 @@ export default () => {
             "upiTxnId": formData.customerUTR,
             "customerVPA": formData.customerUPIApp,
             "customerEmail": sessionStorage.getItem("userEmail"),
+            "customerName": formData.customerName,
+            "customerPhoneNo": formData.customerPhoneNo
         }
 
         try {
