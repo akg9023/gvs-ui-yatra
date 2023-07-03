@@ -124,7 +124,7 @@ export default () => {
                         </div>
                     )
                 })}
-                <AccomodationModal yatraRegisteredUsers={membersListForBooking} membersAccomoBooked={membersAccomoBooked} membersPendingApproval={membersPendingApproval} open={isOpen} oneRoom = {oneRoom} roomType={roomType} minMemCount={minMemCount} memCount={memCount} onClose={() => setIsOpen(false)} savedMembersForBooking={savedMembersForBooking} onSave={saveBookingData} />
+             { isOpen ?  <AccomodationModal yatraRegisteredUsers={membersListForBooking} membersAccomoBooked={membersAccomoBooked} membersPendingApproval={membersPendingApproval} open={isOpen} oneRoom = {oneRoom} roomType={roomType} minMemCount={minMemCount} memCount={memCount} onClose={() => setIsOpen(false)} savedMembersForBooking={savedMembersForBooking} onSave={saveBookingData} />:""}
 
 
 
@@ -134,17 +134,18 @@ export default () => {
 
 
             {bookingDetails?.map((e, index) => (
-
-                <div className="table card">
-                    <div className="row"><th><td style={{ width: "100px" }}>Room Id</td>
-                        <td style={{ width: "290px" }}>Added Members</td>
-                        <td style={{ width: "190px" }}>Arrival Time</td>
-                        <td style={{ width: "190px" }}>Departure Time</td>
-                        <td style={{ width: "90px" }}>Action</td></th></div>
+                            <div className="row card-wrapper" key={index}>
+                <table className="table card" >
                     <tbody>
+                    <tr scope="row"><th scope="col"style={{ width: "100px" }}>Room Id</th>
+                        <th scope="col"style={{ width: "390px" }}>Added Members</th>
+                        <th scope="col"style={{ width: "190px" }}>Arrival Time</th>
+                        <th scope="col"style={{ width: "190px" }}>Depart Time</th>
+                        <th scope="col"style={{ width: "90px" }}>Action</th></tr>
+                    
                         <tr>
                             <td style={{ width: "100px" }}> {e.roomType?.roomId} </td>
-                            <td style={{ width: "290px" }}> {e.member?.map((e) => (e.dbDevName + " | "))} </td>
+                            <td style={{ width: "390px" }}> {e.member?.map((e) => (e.dbDevName + " | "))} </td>
                             <td style={{ width: "190px" }}>  {e?.memCheckInTime.replace("T", " ")} </td>
                             <td style={{ width: "190px" }}> {e?.memCheckOutTime.replace("T", " ")}  </td>
                             <td style={{ width: "90px" }}>
@@ -155,6 +156,7 @@ export default () => {
                         </tr>
                     </tbody>
 
+                </table>
                 </div>
             ))}
 
