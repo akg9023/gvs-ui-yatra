@@ -187,9 +187,6 @@ export default function AccomodationModal(props) {
                     <a>Depart: <input type="dateTime-local" id="depDate" min="2023-08-12T09:00" max="2023-08-16T20:00" style={{ height: "20px", fontSize: 2 }} onChange={(e) => { setDepDate(e.target.value); setArrDepError("") }}></input></a></div>
                 </div>
               </div>
-              {arrDepError ? <i style={{ width: "350px", color: "red", display: "block" }} >
-                {arrDepError}
-              </i> : <br />}
             </form>
           </div>
           <DialogContentText>
@@ -197,6 +194,8 @@ export default function AccomodationModal(props) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
+          <div>{arrDepError ? <i style={{ width: "350px", color: "red", display: "block" }} >
+                {arrDepError}</i>:""}</div>
           <Button onClick={saveBookingDetails}
             color="success" >
             Save
