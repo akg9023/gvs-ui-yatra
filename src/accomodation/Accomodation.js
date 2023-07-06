@@ -7,6 +7,7 @@ import { GET_ALL_ROOMS, YATRA_REGISTERED_MEMBERS, FETCH_ALL_APPROVED_MEMBERS, FE
 import { PleaseWaitContext } from "../context/PleaseWaitContextProvider.js"
 import AccomodationModal from "./AccomodationModal"
 import { useNavigate } from "react-router-dom"
+import LoadingSpinner from "../pleaseWait/loadingSpinner/LoadingSpinner";
 
 
 export default () => {
@@ -106,7 +107,7 @@ export default () => {
                             <div className="card" style={{ "width": "18rem", "padding": "0px" }}>
                                 <img className="card-img-top" src="https://th.bing.com/th/id/OIP.qLVYj_t-HU2Yyx3v_wFgLwHaE6?pid=ImgDet&rs=1" alt="Card image cap" />
                                 <div className="card-body">
-                                    <h4>{one.type+"("+one?.roomId+")"}</h4>
+                                    <h4>{one.type+" - "+one?.roomId+""}</h4>
                                     Description: <pre>{one.description}</pre>
                                     <p>CheckIn Time:{one.checkInTime}</p>
                                     <p>CheckOut Time: {one.checkOutTime}</p>
@@ -117,8 +118,8 @@ export default () => {
                                     </ul>
                                 </div>
 
-                                <div className="card-body">
-                                    <button className="btn btn-warning" onClick={() => { setIsOpen(true); setRoomType(one?.roomId); setMemCount(one?.memberCount); setOneRoom(one); setMinMemCount(one?.minMemberCount) }}>Book Now</button>
+                                <div className="card-body" >
+                                  {membersListForBooking.length===0?  <LoadingSpinner />:<button className="btn btn-warning" onClick={() => { setIsOpen(true); setRoomType(one?.roomId); setMemCount(one?.memberCount); setOneRoom(one); setMinMemCount(one?.minMemberCount) }}>Book Now</button>}
                                 </div>
                             </div>
                         </div>
