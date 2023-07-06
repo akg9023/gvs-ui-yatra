@@ -35,4 +35,4 @@ export const YATRA_REGISTERED_MEMBERS = BASE_URL + "/v1/memReg/successMembers"
 export const APPROVE_BOOKING = BASE_URL + "/v1/room/bookings/approve/"
 export const DECLINE_BOOKING = BASE_URL + "/v1/room/bookings/decline/"
 
-export const ADMIN_EMAIL_LIST = ["saurav109677@gmail.com","gyan0prakash0@gmail.com","akg9023@gmail.com"]
+export const ADMIN_EMAIL_LIST = ["saurav109677@gmail.com","gyan0prakash0@gmail.com","akg9023@gmail.com","ak7268901@gmail.com","gauravsingh181997@gmail.com"]
