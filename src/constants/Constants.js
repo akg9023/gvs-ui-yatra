@@ -30,7 +30,6 @@ export const FETCH_ALL_APPROVED_MEMBERS = BASE_URL + "/v1/room/bookings/fetchAll
 
 //members list who has successfully registered for yatra
 export const YATRA_REGISTERED_MEMBERS = BASE_URL + "/v1/memReg/successMembers"
-
 //approval and decline
 export const APPROVE_BOOKING = BASE_URL + "/v1/room/bookings/approve/"
 export const DECLINE_BOOKING = BASE_URL + "/v1/room/bookings/decline/"
