@@ -1,7 +1,7 @@
 import { Dialog, DialogTitle, DialogActions, DialogContent, Button, DialogContentText } from "@mui/material";
 import { useContext, useState, useEffect } from "react";
 import { BookingDetailContext } from "../context/BookingDetailContextProvider";
-
+import LoadingSpinner from "../pleaseWait/loadingSpinner/LoadingSpinner";
 
 export default function AccomodationModal(props) {
   const [mem, setMem] = useState([]);
@@ -138,14 +138,14 @@ export default function AccomodationModal(props) {
                     placeholder="Enter Registration ID"
                     onChange={(e) => { setMemId(e.target.value); setErrorMessage(""); setArrDepError("") }}
                   />
-                 </div> 
+                 </div> {props.yatraRegisteredUsers.length===0 ? <LoadingSpinner />:
                 <button
                   className="form-group col-sm-2 flex-column d-flex btn btn-success "
                   onClick={handleSearch}
                   style={{    "alignItems": "center"}}
                 >
                   Add
-                </button>
+                </button>}
                
                 <i style={{ width: "250px", color: "red", display: "block" }} >
                   {errorMessage}

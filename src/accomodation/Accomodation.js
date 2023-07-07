@@ -26,6 +26,8 @@ export default () => {
     const { gWaitOn, setGWaitOn } = useContext(PleaseWaitContext)
     const [savedMembersForBooking, setSavedMembersForBooking] = useState([])
     const navigate = useNavigate();
+    let membersList=[];
+    
 
     // const getMembers = (regMemDetails) => {
     //     let temp = []
@@ -38,14 +40,9 @@ export default () => {
     //     })
     //     setSuccessMem(temp)
     // }
-    const saveBookingData = (e) => {
-        // console.log(e);
-        setBookingDetails([...bookingDetails, e])
-        setSavedMembersForBooking([...savedMembersForBooking, ...e.member])
-        //  console.log(bookingDetails)
-    }
+ 
     useEffect(() => {
-        if (!sessionStorage.getItem("userEmail")) navigate("/");
+        // if (!sessionStorage.getItem("userEmail")) navigate("/");
         setGWaitOn(true)
         const res = axios.post(GET_ALL_ROOMS)
         res.then(data => setRooms(data.data))
@@ -60,6 +57,12 @@ export default () => {
 
 
     }, [])
+       const saveBookingData = (e) => {
+        // console.log(e);
+        setBookingDetails([...bookingDetails, e])
+        setSavedMembersForBooking([...savedMembersForBooking, ...e.member])
+        //  console.log(bookingDetails)
+    }
     const handleRemove = (e, i) => {
         const removeSavedMems = savedMembersForBooking.filter((element) => !e.member.includes(element))
         //  console.log("removed",removeSavedMems)
@@ -118,8 +121,8 @@ export default () => {
                                     </ul>
                                 </div>
 
-                                <div className="card-body" >
-                                  {membersListForBooking.length===0?  <LoadingSpinner />:<button className="btn btn-warning" onClick={() => { setIsOpen(true); setRoomType(one?.roomId); setMemCount(one?.memberCount); setOneRoom(one); setMinMemCount(one?.minMemberCount) }}>Book Now</button>}
+                                <div className="card-body"  >
+                                  {membersListForBooking.length===0?  <LoadingSpinner style={{position:"relative",textAlign:"left"}}/>:<button className="btn btn-warning" onClick={() => { setIsOpen(true); setRoomType(one?.roomId); setMemCount(one?.memberCount); setOneRoom(one); setMinMemCount(one?.minMemberCount) }}>Book Now</button>}
                                 </div>
                             </div>
                         </div>
