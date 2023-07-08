@@ -33,7 +33,7 @@ export default () => {
 
 
     useEffect(() => {
-        // if (!sessionStorage.getItem("userEmail")) navigate("/");
+         if (!sessionStorage.getItem("userEmail")) navigate("/");
         setGWaitOn(true)
         const res = axios.post(GET_ALL_ROOMS)
         res.then(data => setRooms(data.data))
@@ -52,6 +52,7 @@ export default () => {
         // console.log(e);
         setBookingDetails([...bookingDetails, e])
         setSavedMembersForBooking([...savedMembersForBooking, ...e.member])
+        manageRoomCount(e);
         //  console.log(bookingDetails)
     }
 
@@ -87,6 +88,13 @@ export default () => {
         }
 
     }
+    const manageRoomCount=(e)=>{
+        rooms.filter((l)=>e.roomType.roomId===l.roomId).map((l)=>l.count=l.count-1)
+          
+      
+      
+          
+      }
 
     const showRegMemModal = () => {
         <AccomodationModal />
