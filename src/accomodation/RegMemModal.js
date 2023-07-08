@@ -25,10 +25,9 @@ export default function RegMemModal(props) {
   return (
     <>
       <Dialog open={props.open} onClose={onClose} >
-        <DialogTitle bgcolor="blue" color="whitesmoke"> Add Booking Details</DialogTitle>
+        <DialogTitle bgcolor="blue" color="whitesmoke">Booking Details</DialogTitle>
         <DialogContent>
           <div>
-            {bookingDetails.length !== 0 ? <h4>Booking Details</h4> : ""}
             {bookingDetails?.map((e, index) => (
               <div className="row " key={index}>
                 <table className="table" >
