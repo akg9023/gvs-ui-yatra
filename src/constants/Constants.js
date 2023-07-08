@@ -14,7 +14,7 @@ export const GET_ALL_BOOKING_DETAILS_BY_EMAIL = BASE_URL+"/v1/room/bookings/fetc
 
 //manual  
 export const CALCULATE_MEM_REG_AMOUNT = BASE_URL+"/v1/manualPayment/memRegAmt"
-export const PAYMENT_UPI_ID = "7870823920@paytm"
+export const PAYMENT_UPI_ID = "yatra.vrindavan@barodampay"
 export const PAYMENT_MERCHANT_NAME = "HALDIA_VOICE"
 export const SAVE_PAYMENT_REQUEST= BASE_URL+"/v1/manualPayment/saveInput"
 

@@ -8,6 +8,7 @@ import { PleaseWaitContext } from "../context/PleaseWaitContextProvider.js"
 import AccomodationModal from "./AccomodationModal"
 import { useNavigate } from "react-router-dom"
 import LoadingSpinner from "../pleaseWait/loadingSpinner/LoadingSpinner";
+import Swal from "sweetalert2";
 
 
 export default () => {
@@ -28,18 +29,6 @@ export default () => {
     const navigate = useNavigate();
     let membersList=[];
     
-
-    // const getMembers = (regMemDetails) => {
-    //     let temp = []
-    //     regMemDetails.map((one) => {
-    //         if (one.paymentStatus == "success") {
-    //             let memList = one.memberIdList
-    //             temp = [...temp, ...memList]
-    //         }
-
-    //     })
-    //     setSuccessMem(temp)
-    // }
  
     useEffect(() => {
         // if (!sessionStorage.getItem("userEmail")) navigate("/");
@@ -73,8 +62,6 @@ export default () => {
 
     const proceedAndPay = async () => {
 
-
-
         //save the data in db with INITIATED status
         const reqBody = {
             "roomSet": [...bookingDetails]
@@ -88,6 +75,14 @@ export default () => {
             setGWaitOn(false)
             const bookingId = response.data.bookingId
             const amount = response.data.amount
+
+            if(bookingId==null){
+                const swalRes = await Swal.fire({
+                    icon: 'error',
+                    title: 'Failed',
+                    text: 'Something went wrong. ',
+                })
+            }
             //procced to payment page
             navigate("/payAcc", { state: { bookingId: bookingId, amount: amount } })
         }
@@ -122,7 +117,7 @@ export default () => {
                                 </div>
 
                                 <div className="card-body"  >
-                                  {membersListForBooking.length===0?  <LoadingSpinner style={{position:"relative",textAlign:"left"}}/>:<button className="btn btn-warning" onClick={() => { setIsOpen(true); setRoomType(one?.roomId); setMemCount(one?.memberCount); setOneRoom(one); setMinMemCount(one?.minMemberCount) }}>Book Now</button>}
+                                  {membersListForBooking.length===0?  <LoadingSpinner style={{position:"relative",textAlign:"left"}}/>:<button className="btn btn-warning" disabled={one.count<=0} onClick={() => { setIsOpen(true); setRoomType(one?.roomId); setMemCount(one?.memberCount); setOneRoom(one); setMinMemCount(one?.minMemberCount) }}>Book Now</button>}
                                 </div>
                             </div>
                         </div>

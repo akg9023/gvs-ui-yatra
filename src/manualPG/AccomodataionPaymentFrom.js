@@ -80,10 +80,10 @@ export default () => {
     }, [])
 
     setTimeout(() => {
-        setErrorMessage("")
         setToCopy(false)
         setToCopyAmount(false)
     }, 120000)
+
     const change = (e) => {
 
         let updatedForm = { ...formData, [e.target.id]: e.target.value.trim() }
@@ -126,11 +126,12 @@ export default () => {
             return;
         }
         
-        if(formData.customerUTR.length!=12){
-            setErrorMessage("Transaction Id should be of 12 digits. Please refer the sample below.")
+        if(formData.customerUTR.length!=12 ){
+            setErrorMessage("Transaction Id should be of 12 digits. Please refer the sample above.")
             return;
         }
 
+        
         if(formData.customerPhoneNo.length!=10){
             setErrorMessage("Phone number should be of 10 digits.")
             return;
@@ -181,18 +182,16 @@ export default () => {
                     <p className="lead">
                         <b className="timer">Time remaining: {minutes}:{remainingSeconds < 10 ? '0' : ''}{remainingSeconds}</b><br/>
                         <p className="display-6 inline">Amount: <b>{amount}</b></p><span onClick={copyAmount} className="material-symbols-outlined copy">content_copy</span>{toCopyAmount?<span className="highlight"><b>Copied!</b></span>:""}
+                        
                     </p>
+                    <h4 className="inline">{upiId} </h4><span onClick={copyUpiId} className="material-symbols-outlined copy">content_copy</span>{toCopy?<span className="highlight"><b>Copied!</b></span>:""}
                     <hr />
                     <h2>Scan and Pay</h2><br/>
                     <img src="https://tse3.mm.bing.net/th?id=OIP.CelPKhMjGBiNmRTLQCYpOgAAAA&pid=Api&P=0&h=180" width="230px" />
-                    {/* <h4 className="inline">{upiId} </h4><span onClick={copyUpiId} className="material-symbols-outlined copy">content_copy</span>{toCopy?<span className="highlight"><b>Copied!</b></span>:""} */}
+                    
                     
                     <div className="qrDiv" >
-                        <span id="qr-code">
-                            {parse(qr)} 
-                    
-                        </span>
-                        <button onClick={handleDownload} className="btn btn-warning ">Download QR</button>
+                            <img src="images\upi_abhishek_nwd.png" width="400px" />
                     </div>
 
                     <hr />
@@ -208,8 +207,8 @@ export default () => {
                     <br />
                     <div className="form-group">
                         <label for="exampleInputEmail1">Transaction ID/ UTR</label>
-                        <input type="text" className="form-control" id="customerUTR" aria-describedby="emailHelp" onChange={(e) => change(e)} required />
-                        <small id="emailHelp" className="form-text text-muted ">Please follow below guidelines to get transactionID</small>
+                        <input type="number" className="form-control" id="customerUTR" aria-describedby="emailHelp" onChange={(e) => change(e)} required />
+                        <small id="emailHelp" className="form-text text-muted "><b>Transaction ID should be of 12 digits.<br/> Please follow below guidelines.</b></small>
                     </div>
                     <small className="highlight">GooglePay: UPI transaction ID  </small><a target="_blank" href="https://drive.google.com/file/d/1elCNsKNKHw2EgYZ_VKaMsAjthyyO1qq-/view">Sample</a><br />
                     <small className="highlight">PhonePay: UTR </small><a target="_blank" href="https://drive.google.com/file/d/1gxpfkZb7SekVSyN4HQS28ATTnhQ1Iyna/view">Sample</a><br />
@@ -223,7 +222,7 @@ export default () => {
                     <br />
                     <div className="form-group">
                         <label for="exampleInputEmail1">Contact Number</label>
-                        <input type="text" className="form-control" id="customerPhoneNo" aria-describedby="emailHelp" onChange={(e) => change(e)} required />
+                        <input type="number" className="form-control" id="customerPhoneNo" aria-describedby="emailHelp" onChange={(e) => change(e)} required />
                     </div>
                     <br />
                     <hr />
