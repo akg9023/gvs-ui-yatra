@@ -37,6 +37,13 @@ export default () => {
         customerPhoneNo: ""
     }
     const [formData, setFormData] = useState(template);
+    useEffect(() => {
+        // Prompt confirmation when reload page is triggered
+        window.onbeforeunload = () => { return "" };
+            
+        // Unmount the window.onbeforeunload event
+        return () => { window.onbeforeunload = null };
+    }, []);
 
     useEffect(() => {
         window.addEventListener('resize', () => {
