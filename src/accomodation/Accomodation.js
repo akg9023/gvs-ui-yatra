@@ -9,15 +9,17 @@ import AccomodationModal from "./AccomodationModal"
 import { useNavigate } from "react-router-dom"
 import LoadingSpinner from "../pleaseWait/loadingSpinner/LoadingSpinner";
 import Swal from "sweetalert2";
+import RegMemModal from "./RegMemModal"
 
 
 export default () => {
     const [isOpen, setIsOpen] = useState(false)
+    const [isRegModalOpen, setIsRegModalOpen] = useState(false)
     const [bookingDetails, setBookingDetails] = useState([])
     const [roomType, setRoomType] = useState("")
     const [memCount, setMemCount] = useState()
     const [minMemCount, setMinMemCount] = useState()
-    const [oneRoom,setOneRoom] = useState({})
+    const [oneRoom, setOneRoom] = useState({})
     const [regMemDetails, setRegMemDetails] = useState([])
     const [membersListForBooking, setMembersListForBooking] = useState([])
     const [membersAccomoBooked, setMembersAccomoBooked] = useState([])
@@ -27,9 +29,9 @@ export default () => {
     const { gWaitOn, setGWaitOn } = useContext(PleaseWaitContext)
     const [savedMembersForBooking, setSavedMembersForBooking] = useState([])
     const navigate = useNavigate();
-    let membersList=[];
-    
- 
+    let membersList = [];
+
+
     useEffect(() => {
         // if (!sessionStorage.getItem("userEmail")) navigate("/");
         setGWaitOn(true)
@@ -46,19 +48,13 @@ export default () => {
 
 
     }, [])
-       const saveBookingData = (e) => {
+    const saveBookingData = (e) => {
         // console.log(e);
         setBookingDetails([...bookingDetails, e])
         setSavedMembersForBooking([...savedMembersForBooking, ...e.member])
         //  console.log(bookingDetails)
     }
-    const handleRemove = (e, i) => {
-        const removeSavedMems = savedMembersForBooking.filter((element) => !e.member.includes(element))
-        //  console.log("removed",removeSavedMems)
-        const removeBooking = bookingDetails?.filter((a, index) => index !== i);
-        setBookingDetails(removeBooking);
-        setSavedMembersForBooking(removeSavedMems);
-    };
+
 
     const proceedAndPay = async () => {
 
@@ -76,7 +72,7 @@ export default () => {
             const bookingId = response.data.bookingId
             const amount = response.data.amount
 
-            if(bookingId==null){
+            if (bookingId == null) {
                 const swalRes = await Swal.fire({
                     icon: 'error',
                     title: 'Failed',
@@ -87,25 +83,87 @@ export default () => {
             navigate("/payAcc", { state: { bookingId: bookingId, amount: amount } })
         }
         catch (e) {
-           // console.log(e);
+            // console.log(e);
         }
 
     }
 
-    const template =
+    const showRegMemModal = () => {
+        <AccomodationModal />
+    }
+
+    const template = <>
+
         <div className="container">
             <h1 className="display-4">Accommodation</h1><br /><br />
             <h5>Please choose your accommodation</h5>
+
+
             <div className="row card-wrapper">
-                {rooms?.map((one, index) => {
-                   // console.log(one)
+                {rooms && rooms?.map((one, index) => {
                     let avail = one.count > 0 ? true : false
                     return (
-                        <div className="col " key={index}>
-                            <div className="card" style={{ "width": "18rem", "padding": "0px" }}>
+                        <div className="col cardColumn" key={index}>
+
+                            <div class="card " style={{ "width": "18rem", "padding": "0px" }}>
+                                <img class="card-img-top" style={{ "height": "100px" }} src="https://th.bing.com/th/id/OIP.qLVYj_t-HU2Yyx3v_wFgLwHaE6?pid=ImgDet&rs=1" alt="Card image cap" />
+                                <div class="card-body">
+                                    <h5 class="card-title">{one.type + " - " + one?.roomId + ""}</h5>
+                                    <p class="card-text">
+                                        <small>Description:</small> <div class="desc">{one.description}</div>
+                                        <hr />
+                                        <small>CheckIn Time:{one.checkInTime}</small><br />
+                                        <small>CheckOut Time: {one.checkOutTime}</small><br />
+                                        <span><b>Price: <span class="price">{one.price}</span></b></span><br />
+                                        {avail ? <li className="list-group-item" style={{ "color": "green" }}><b>AVAILABLE: </b><h5 style={{ "display": "inline-block" }}>{one.count}</h5></li>
+                                            : <li className="list-group-item" style={{ "color": "red" }}><b>AVAILABLE: </b><h5 style={{ "display": "inline-block" }}>{one.count}</h5></li>}
+                                    </p>
+
+                                </div>
+                                <div className="card-body"  >
+                                    {membersListForBooking.length === 0 ? <LoadingSpinner style={{ position: "relative", textAlign: "left" }} /> : <button className="btn btn-warning" disabled={one.count <= 0} onClick={() => { setIsOpen(true); setRoomType(one?.roomId); setMemCount(one?.memberCount); setOneRoom(one); setMinMemCount(one?.minMemberCount) }}>Book Now</button>}
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    )
+                })}
+                {isOpen ? <AccomodationModal yatraRegisteredUsers={membersListForBooking} membersAccomoBooked={membersAccomoBooked} membersPendingApproval={membersPendingApproval} open={isOpen} oneRoom={oneRoom} roomType={roomType} minMemCount={minMemCount} memCount={memCount} onClose={() => setIsOpen(false)} savedMembersForBooking={savedMembersForBooking} onSave={saveBookingData} /> : ""}
+
+
+                {isRegModalOpen ? <RegMemModal open={isRegModalOpen} 
+                        bookingDetails={bookingDetails} 
+                        savedMembersForBooking={savedMembersForBooking}
+                        setBookingDetails= {setBookingDetails}
+                        setSavedMembersForBooking={setSavedMembersForBooking}
+                        onClose={() => setIsRegModalOpen(false)} /> : ""}
+
+
+
+
+
+
+            </div>
+
+
+            <div className="payButton">
+                <button className="btn btn-secondary " disabled={bookingDetails.length==0} onClick={() => { setIsRegModalOpen(true); }} >Review</button>
+                <button className="btn btn-success " style={{ "margin-left": "40px" }} onClick={() => proceedAndPay()} disabled={bookingDetails.length == 0}>Proceed to Pay</button>
+
+            </div>
+
+        </div>
+    </>
+
+    return <>{gWaitOn ? <PleaseWait /> : template}</>
+}
+
+{/* <div className="card" style={{ "width": "18rem", "padding": "0px" }}>
                                 <img className="card-img-top" src="https://th.bing.com/th/id/OIP.qLVYj_t-HU2Yyx3v_wFgLwHaE6?pid=ImgDet&rs=1" alt="Card image cap" />
                                 <div className="card-body">
-                                    <h4>{one.type+" - "+one?.roomId+""}</h4>
+                                    <h4>{one.type + " - " + one?.roomId + ""}</h4>
                                     Description: <pre>{one.description}</pre>
                                     <p>CheckIn Time:{one.checkInTime}</p>
                                     <p>CheckOut Time: {one.checkOutTime}</p>
@@ -117,51 +175,6 @@ export default () => {
                                 </div>
 
                                 <div className="card-body"  >
-                                  {membersListForBooking.length===0?  <LoadingSpinner style={{position:"relative",textAlign:"left"}}/>:<button className="btn btn-warning" disabled={one.count<=0} onClick={() => { setIsOpen(true); setRoomType(one?.roomId); setMemCount(one?.memberCount); setOneRoom(one); setMinMemCount(one?.minMemberCount) }}>Book Now</button>}
+                                    {membersListForBooking.length === 0 ? <LoadingSpinner style={{ position: "relative", textAlign: "left" }} /> : <button className="btn btn-warning" disabled={one.count <= 0} onClick={() => { setIsOpen(true); setRoomType(one?.roomId); setMemCount(one?.memberCount); setOneRoom(one); setMinMemCount(one?.minMemberCount) }}>Book Now</button>}
                                 </div>
-                            </div>
-                        </div>
-                    )
-                })}
-             { isOpen ?  <AccomodationModal yatraRegisteredUsers={membersListForBooking} membersAccomoBooked={membersAccomoBooked} membersPendingApproval={membersPendingApproval} open={isOpen} oneRoom = {oneRoom} roomType={roomType} minMemCount={minMemCount} memCount={memCount} onClose={() => setIsOpen(false)} savedMembersForBooking={savedMembersForBooking} onSave={saveBookingData} />:""}
-
-
-
-            </div>
-            {bookingDetails.length !== 0 ? <h4>Booking Details</h4> : ""}
-
-
-
-            {bookingDetails?.map((e, index) => (
-                            <div className="row card-wrapper" key={index}>
-                <table className="table card" >
-                    <tbody>
-                    <tr scope="row"><th scope="col"style={{ width: "100px" }}>Room Id</th>
-                        <th scope="col"style={{ width: "390px" }}>Added Members</th>
-                        <th scope="col"style={{ width: "190px" }}>Arrival Time</th>
-                        <th scope="col"style={{ width: "190px" }}>Depart Time</th>
-                        <th scope="col"style={{ width: "90px" }}>Action</th></tr>
-                    
-                        <tr>
-                            <td style={{ width: "100px" }}> {e.roomType?.roomId} </td>
-                            <td style={{ width: "390px" }}> {e.member?.map((e) => (e.dbDevName + " | "))} </td>
-                            <td style={{ width: "190px" }}>  {e?.memCheckInTime.replace("T", " ")} </td>
-                            <td style={{ width: "190px" }}> {e?.memCheckOutTime.replace("T", " ")}  </td>
-                            <td style={{ width: "90px" }}>
-                                <button onClick={() => handleRemove(e, index)}>
-                                    <i className="bi bi-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-
-                </table>
-                </div>
-            ))}
-
-            <div className="payButton"><button className="btn btn-success " onClick={() => proceedAndPay()} disabled={bookingDetails.length == 0}>Proceed to Pay</button></div>
-
-        </div>
-
-    return <>{gWaitOn ? <PleaseWait /> : template}</>
-}
+                            </div> */}

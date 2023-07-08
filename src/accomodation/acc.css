@@ -5,10 +5,42 @@
     flex-direction: row;
     margin: auto;
     margin-top: 20px;
+    height: 40em;
+    overflow: scroll;
+   
 }
 
 .payButton{
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: row;
     justify-content: center;
+    position: sticky;
+    bottom: 0;
+    background: white;
+}
+
+.price{
+    font-style: italic;
+    font-size: large;
+}
+
+.avail{
+    font-style: bold;
+    font-size: large;
+}
+
+.desc{
+    width: 100%;
+    /* border: 1px solid black; */
+    height: 70px;
+}
+
+
+.cardColumn{
+    display: flex;
+    justify-content: center;
+}
+
+.desc-pre{
+    font-family: cursive;
 }
