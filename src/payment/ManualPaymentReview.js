@@ -226,7 +226,7 @@ export default () => {
 
   return (
     <>
-      {spinner ? <LoadingSpinner /> : ""}
+      {spinner ? <LoadingSpinner style={{ position: "relative", textAlign: "left" }}/> : ""}
 
       {!isAdmin?<h3>Not Authorized</h3>:template}
 
