@@ -181,7 +181,9 @@ export default function AccomodationModal(props) {
                 <hr />
                 <div class="container">{arrDepError ? <p style={{  color: "red" }} >
                 {arrDepError}</p>:""}</div> 
-                <div className="container"><p><b style={{ color: "maroon" }}>Note: You have to make your own arrangements, if you are arriving before {oneRoom.checkInTime} or leaving after {oneRoom.checkOutTime}.</b>
+                <div className="container"><p><b style={{ color: "maroon" }}>
+                Note: Accommodation is available only from {oneRoom.checkInTime} to {oneRoom.checkOutTime}. Apart from that duration (if any), devotees can make their own arrangements
+                  </b>
 
                 </p></div>
                 <div>
