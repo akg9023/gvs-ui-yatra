@@ -52,7 +52,7 @@ export default () => {
         // console.log(e);
         setBookingDetails([...bookingDetails, e])
         setSavedMembersForBooking([...savedMembersForBooking, ...e.member])
-        manageRoomCount(e);
+        manageRoomCount(e,"1");
         //  console.log(bookingDetails)
     }
 
@@ -88,8 +88,12 @@ export default () => {
         }
 
     }
-    const manageRoomCount=(e)=>{
+    const manageRoomCount=(e,i)=>{
+        if(i==="1")
         rooms.filter((l)=>e.roomType.roomId===l.roomId).map((l)=>l.count=l.count-1)
+        else if(i==="2")
+        rooms.filter((l)=>e.roomType.roomId===l.roomId).map((l)=>l.count=l.count+1)
+
           
       
       
@@ -145,6 +149,7 @@ export default () => {
                         bookingDetails={bookingDetails} 
                         savedMembersForBooking={savedMembersForBooking}
                         setBookingDetails= {setBookingDetails}
+                        onRemoveIncreaseRoomCount={(e)=>manageRoomCount(e,"2")}
                         setSavedMembersForBooking={setSavedMembersForBooking}
                         onClose={() => setIsRegModalOpen(false)} /> : ""}
 

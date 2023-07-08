@@ -18,8 +18,12 @@ export default function RegMemModal(props) {
     const removeSavedMems = savedMembersForBooking.filter((element) => !e.member.includes(element))
     //  console.log("removed",removeSavedMems)
     const removeBooking = bookingDetails?.filter((a, index) => index !== i);
+    props.onRemoveIncreaseRoomCount(e);
     setBookingDetails(removeBooking);
     setSavedMembersForBooking(removeSavedMems);
+    if(removeBooking.length===0)
+    props.onClose();
+    
 };
 
   return (
