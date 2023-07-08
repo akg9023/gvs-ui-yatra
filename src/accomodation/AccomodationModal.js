@@ -179,6 +179,8 @@ export default function AccomodationModal(props) {
                     </div>
                   ))}
                 <hr />
+                <div class="container">{arrDepError ? <p style={{  color: "red" }} >
+                {arrDepError}</p>:""}</div> 
                 <div className="container"><p><b style={{ color: "maroon" }}>Note: You have to make your own arrangements, if you are arriving before {oneRoom.checkInTime} or leaving after {oneRoom.checkOutTime}.</b>
 
                 </p></div>
@@ -191,11 +193,11 @@ export default function AccomodationModal(props) {
           </div>
           <DialogContentText>
             {props.message}
+            
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <div>{arrDepError ? <i style={{ width: "350px", color: "red", display: "block" }} >
-                {arrDepError}</i>:""}</div>
+        
           <Button onClick={saveBookingDetails}
             color="success" >
             Save
