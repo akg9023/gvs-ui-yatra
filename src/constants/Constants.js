@@ -1,4 +1,4 @@
- const BASE_URL = "https://copyhlzglobalregistration-production.up.railway.app/"
+ const BASE_URL = "https://copyhlzglobalregistration-production.up.railway.app"
 //  const BASE_URL = "http://localhost:8080"
 export const GET_USER_DETAIL = BASE_URL+"/v1/hlzGlobalReg/fetchSpecefic"
 export const GET_LIMITED_USER_DETAIL = BASE_URL+"/v1/hlzGlobalReg/fetchAllDevWithLimitedData"
