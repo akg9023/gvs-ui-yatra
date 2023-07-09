@@ -51,8 +51,8 @@ export default () => {
                                 <div className="card-body">
                                     <h4>Step 2: Accommodation</h4>
                                     <p className="card-text">Choose your accommodation for yatra. Feel comfortable!</p><br />
-                                    <small>Registration Starts: <span style={{ color: "green" }}>/</span></small><br />
-                                    <small>Last Date of Registration: <span style={{ color: "green" }}>/</span></small><br /><br />
+                                    <small>Registration Starts: <span style={{ color: "green" }}>09-July-2023</span></small><br />
+                                    <small>Last Date of Registration: <span style={{ color: "green" }}>16-July-2023</span></small><br /><br />
                                     <div className="d-flex justify-content-between align-items-center">
                                         <div className="btn-group">
                                             <button onClick={()=>navigate("/accomodation")} type="button" className="btn btn-sm btn-outline-success">Book</button>

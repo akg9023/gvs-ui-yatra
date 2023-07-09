@@ -107,10 +107,9 @@ export default () => {
     const template = <>
 
         <div className="container">
-            <h1 className="display-4">Accommodation</h1><br /><br />
+            <h1 className="display-4">Accommodation</h1>
+            <a href="https://drive.google.com/file/d/1Qqhd8anYtvmh68FgZB288KyfR57EWh03/view?usp=sharing" target="_blank"><button className="btn btn-primary ">Guidelines</button></a><br/><br/>
             <h5>Please choose your accommodation</h5>
-
-
             <div className="row card-wrapper">
                 {rooms && rooms?.map((one, index) => {
                     let avail = one.count > 0 ? true : false
@@ -126,7 +125,7 @@ export default () => {
                                         <hr />
                                         <small>CheckIn Time:{one.checkInTime}</small><br />
                                         <small>CheckOut Time: {one.checkOutTime}</small><br />
-                                        <span><b>Price: <span class="price">{one.price}</span></b></span><br />
+                                        <span><b>Price: <span class="price">{one.price}</span></b><i> (full yatra)</i></span><br />
                                         {avail ? <li className="list-group-item" style={{ "color": "green" }}><b>AVAILABLE: </b><h5 style={{ "display": "inline-block" }}>{one.count}</h5></li>
                                             : <li className="list-group-item" style={{ "color": "red" }}><b>AVAILABLE: </b><h5 style={{ "display": "inline-block" }}>{one.count}</h5></li>}
                                     </p>
@@ -162,8 +161,8 @@ export default () => {
 
 
             <div className="payButton">
-                <button className="btn btn-secondary " disabled={bookingDetails.length==0} onClick={() => { setIsRegModalOpen(true); }} >Review</button>
-                <button className="btn btn-success " style={{ "margin-left": "40px" }} onClick={() => proceedAndPay()} disabled={bookingDetails.length == 0}>Proceed to Pay</button>
+                <button className="btn btn-dark " disabled={bookingDetails.length==0} onClick={() => { setIsRegModalOpen(true); }} >Review</button>
+                <button className="btn btn-success " style={{ marginLeft: "40px" }} onClick={() => proceedAndPay()} disabled={bookingDetails.length == 0}>Proceed to Pay</button>
 
             </div>
 
@@ -173,21 +172,3 @@ export default () => {
     return <>{gWaitOn ? <PleaseWait /> : template}</>
 }
 
-{/* <div className="card" style={{ "width": "18rem", "padding": "0px" }}>
-                                <img className="card-img-top" src="https://th.bing.com/th/id/OIP.qLVYj_t-HU2Yyx3v_wFgLwHaE6?pid=ImgDet&rs=1" alt="Card image cap" />
-                                <div className="card-body">
-                                    <h4>{one.type + " - " + one?.roomId + ""}</h4>
-                                    Description: <pre>{one.description}</pre>
-                                    <p>CheckIn Time:{one.checkInTime}</p>
-                                    <p>CheckOut Time: {one.checkOutTime}</p>
-                                    <ul className="list-group list-group-flush">
-                                        <li className="list-group-item"><b>Price: </b><h4 style={{ "display": "inline-block" }}>{one.price}</h4></li>
-                                        {avail ? <li className="list-group-item" style={{ "color": "green" }}><b>AVAILABLE: </b><h5 style={{ "display": "inline-block" }}>{one.count}</h5></li>
-                                            : <li className="list-group-item" style={{ "color": "red" }}><b>AVAILABLE: </b><h5 style={{ "display": "inline-block" }}>{one.count}</h5></li>}
-                                    </ul>
-                                </div>
-
-                                <div className="card-body"  >
-                                    {membersListForBooking.length === 0 ? <LoadingSpinner style={{ position: "relative", textAlign: "left" }} /> : <button className="btn btn-warning" disabled={one.count <= 0} onClick={() => { setIsOpen(true); setRoomType(one?.roomId); setMemCount(one?.memberCount); setOneRoom(one); setMinMemCount(one?.minMemberCount) }}>Book Now</button>}
-                                </div>
-                            </div> */}
