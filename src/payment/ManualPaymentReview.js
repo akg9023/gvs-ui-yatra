@@ -148,7 +148,7 @@ export default () => {
                 <th scope="row">{index + 1}</th>
                 <td>{obj.id}</td>
                 <td>{obj.customerVPA}</td>
-                <td>{obj.txnDate}</td>
+                <td>{obj.createdDateTime}</td>
                 <td>{obj.amount}</td>
                 <td>{obj.upiTxnId}</td>
                 <td><button class="btn btn-warning" onClick={() => approveHandler(obj.id)}>Approve</button></td>
@@ -181,7 +181,7 @@ export default () => {
                 <th scope="row">{index + 1}</th>
                 <td>{obj.id}</td>
                 <td>{obj.customerVPA}</td>
-                <td>{obj.txnDate}</td>
+                <td>{obj.createdDateTime}</td>
                 <td>{obj.amount}</td>
                 <td>{obj.upiTxnId}</td>
 
@@ -213,7 +213,7 @@ export default () => {
                 <th scope="row">{index + 1}</th>
                 <td>{obj.id}</td>
                 <td>{obj.customerVPA}</td>
-                <td>{obj.txnDate}</td>
+                <td>{obj.createdDateTime}</td>
                 <td>{obj.amount}</td>
                 <td>{obj.upiTxnId}</td>
 
