@@ -200,7 +200,7 @@ export default function MemRegForm({ dbUserData, dbRegMemIdList }) {
 
   return (
     <>
-      {closedTemplate}
+      {template}
     </>
   );
 }

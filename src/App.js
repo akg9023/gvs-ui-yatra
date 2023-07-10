@@ -26,6 +26,7 @@ import Accomodation from './accomodation/Accomodation';
 import ManualPaymentReview from './payment/ManualPaymentReview';
 import AccomodataionPaymentFrom from './manualPG/AccomodataionPaymentFrom';
 import ManageBookings from './accomodation/ManageBookings';
+import Timesup from './timesup/Timesup';
 
 function App() {
 
@@ -65,9 +66,15 @@ function App() {
             }
           />
           <Route
-            path="/yatraMemReg"
+            path="/ySpy"
             element={
               <MemRegForm dbUserData={dbUserData} dbRegMemIdList={dbRegMemIdList} />
+            }
+          />
+          <Route
+            path="/yatraMemReg"
+            element={
+              <Timesup/>
             }
           />
           <Route
