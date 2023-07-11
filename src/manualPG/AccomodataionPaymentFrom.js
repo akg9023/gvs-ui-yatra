@@ -198,7 +198,7 @@ export default () => {
                     
                     
                     <div className="qrDiv" >
-                            <img src="images\upi_abhishek_nwd.png" width="400px" />
+                            <img src="images\upi_abhishek_new.png" width="400px" />
                     </div>
 
                     <hr />
