@@ -104,6 +104,8 @@ export default () => {
         <AccomodationModal />
     }
 
+
+
     const template = <>
 
         <div className="container">
@@ -169,6 +171,8 @@ export default () => {
         </div>
     </>
 
-    return <>{gWaitOn ? <PleaseWait /> : template}</>
+    const timeIsOver=<>Sorry! Booking window is now closed!!!</>
+
+    return <>{gWaitOn ? <PleaseWait /> : timeIsOver}</>
 }
 
