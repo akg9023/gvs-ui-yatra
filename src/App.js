@@ -104,6 +104,18 @@ function App() {
           <Route
             path="/accomodation"
             element={
+              <Timesup />
+            }
+          />
+          <Route
+            path="/accomodation"
+            element={
+              <Timesup />
+            }
+          />
+           <Route
+            path="/ySpyAcc"
+            element={
               <Accomodation />
             }
           />

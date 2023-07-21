@@ -173,6 +173,6 @@ export default () => {
 
     const timeIsOver=<>Sorry! Booking window is now closed!!!</>
 
-    return <>{gWaitOn ? <PleaseWait /> : timeIsOver}</>
+    return <>{gWaitOn ? <PleaseWait /> : template}</>
 }
 
