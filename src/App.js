@@ -102,12 +102,7 @@ function App() {
               <PaymentForm />
             }
           />
-          <Route
-            path="/accomodation"
-            element={
-              <Timesup />
-            }
-          />
+      
           <Route
             path="/accomodation"
             element={
