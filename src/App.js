@@ -74,7 +74,8 @@ function App() {
           <Route
             path="/yatraMemReg"
             element={
-              <Timesup/>
+              // <Timesup/>
+               <MemRegForm dbUserData={dbUserData} dbRegMemIdList={dbRegMemIdList} />
             }
           />
           <Route
@@ -110,7 +111,8 @@ function App() {
           <Route
             path="/accomodation"
             element={
-              <Timesup />
+              // <Timesup />
+              <Accomodation/>
             }
           />
            <Route
