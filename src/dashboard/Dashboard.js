@@ -8,7 +8,7 @@ export default () => {
 
     useEffect(() =>{
         if(!sessionStorage.getItem("userEmail"))
-           navigate("/")
+           navigate("/login")
    }, []);
 
     const navigateToMemForm = () => {

@@ -60,6 +60,7 @@ function App() {
         <NavBar />
         <Routes>
           <Route
+          path="/login"
             index
             element={
               <Home />
