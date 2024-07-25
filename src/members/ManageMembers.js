@@ -20,7 +20,7 @@ export default () => {
     useEffect(() => {
         const fun = async () => {
             // setGWaitOn(true)
-            const res = await axios.post(GET_ALL_REG_MEM_DETAILS, { email: userEmail })
+            const res = await axios.get(GET_ALL_REG_MEM_DETAILS,{withCredentials:true})
             setRegMemDetails(res.data)
             // setGWaitOn(false)
         }

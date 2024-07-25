@@ -39,12 +39,12 @@ function App() {
   useEffect(() => {
 
     setGWaitOn(true)
-    const res1 = axios.post(GET_LIMITED_USER_DETAIL)
+    const res1 = axios.get(GET_LIMITED_USER_DETAIL,{withCredentials:true})
     res1.then(data => setDBUserData(data.data))
     setGWaitOn(false)
 
     setGWaitOn(true)
-    const res2 = axios.post(GET_ALL_REG_MEM_ID)
+    const res2 = axios.get(GET_ALL_REG_MEM_ID,{withCredentials:true})
     res2.then(data => setDBRegMemIdList(data.data))
     setGWaitOn(false)
     //   setGWaitOn(true)

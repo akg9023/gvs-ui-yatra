@@ -75,7 +75,7 @@ export default function MemRegForm({ dbUserData, dbRegMemIdList }) {
         devoteeList: mem
       }
       setGWaitOn(true)
-      const res = await axios.post(CALCULATE_MEM_REG_AMOUNT, req)
+      const res = await axios.post(CALCULATE_MEM_REG_AMOUNT,req,{withCredentials:true})
       setGWaitOn(false)
 
       //transforming data as per memReg

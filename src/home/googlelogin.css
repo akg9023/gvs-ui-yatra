@@ -9,3 +9,26 @@
     margin-top: 7rem;
     width: 225px;
 }
+
+.google-login-button {
+    background-color: #0000FF; /* Green background */
+    border: none; /* Remove border */
+    color: white; /* White text */
+    padding: 12px 20px; /* Padding */
+    text-align: center; /* Center text */
+    text-decoration: none; /* Remove underline */
+    display: inline-block; /* Display as inline-block */
+    font-size: 16px; /* Font size */
+    margin: 4px 2px; /* Margin */
+    cursor: pointer; /* Pointer cursor */
+    border-radius: 4px; /* Rounded corners */
+    transition: background-color 0.3s; /* Smooth transition on hover */
+  }
+  
+  .google-login-button:hover {
+    background-color: #45a049; /* Darker green on hover */
+  }
+  
+  .icon {
+    margin-right: 8px; /* Space between icon and text */
+  }

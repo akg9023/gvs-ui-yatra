@@ -1,6 +1,11 @@
  // const BASE_URL = "https://copyhlzglobalregistration-production.up.railway.app"
 //  const BASE_URL = "http://localhost:8080"
- const BASE_URL = "https://hlz-backend-e3b4688a7551.herokuapp.com/"
+//const BASE_URL = "https://localhost:8443"
+const BASE_URL = "https://api.gaurangavedic.org.in:8443"
+ //const BASE_URL = "https://hlz-backend-e3b4688a7551.herokuapp.com/"
+ export const PARENT_DOMAIN = "gaurangavedic.org.in";
+
+ export const CHECK_AUTHENTICATION_URL = BASE_URL+"/auth";
 export const GET_USER_DETAIL = BASE_URL+"/v1/hlzGlobalReg/fetchSpecefic"
 export const GET_LIMITED_USER_DETAIL = BASE_URL+"/v1/hlzGlobalReg/fetchAllDevWithLimitedData"
 export const GET_FULL_REG_DETAILS_BY_TXN_ID = BASE_URL+"/v1/memReg/fetchByClientTxnId"
@@ -12,6 +17,8 @@ export const GET_ALL_ROOMS = BASE_URL+"/v1/accomodation/rooms/fetchAll"
 export const SAVE_ACCOMODATAION_DETAIL_WITHOUT_PAYMENT = BASE_URL+"/v1/room/bookings/reserveRoomAndProceedForPayment"
 export const SAVE_ACC_TXN = BASE_URL+"/v1/room/bookings/saveTxn"
 export const GET_ALL_BOOKING_DETAILS_BY_EMAIL = BASE_URL+"/v1/room/bookings/fetchAllBookingsByEmail"
+export const LOGIN_URL = BASE_URL +"/oauth2/authorization/google";
+
 
 //manual  
 export const CALCULATE_MEM_REG_AMOUNT = BASE_URL+"/v1/manualPayment/memRegAmt"
