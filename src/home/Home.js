@@ -1,14 +1,14 @@
 import './googlelogin.css';
 import { useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
-import axiosGetAllUserDetail from "../axios/axiosGetLimitedUserDetail";
 import { PleaseWaitContext } from "../context/PleaseWaitContextProvider.js";
 import { LOGIN_URL,CHECK_AUTHENTICATION_URL,PARENT_DOMAIN } from '../constants/Constants';
 import Cookies from 'js-cookie';
+import LoadingSpinner from '../pleaseWait/loadingSpinner/LoadingSpinner';
 
 export default function Home(props) {
 
-    const { gWaitOn, setGWaitOn } = useContext(PleaseWaitContext)
+    const [ gWaitOn, setGWaitOn ] = useState(false);
     const [errMsg, setErrMsg] = useState("")
     const navigate = useNavigate();
 
@@ -17,6 +17,7 @@ export default function Home(props) {
     }, 4000)
 
     const handleClick = () => {
+        setGWaitOn(true);
         Cookies.set("loginButton", "yatra", {
           expires: 1,
           domain: PARENT_DOMAIN,
@@ -29,20 +30,21 @@ export default function Home(props) {
         const response = await fetch(CHECK_AUTHENTICATION_URL,{
           method: 'GET',
           credentials: 'include',
-        }).catch((e)=>{setErrMsg("An Error Occured")});
+        }).catch((e)=>{setErrMsg("please sign In...");setGWaitOn(false)});
         
         const userData= await response.json();
         console.log("Auth response to json data ",userData);
 
-        let { userEmail,roles } = userData;   
-        sessionStorage.setItem("userEmail", userEmail);
+        let { userEmail,roles,userName } = userData;   
+        sessionStorage.setItem("userEmail", userEmail)
+        sessionStorage.setItem("userName", userName);
         setGWaitOn(false)
         navigate("/dashboard")
         
     }
 
     useEffect(() =>{
-         fetchData().catch((e)=>console.log("you are not loggedIn"));
+         fetchData().catch((e)=>{console.log("you are not loggedIn")});
     }, []);
 
     return (
@@ -54,7 +56,7 @@ export default function Home(props) {
                         <div className="card-body login-card-body">
                             <h3>Welcome</h3>
                             <p className="mt-4">Login to your Account!!</p>
-                            <button className="google-login-button" type='button' text='Login' onClick={handleClick}><a style={{color:"white"}}href={LOGIN_URL}>Login with Google</a></button>
+                           {gWaitOn? <LoadingSpinner style={{ position: "relative", textAlign: "left" }}/>:<button className="google-login-button" type='button' text='Login' onClick={()=>{handleClick();setGWaitOn(true)}}><a style={{color:"white"}}href={LOGIN_URL}>Login with Google</a></button>}
                         </div>
                     </div>
                 </div>

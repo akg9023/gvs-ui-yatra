@@ -38,15 +38,16 @@ function App() {
 
   useEffect(() => {
 
-    setGWaitOn(true)
-    const res1 = axios.get(GET_LIMITED_USER_DETAIL,{withCredentials:true})
-    res1.then(data => setDBUserData(data.data))
-    setGWaitOn(false)
+    //search function is being used Now
+    // setGWaitOn(true)
+    // const res1 = axios.get(GET_LIMITED_USER_DETAIL,{withCredentials:true})
+    // res1.then(data => setDBUserData(data.data))
+    // setGWaitOn(false);
 
-    setGWaitOn(true)
-    const res2 = axios.get(GET_ALL_REG_MEM_ID,{withCredentials:true})
-    res2.then(data => setDBRegMemIdList(data.data))
-    setGWaitOn(false)
+    // setGWaitOn(true);
+    // const res2 = axios.get(GET_ALL_REG_MEM_ID,{withCredentials:true})
+    // res2.then(data => setDBRegMemIdList(data.data))
+    // setGWaitOn(false);
     //   setGWaitOn(true)
     //    const res = await axios.post(GET_ALL_REG_MEM_ID)
     //   setDbBookedMemIdList(res.data)
@@ -68,14 +69,14 @@ function App() {
           <Route
             path="/ySpy"
             element={
-              <MemRegForm dbUserData={dbUserData} dbRegMemIdList={dbRegMemIdList} />
+              <MemRegForm/>
             }
           />
           <Route
             path="/yatraMemReg"
             element={
               // <Timesup/>
-               <MemRegForm dbUserData={dbUserData} dbRegMemIdList={dbRegMemIdList} />
+               <MemRegForm/>
             }
           />
           <Route

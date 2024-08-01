@@ -19,7 +19,7 @@ export default () => {
     const navigate = useNavigate();
     const [isMobile, setIsMobile] = useState(false);
     const paymentUrl = `upi://pay?pa=${PAYMENT_UPI_ID}&pn=${PAYMENT_MERCHANT_NAME}&am=${amount}&tn=yatra&cu=INR`
-    const upiId = "7870823920@paytm"
+    const upiId = "8340591474@psbpay"
     const [toCopy,setToCopy] = useState(false)
     const [toCopyAmount,setToCopyAmount] = useState(false)
     const template = {
@@ -109,10 +109,10 @@ export default () => {
         setGWaitOn(true)
         try {
             //save in member registraion table
-            await axios.post(SAVE_MEM_LIST, reqForMemList)
+            await axios.post(SAVE_MEM_LIST, reqForMemList,{withCredentials:true})
 
             //save request
-            await axios.post(SAVE_PAYMENT_REQUEST, formData)
+            // await axios.post(SAVE_PAYMENT_REQUEST, formData,{withCredentials:true})
             navigate("/dashboard")
             const swalRes = await Swal.fire(
                 'Successfully submitted for verification!',
@@ -147,10 +147,10 @@ export default () => {
                     <p>Pay Here</p>
                     <h4 className="inline">{upiId} </h4><span onClick={copyUpiId} className="material-symbols-outlined copy">content_copy</span>{toCopy?<span className="highlight"><b>Copied!</b></span>:""}
                     
-                    {/* <div className="qrDiv">
-                        {parse(qr)}
+                    <div className="qrDiv">
+                        <img style={{height:'20rem',margin:'1rem'}}src="./PSBQR.png"></img>
                         {isMobile ? <a className="pay-button" href={paymentUrl}><button className="btn btn-warning ">Pay using UPI</button></a> : ""}
-                    </div> */}
+                    </div>
 
                     <hr />
                     <p style={{ "color": "red" }}><b>Please note that, your registration is considered only if full amount is paid.</b></p>

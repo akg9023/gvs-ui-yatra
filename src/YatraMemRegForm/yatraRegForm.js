@@ -5,19 +5,31 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { upiGatewayPayment } from "../upipayment/UPIPayment";
 import { PleaseWaitContext } from "../context/PleaseWaitContextProvider.js";
 import axios from "axios";
-import { CALCULATE_MEM_REG_AMOUNT } from "../constants/Constants";
+import LoadingSpinner from "../pleaseWait/loadingSpinner/LoadingSpinner";
+import { CALCULATE_MEM_REG_AMOUNT, GVS_YATRA, GET_LIMITED_SINGLE_USER_DETAIL ,GET_ALL_REG_MEM_ID} from "../constants/Constants";
 
-export default function MemRegForm({ dbUserData, dbRegMemIdList }) {
+export default function MemRegForm() {
   const [memId, setMemId] = useState("");
+  const [searchUserLimitedData, setSearchUserLimitedData] = useState(false);
+  const [dbRegMemIdList,setDBRegMemIdList] = useState("");
   const [mem, setMem] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   const { gWaitOn, setGWaitOn } = useContext(PleaseWaitContext)
   const extempedAge = 5
-  const teenAge = 10
+  const teenAge = 10;
+
+  const fetchDbRegMemIdList =async()=>{
+
+    const res2 =await axios.get(GET_ALL_REG_MEM_ID,{withCredentials:true}).catch(console.log("Server is not responding"))
+
+     setDBRegMemIdList(res2.data);
+    
+  }
 
   useEffect(() => {
     if (!sessionStorage.getItem("userEmail")) navigate("/");
+    fetchDbRegMemIdList();
   }, []);
 
   const checkAlreadyReg = (memId) => {
@@ -32,7 +44,7 @@ export default function MemRegForm({ dbUserData, dbRegMemIdList }) {
     setErrorMessage("")
   }, 10000)
 
-  const handleSearch = (e) => {
+  const handleSearch = async(e) => {
     e.preventDefault();
 
     if (checkAlreadyReg(memId.toUpperCase())) {
@@ -40,19 +52,33 @@ export default function MemRegForm({ dbUserData, dbRegMemIdList }) {
       return;
     }
 
-    const found = dbUserData.filter(
-      (one) => memId.toUpperCase() === one.id
-    );
-    if (found.length !== 0) {
-      const existMem = mem.filter((one) => found[0].id === one.id);
+    
+    setSearchUserLimitedData(true);
+    let searchData = "";
+    const res1 =await axios.get(GET_LIMITED_SINGLE_USER_DETAIL + "/" + memId.toLocaleUpperCase(), { withCredentials: true }).catch( (e)=>{console.log("There is some error") ; setSearchUserLimitedData(false);});
+    console.log(res1);
+    searchData=res1.data;
+    setSearchUserLimitedData(searchData);
+    console.log(searchData);
+
+    // const found = dbUserData.filter(
+    //   (one) => memId.toUpperCase() === one.id
+    // );
+
+    if (res1.length !== 0) {
+      //   const existMem = mem.filter((one) => found[0].id === one.id);
+      const existMem = mem.filter((one) => searchData.id === one.id);
       if (existMem.length === 0) {
-        setMem([...mem, found[0]]);
+        console.log(searchData);
+        //        setMem([...mem, found[0]]);
+        setMem([...mem, searchData]);
       } else {
         setErrorMessage("Member already exists.");
       }
     } else {
       setErrorMessage("Member doesn't exist.");
     }
+    setSearchUserLimitedData(false);
   };
 
   const handleRemove = (e, i) => {
@@ -71,11 +97,10 @@ export default function MemRegForm({ dbUserData, dbRegMemIdList }) {
 
       // upiGatewayPayment(mem, setGWaitOn);
       const req = {
-        userEmail: sessionStorage.getItem("userEmail"),
         devoteeList: mem
       }
       setGWaitOn(true)
-      const res = await axios.post(CALCULATE_MEM_REG_AMOUNT,req,{withCredentials:true})
+      const res = await axios.post(CALCULATE_MEM_REG_AMOUNT, req, { withCredentials: true })
       setGWaitOn(false)
 
       //transforming data as per memReg
@@ -95,12 +120,12 @@ export default function MemRegForm({ dbUserData, dbRegMemIdList }) {
   };
 
   const template = <>
-    <div className="container-fluid px-1 py-5 mx-auto">
+    <div className="container-fluid px-1 py-2 mx-auto">
       <div className="row d-flex justify-content-center">
         <div className="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
           <div className="jumbotron jumbotron-fluid">
             <div className="container">
-              <h1 className="display-4">ISKCON YATRA</h1>
+              <h1 className="display-4">{GVS_YATRA}</h1>
               <p className="lead">Organized by Haldia VOICE</p>
               <hr />
               <p className="lead"><b>11th to 15th August 2023 - Vrindavan</b></p>
@@ -108,7 +133,7 @@ export default function MemRegForm({ dbUserData, dbRegMemIdList }) {
             </div>
           </div>
           <div className="card">
-            <div className="container" style={{ display: "flex", "flex-direction": "column", "alignItems": "start" }}>
+            <div className="container" style={{ display: "flex", "flexDirection": "column", "alignItems": "start" }}>
               <div className="row">
                 <div className="col-sm">
                   <span className="badge text-bg-secondary">Adult (Above 10) : Rs.2000/-</span>
@@ -142,7 +167,7 @@ export default function MemRegForm({ dbUserData, dbRegMemIdList }) {
                   className="form-group col-sm-2 flex-column d-flex "
                   onClick={handleSearch}
                 >
-                  <i className="bi bi-search search-icon"></i>
+                {searchUserLimitedData? <LoadingSpinner style={{ position: "relative", textAlign: "left" }}/>:<i className="bi bi-search search-icon"/>}  
                 </div>
               </div>
               <br />
@@ -195,7 +220,7 @@ export default function MemRegForm({ dbUserData, dbRegMemIdList }) {
   </>
 
   const closedTemplate = <>
-    <h4 style={{"color":"red"}}>Yatra Member Registration Closed.</h4>
+    <h4 style={{ "color": "red" }}>Yatra Member Registration Closed.</h4>
   </>
 
   return (
