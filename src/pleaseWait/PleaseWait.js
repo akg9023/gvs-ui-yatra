@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import LoadingOverlay from "react-loading-overlay";
+import LoadingOverlay from "react-loading-overlay-ts";
 import RotateLoader from "react-spinners/RotateLoader";
 
 export default function PleaseWait({ active, children }) {
