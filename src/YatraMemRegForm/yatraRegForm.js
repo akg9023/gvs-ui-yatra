@@ -21,7 +21,7 @@ export default function MemRegForm() {
 
   const fetchDbRegMemIdList =async()=>{
 
-    const res2 =await axios.get(GET_ALL_REG_MEM_ID,{withCredentials:true}).catch(console.log("Server is not responding"))
+    const res2 =await axios.get(GET_ALL_REG_MEM_ID,{withCredentials:true});
 
      setDBRegMemIdList(res2.data);
     
@@ -54,18 +54,17 @@ export default function MemRegForm() {
 
     
     setSearchUserLimitedData(true);
-    let searchData = "";
+    let searchData = null;
     const res1 =await axios.get(GET_LIMITED_SINGLE_USER_DETAIL + "/" + memId.toLocaleUpperCase(), { withCredentials: true }).catch( (e)=>{console.log("There is some error") ; setSearchUserLimitedData(false);});
     console.log(res1);
-    searchData=res1.data;
-    setSearchUserLimitedData(searchData);
+    res1==undefined || res1.data===""? searchData= null:searchData= res1.data;
     console.log(searchData);
 
     // const found = dbUserData.filter(
     //   (one) => memId.toUpperCase() === one.id
     // );
 
-    if (res1.length !== 0) {
+    if (searchData !==null) {
       //   const existMem = mem.filter((one) => found[0].id === one.id);
       const existMem = mem.filter((one) => searchData.id === one.id);
       if (existMem.length === 0) {
