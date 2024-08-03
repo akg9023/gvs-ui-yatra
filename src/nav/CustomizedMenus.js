@@ -5,7 +5,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Divider from '@mui/material/Divider';
 import { useNavigate } from "react-router-dom";
-import { LOGOUT } from '../constants/Constants';
+import { LOGOUT,CHECK_AUTHENTICATION_URL } from '../constants/Constants';
 import Avatar from '@mui/material/Avatar'
 import { Paper } from '@mui/material';
 
@@ -16,6 +16,31 @@ export default function CustomizedMenus(properties) {
   const navigate = useNavigate()
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const [userName,setUserName] =useState("");
+
+  useEffect(()=>{
+    
+   fetchData();
+
+  },[])
+
+  const fetchData = async()=>{
+    const response = await fetch(CHECK_AUTHENTICATION_URL,{
+      method: 'GET',
+      credentials: 'include',
+    }).catch((e)=>{console.warn("failed to load navbar");properties.onLogin(false);});
+    
+    if(response?.ok)
+    {
+    const userData= await response.json();
+    console.log("Auth response to json data ",userData);
+
+    let { userEmail,roles,userName } = userData;  
+    setUserName(userName);
+    properties.onLogin(true);
+    }
+    else{properties.onLogin(false);}
+  }
 
   const StyledMenu = styled((props) => (
   
@@ -62,7 +87,6 @@ export default function CustomizedMenus(properties) {
   function stringToColor(string) {
     let hash = 0;
     let i;
-  if(sessionStorage.getItem("userName")!==null)
     /* eslint-disable no-bitwise */
     for (i = 0; i < string.length; i += 1) {
       hash = string.charCodeAt(i) + ((hash << 5) - hash);
@@ -80,7 +104,6 @@ export default function CustomizedMenus(properties) {
   }
   
   function stringAvatar(name) {
-    if(sessionStorage.getItem("userName")!==null)
     return {
       sx: {
         bgcolor: stringToColor(name),
@@ -102,6 +125,7 @@ export default function CustomizedMenus(properties) {
     switch(e.target.id){
     case "logout":
       {
+        properties.onLogin(false);
         sessionStorage.clear();
       await fetch(LOGOUT,{
         method: 'POST',
@@ -151,8 +175,8 @@ export default function CustomizedMenus(properties) {
         onClick={handleClick}
         
       >
-        <Avatar {...stringAvatar(sessionStorage.getItem("userName"))} sx={{width: 24, height: 24,boxShadow: 2,fontSize:"0.5rem",background:stringToColor(sessionStorage.getItem("userName"))}}/>
-       {sessionStorage.getItem("userName")}
+        <Avatar {...stringAvatar(userName)} sx={{width: 24, height: 24,boxShadow: 2,fontSize:"0.5rem",background:stringToColor(userName)}}/>
+       {userName}
       </Button>
       <StyledMenu
         id="demo-customized-menu"

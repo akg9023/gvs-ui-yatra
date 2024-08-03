@@ -49,3 +49,4 @@ export const ADMIN_EMAIL_LIST = ["saurav109677@gmail.com","gyan0prakash0@gmail.c
 
 //UI Texts
 export const GVS_YATRA="Gauranga Vedic Society"
+export const IS_ACCOMODATION_ENABLED=false

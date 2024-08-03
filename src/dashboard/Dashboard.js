@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './album.css'
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { IS_ACCOMODATION_ENABLED } from '../constants/Constants';
 export default () => {
     const navigate = useNavigate()
 
@@ -55,8 +56,8 @@ export default () => {
                                     <small>Last Date of Registration: <span style={{ color: "green" }}>16-July-2023</span></small><br /><br />
                                     <div className="d-flex justify-content-between align-items-center">
                                         <div className="btn-group">
-                                            <button onClick={()=>navigate("/accomodation")} type="button" className="btn btn-sm btn-outline-success">Book</button>
-                                            <button type="button" onClick={()=>navigate("/manageBookings")} className="btn btn-sm btn-outline-success">Manage</button>
+                                            {IS_ACCOMODATION_ENABLED? <><button onClick={()=>navigate("/accomodation")} type="button" className="btn btn-sm btn-outline-success">Book</button>
+                                            <button type="button" onClick={()=>navigate("/manageBookings")} className="btn btn-sm btn-outline-success">Manage</button></>:<div style={{color:"red"}}>will start soon..</div>}
                                         </div>  
 
                                     </div>

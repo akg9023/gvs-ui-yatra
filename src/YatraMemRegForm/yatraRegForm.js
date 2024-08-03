@@ -127,7 +127,7 @@ export default function MemRegForm() {
               <h1 className="display-4">{GVS_YATRA}</h1>
               <p className="lead">Organized by Haldia VOICE</p>
               <hr />
-              <p className="lead"><b>11th to 15th August 2023 - Vrindavan</b></p>
+              <p className="lead"><b>20th to 24th November 2024 - Chitrakoot</b></p>
               <hr />
             </div>
           </div>

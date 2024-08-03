@@ -12,6 +12,8 @@ import { PARENT_DOMAIN } from "../constants/Constants";
 
 const NavBar = (props) => {
 
+  const [enableMenu,setEnableMenu]=useState(true);
+  
       return (<>
   <AppBar  style={{background:' -webkit-linear-gradient(180deg,#eee, #090979)'}}position="static">
       <Container maxWidth="xl">
@@ -22,9 +24,9 @@ const NavBar = (props) => {
           style={{ height: "3rem", width: "3rem", marginTop:"1vh", marginBottom:"5px"}}
           href={PARENT_DOMAIN}
           />
-          {sessionStorage.getItem("userName")?.length!==0 && sessionStorage.getItem("userName")!==null && <Box sx={{ flexGrow: 0 }} style={{marginTop: "1rem", marginRight: "2px", position:"absolute",   top:0, right:0}}>
+          {enableMenu && <Box sx={{ flexGrow: 0 }} style={{marginTop: "1rem", marginRight: "2px", position:"absolute",   top:0, right:0}}>
             
-            <CustomizedMenus  menuItems={["logout"]} />
+            <CustomizedMenus  menuItems={["logout"]} onLogin={(e)=>setEnableMenu(e)}/>
             
             
           </Box>}

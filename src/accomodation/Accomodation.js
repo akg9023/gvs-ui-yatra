@@ -34,17 +34,15 @@ export default () => {
 
     const getData=()=>{
 
-        setGWaitOn(true)
         const res = axios.post(GET_ALL_ROOMS,{withCredentials:true})
         res.then(data => setRooms(data.data))
 
-        const memRes = axios.post(YATRA_REGISTERED_MEMBERS,{withCredentials:true})
-        memRes.then(data => setMembersListForBooking(data.data))
-        const memBookedRes = axios.post(FETCH_ALL_APPROVED_MEMBERS,{withCredentials:true})
-        memBookedRes.then((data) => setMembersAccomoBooked(data.data))
-        const memsPendingRes = axios.post(FETCH_ALL_PENDING_MEMBERS,{withCredentials:true})
-        memsPendingRes.then((data) => setMembersPendingApproval(data.data))
-        setGWaitOn(false)
+        // const memRes = axios.post(YATRA_REGISTERED_MEMBERS,{withCredentials:true})
+        // memRes.then(data => setMembersListForBooking(data.data))
+        // const memBookedRes = axios.post(FETCH_ALL_APPROVED_MEMBERS,{withCredentials:true})
+        // memBookedRes.then((data) => setMembersAccomoBooked(data.data))
+        // const memsPendingRes = axios.post(FETCH_ALL_PENDING_MEMBERS,{withCredentials:true})
+        // memsPendingRes.then((data) => setMembersPendingApproval(data.data))
     }
 
 

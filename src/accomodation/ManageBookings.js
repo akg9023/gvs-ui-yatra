@@ -10,7 +10,6 @@ import { useNavigate } from 'react-router-dom';
 export default () => {
     const [bookings, setBookings] = useState([])
     const { gWaitOn, setGWaitOn } = useContext(PleaseWaitContext)
-    const userEmail = sessionStorage.getItem("userEmail")
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -20,7 +19,7 @@ export default () => {
     useEffect(() => {
         const fun = async () => {
             // setGWaitOn(true)
-            const res = await axios.post(GET_ALL_BOOKING_DETAILS_BY_EMAIL, { email: userEmail })
+            const res = await axios.get(GET_ALL_BOOKING_DETAILS_BY_EMAIL,{withCredentials:true})
             setBookings(res.data)
             // setGWaitOn(false)
         }

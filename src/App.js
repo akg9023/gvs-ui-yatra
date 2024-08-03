@@ -58,12 +58,12 @@ function App() {
   const template = () => (
     <>
       <BrowserRouter>
-        <NavBar />
+        <NavBar/>
         <Routes>
           <Route
             index
             element={
-              <Home />
+              <Home/>
             }
           />
           <Route
