@@ -10,6 +10,7 @@ const BASE_URL = "https://dev.gaurangavedic.org.in:8443"
 export const GET_USER_DETAIL = BASE_URL+"/v1/hlzGlobalReg/fetchSpecefic"
 export const GET_LIMITED_USER_DETAIL = BASE_URL+"/v1/hlzGlobalReg/fetchAllDevWithLimitedData"
 export const GET_LIMITED_SINGLE_USER_DETAIL = BASE_URL+"/v1/memReg/fetchDevWithLimitedData"
+export const GET_LIMITED_USER_DEPENDENTS_DETAIL = BASE_URL+"/v1/memReg/fetchDependentsWithLimitedData"
 export const GET_FULL_REG_DETAILS_BY_TXN_ID = BASE_URL+"/v1/memReg/fetchByClientTxnId"
 export const GET_ALL_REG_MEM_DETAILS = BASE_URL+"/v1/memReg/fetchAllByEmail"
 export const BACKEND_UPI_GATEWAY_CREATE_ORDER_URL = BASE_URL+"/v1/pay/createOrder"
@@ -48,5 +49,5 @@ export const DECLINE_BOOKING = BASE_URL + "/v1/room/bookings/decline/"
 export const ADMIN_EMAIL_LIST = ["saurav109677@gmail.com","gyan0prakash0@gmail.com","akg9023@gmail.com","ak7268901@gmail.com","gauravsingh181997@gmail.com"]
 
 //UI Texts
-export const GVS_YATRA="Gauranga Vedic Society"
+export const GVS_YATRA="GVS Annual Yatra"
 export const IS_ACCOMODATION_ENABLED=false

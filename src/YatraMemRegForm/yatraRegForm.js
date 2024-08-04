@@ -6,11 +6,14 @@ import { upiGatewayPayment } from "../upipayment/UPIPayment";
 import { PleaseWaitContext } from "../context/PleaseWaitContextProvider.js";
 import axios from "axios";
 import LoadingSpinner from "../pleaseWait/loadingSpinner/LoadingSpinner";
-import { CALCULATE_MEM_REG_AMOUNT, GVS_YATRA, GET_LIMITED_SINGLE_USER_DETAIL ,GET_ALL_REG_MEM_ID} from "../constants/Constants";
+import { Button,Menu,MenuItem } from "@mui/material";
+import { AddToQueue } from "@emotion-icons/boxicons-solid/AddToQueue";
+import { CALCULATE_MEM_REG_AMOUNT, GVS_YATRA, GET_LIMITED_SINGLE_USER_DETAIL ,GET_ALL_REG_MEM_ID,GET_LIMITED_USER_DEPENDENTS_DETAIL} from "../constants/Constants";
 
 export default function MemRegForm() {
   const [memId, setMemId] = useState("");
-  const [searchUserLimitedData, setSearchUserLimitedData] = useState(false);
+  const [userDependentLimitedData, setUserDependentLimitedData] = useState([]);
+  const [isLoading,setIsLoading]=useState(false);
   const [dbRegMemIdList,setDBRegMemIdList] = useState("");
   const [mem, setMem] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
@@ -18,12 +21,24 @@ export default function MemRegForm() {
   const { gWaitOn, setGWaitOn } = useContext(PleaseWaitContext)
   const extempedAge = 5
   const teenAge = 10;
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = async(event) => {
+    setAnchorEl(event.currentTarget);
+    const res2 =await axios.get(GET_LIMITED_USER_DEPENDENTS_DETAIL,{withCredentials:true});
+
+    setUserDependentLimitedData(res2.data);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const fetchDbRegMemIdList =async()=>{
 
-    const res2 =await axios.get(GET_ALL_REG_MEM_ID,{withCredentials:true});
+    const res1 =await axios.get(GET_ALL_REG_MEM_ID,{withCredentials:true});
 
-     setDBRegMemIdList(res2.data);
+     setDBRegMemIdList(res1.data);
+
     
   }
 
@@ -53,32 +68,38 @@ export default function MemRegForm() {
     }
 
     
-    setSearchUserLimitedData(true);
+    setIsLoading(true);
     let searchData = null;
-    const res1 =await axios.get(GET_LIMITED_SINGLE_USER_DETAIL + "/" + memId.toLocaleUpperCase(), { withCredentials: true }).catch( (e)=>{console.log("There is some error") ; setSearchUserLimitedData(false);});
+    const res1 =await axios.get(GET_LIMITED_SINGLE_USER_DETAIL + "/" + memId.toLocaleUpperCase(), { withCredentials: true }).catch( (e)=>{console.log("There is some error") ; setIsLoading(false);});
     console.log(res1);
     res1==undefined || res1.data===""? searchData= null:searchData= res1.data;
     console.log(searchData);
+    addDataToList(searchData);
 
     // const found = dbUserData.filter(
     //   (one) => memId.toUpperCase() === one.id
     // );
 
-    if (searchData !==null) {
+    
+    setIsLoading(false);
+  };
+
+  const addDataToList=(data)=>{
+    if (data !==null) {
       //   const existMem = mem.filter((one) => found[0].id === one.id);
-      const existMem = mem.filter((one) => searchData.id === one.id);
+      const existMem = mem.filter((one) => data.id === one.id);
       if (existMem.length === 0) {
-        console.log(searchData);
+        console.log(data);
         //        setMem([...mem, found[0]]);
-        setMem([...mem, searchData]);
+        setMem([...mem, data]);
       } else {
         setErrorMessage("Member already exists.");
       }
     } else {
       setErrorMessage("Member doesn't exist.");
     }
-    setSearchUserLimitedData(false);
-  };
+
+  }
 
   const handleRemove = (e, i) => {
     e.preventDefault();
@@ -135,10 +156,10 @@ export default function MemRegForm() {
             <div className="container" style={{ display: "flex", "flexDirection": "column", "alignItems": "start" }}>
               <div className="row">
                 <div className="col-sm">
-                  <span className="badge text-bg-secondary">Adult (Above 10) : Rs.2000/-</span>
+                  <span className="badge text-bg-secondary">Adult (Above 10) : Rs.2200/-</span>
                 </div>
                 <div className="col-sm">
-                  <span className="badge text-bg-secondary">Teens (Age less than or equal to 10) : Rs.1000/-</span>
+                  <span className="badge text-bg-secondary">Teens (Age less than or equal to 10) : Rs.1100/-</span>
                 </div>
                 <div className="col-sm">
                   <span className="badge text-bg-secondary">Child (Age less than or equal to 5) : FREE</span>
@@ -166,13 +187,39 @@ export default function MemRegForm() {
                   className="form-group col-sm-2 flex-column d-flex "
                   onClick={handleSearch}
                 >
-                {searchUserLimitedData? <LoadingSpinner style={{ position: "relative", textAlign: "left" }}/>:<i className="bi bi-search search-icon"/>}  
+                {isLoading? <LoadingSpinner style={{ position: "relative", textAlign: "left" }}/>:<i className="bi bi-search search-icon"/>}  
                 </div>
               </div>
               <br />
-              <h5 className="text " style={{ display: "flex" }}>
+              <div className="row ">
+              <h5 className="text col-sm-6" style={{ display: "flex" }}>
                 Added Members
               </h5>
+              <Button
+              className="form-group col-sm-4 ms-auto"
+        id="basic-button"
+        aria-controls={open ? 'basic-menu' : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? 'true' : undefined}
+        onClick={handleClick}
+      >
+        Add Dependents
+      </Button>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      >{userDependentLimitedData.length==0 ? <MenuItem>No record ...</MenuItem>:userDependentLimitedData.map((dev, index) => (
+        <MenuItem key={dev.id} onClick={()=>{addDataToList(dev);handleClose()}} style={{noWrap:"clip"}}> {dev.id} | {dev.fname} | {dev.gender} | {dev.age <= extempedAge ? <span style={{ color: "orange" }}> Child</span> : dev.age <= teenAge ? <span style={{ color: "green" }}>Teen</span> : <span style={{ color: "olive" }}>Adult</span>}
+        </MenuItem>
+        
+      ))}
+      </Menu>
+      </div>
               <hr />
               <div className="accordion" id="accordionExample">
                 {mem.map(({ id, fname, gender, age }, index) => (
@@ -198,8 +245,10 @@ export default function MemRegForm() {
               <p style={{ display: "flex", color: "red" }}>
                 {errorMessage}
               </p>
+            
               <div className="row justify-content-end">
-                <div className="form-group col-sm-3">
+      
+                <div className="form-group col-sm-3 ">
                   <button
                     className="btn-block btn-primary"
                     disabled={mem.length === 0}

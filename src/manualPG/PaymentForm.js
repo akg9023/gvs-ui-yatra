@@ -148,7 +148,7 @@ export default () => {
                     <h4 className="inline">{upiId} </h4><span onClick={copyUpiId} className="material-symbols-outlined copy">content_copy</span>{toCopy?<span className="highlight"><b>Copied!</b></span>:""}
                     
                     <div className="qrDiv">
-                        <img style={{height:'20rem',margin:'1rem'}}src="./PSBQR.png"></img>
+                        <img style={{height:'20rem',margin:'1rem'}}src="./images/gvs_yatra_reg_upi.svg"></img>
                         {/* {isMobile ? <a className="pay-button" href={paymentUrl}><button className="btn btn-warning ">Pay using UPI</button></a> : ""} */}
                     </div>
 

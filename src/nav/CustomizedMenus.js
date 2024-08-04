@@ -36,7 +36,7 @@ export default function CustomizedMenus(properties) {
     console.log("Auth response to json data ",userData);
 
     let { userEmail,roles,userName } = userData;  
-    setUserName(userName);
+    setUserName(userName==null ? userEmail.substr(0, 4):userName);
     properties.onLogin(true);
     }
     else{properties.onLogin(false);}
