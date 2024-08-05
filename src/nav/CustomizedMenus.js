@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { LOGOUT, CHECK_AUTHENTICATION_URL } from "../constants/Constants";
 import Avatar from "@mui/material/Avatar";
 import { Paper } from "@mui/material";
-
+import Cookies from "js-cookie";
 export default function CustomizedMenus(properties) {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
