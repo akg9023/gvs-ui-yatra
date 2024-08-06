@@ -43,8 +43,6 @@ export default function Home(props) {
     });
 
     const userData = await response.json();
-    console.log("Auth response to json data ", userData);
-
     let { userEmail, roles, userName } = userData;
     sessionStorage.setItem("userEmail", userEmail);
     sessionStorage.setItem("userName", userName);
@@ -54,7 +52,6 @@ export default function Home(props) {
 
   useEffect(() => {
     fetchData().catch((e) => {
-      console.log("you are not loggedIn");
     });
   }, []);
 

@@ -30,8 +30,6 @@ export default function CustomizedMenus(properties) {
 
     if (response?.ok) {
       const userData = await response.json();
-      console.log("Auth response to json data ", userData);
-
       let { userEmail, roles, userName } = userData;
       setUserName(userName == null ? userEmail.substr(0, 4) : userName);
       properties.onLogin(true);
@@ -160,7 +158,6 @@ export default function CustomizedMenus(properties) {
       //   }
       //   break;
       default: {
-        console.log("There is some error");
       }
     }
   };

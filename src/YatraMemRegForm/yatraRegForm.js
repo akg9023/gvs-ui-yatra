@@ -70,10 +70,8 @@ export default function MemRegForm() {
 
     setIsLoading(true);
     let searchData = null;
-    const res1 = await axios.get(GET_LIMITED_SINGLE_USER_DETAIL + "/" + memId.toLocaleUpperCase(), { withCredentials: true }).catch((e) => { console.log("There is some error"); setIsLoading(false); });
-    console.log(res1);
+    const res1 = await axios.get(GET_LIMITED_SINGLE_USER_DETAIL + "/" + memId.toLocaleUpperCase(), { withCredentials: true }).catch((e) => { console.error("There is some error"); setIsLoading(false); });
     res1 == undefined || res1.data === "" ? searchData = null : searchData = res1.data;
-    console.log(searchData);
     addDataToList(searchData);
 
     // const found = dbUserData.filter(
@@ -93,7 +91,6 @@ export default function MemRegForm() {
       //   const existMem = mem.filter((one) => found[0].id === one.id);
       const existMem = mem.filter((one) => data.id === one.id);
       if (existMem.length === 0) {
-        console.log(data);
         //        setMem([...mem, found[0]]);
         setMem([...mem, data]);
       } else {
@@ -201,7 +198,7 @@ export default function MemRegForm() {
                   
                   
                 >
-                  {isLoading ? <CircularProgress sx={{ margin: 3 }} /> : <icon className="bi search-icon" style={{ margin: "1rem"}}><PeopleSearch  onClick={handleSearch} size={30} /></icon>}
+                  {isLoading ? <icon><CircularProgress sx={{ margin: 3 }} /></icon> : <icon className="bi search-icon" style={{ margin: "1rem"}}><PeopleSearch  onClick={handleSearch} size={30} /></icon>}
 
                 </div>
               </div>
