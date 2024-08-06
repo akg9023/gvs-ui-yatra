@@ -201,7 +201,7 @@ export default function MemRegForm() {
                   
                   
                 >
-                  {isLoading ? <CircularProgress sx={{ margin: 3 }} /> : <icon className="bi search-icon" style={{ margin: "1rem"}}><PeopleSearch  onClick={handleSearch} size={30} /></icon>}
+                  {isLoading ? <icon><CircularProgress sx={{ margin: 3 }} /></icon> : <icon className="bi search-icon" style={{ margin: "1rem"}}><PeopleSearch  onClick={handleSearch} size={30} /></icon>}
 
                 </div>
               </div>
