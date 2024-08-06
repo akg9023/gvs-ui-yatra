@@ -89,7 +89,7 @@ export default () => {
       reverseButtons: true
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const res = await axios.post(`${DECLINE_BOOKING}${e}`, { "paymentStatus": result.value })
+        const res = await axios.post(`${DECLINE_BOOKING}${e}`, { "paymentStatus": result.value },{withCredentials:true})
         swalWithBootstrapButtons.fire(
           'Declined!',
           'This payment has been Declined.',
@@ -106,21 +106,21 @@ export default () => {
 
   const getPendingData = () => {
     setSpinner(true)
-    const res = axios.post(FETCH_ALL_PENDING_BOOKING)
+    const res = axios.post(FETCH_ALL_PENDING_BOOKING,{withCredentials:true})
     res.then((data) => setPendingApprovals(data.data))
     setSpinner(false);
   }
 
   const getApprovedData = () => {
     setSpinner(true)
-    const res = axios.post(FETCH_ALL_APPROVED_BOOKING)
+    const res = axios.post(FETCH_ALL_APPROVED_BOOKING,{withCredentials:true})
     res.then((data) => setApproved(data.data))
     setSpinner(false);
   }
 
   const getDeclineData = () => {
     setSpinner(true)
-    const res = axios.post(FETCH_ALL_DECLINE_BOOKING)
+    const res = axios.post(FETCH_ALL_DECLINE_BOOKING,{withCredentials:true})
     res.then((data) => setDecline(data.data))
     setSpinner(false);
   }

@@ -32,19 +32,26 @@ export default () => {
     let membersList = [];
 
 
-    useEffect(() => {
-         if (!sessionStorage.getItem("userEmail")) navigate("/");
-        setGWaitOn(true)
-        const res = axios.post(GET_ALL_ROOMS)
+    const getData=()=>{
+
+        const res = axios.get(GET_ALL_ROOMS,{withCredentials:true})
         res.then(data => setRooms(data.data))
 
-        const memRes = axios.post(YATRA_REGISTERED_MEMBERS)
+        const memRes = axios.get(YATRA_REGISTERED_MEMBERS,{withCredentials:true})
         memRes.then(data => setMembersListForBooking(data.data))
-        const memBookedRes = axios.post(FETCH_ALL_APPROVED_MEMBERS)
+        const memBookedRes = axios.get(FETCH_ALL_APPROVED_MEMBERS,{withCredentials:true})
         memBookedRes.then((data) => setMembersAccomoBooked(data.data))
-        const memsPendingRes = axios.post(FETCH_ALL_PENDING_MEMBERS)
+        const memsPendingRes = axios.get(FETCH_ALL_PENDING_MEMBERS,{withCredentials:true})
         memsPendingRes.then((data) => setMembersPendingApproval(data.data))
-        setGWaitOn(false)
+    }
+
+
+    useEffect(() => {
+         if (!sessionStorage.getItem("userEmail")===null)
+          navigate("/");
+
+          else getData();
+        
 
 
     }, [])
@@ -68,7 +75,7 @@ export default () => {
         //save the data in db
         try {
             setGWaitOn(true)
-            const response = await axios.post(SAVE_ACCOMODATAION_DETAIL_WITHOUT_PAYMENT, reqBody)
+            const response = await axios.post(SAVE_ACCOMODATAION_DETAIL_WITHOUT_PAYMENT, reqBody,{withCredentials:true})
             setGWaitOn(false)
             const bookingId = response.data.bookingId
             const amount = response.data.amount

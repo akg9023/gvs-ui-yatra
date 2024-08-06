@@ -1,29 +1,38 @@
-// import React, { useState } from 'react';
 import { Link } from "react-router-dom";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import "./index.css";
+import { useNavigate } from "react-router-dom";
+import CustomizedMenus from "./CustomizedMenus.js";
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import Container from '@mui/material/Container';
+import Tooltip from '@mui/material/Tooltip';
+import { PARENT_DOMAIN } from "../constants/Constants";
 
+const NavBar = (props) => {
 
-const NavBar = () => {
+  const [enableMenu,setEnableMenu]=useState(true);
   
-  // <a className="navbar-brand" href="#"></a>
-
-  return (<>
-    <nav className="navbar navbar-dark bg-dark navbar-expand-lg">
-      <div className="container-fluid ">
-        <Link to="/">
-        <img
-                style={{ height: "5rem", width: "90px", marginLeft:"2rem"}}
-                src="../images/HaldiaT4.png"
-              />
-        </Link>
-        
-        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span className="navbar-toggler-icon"></span>
-        </button>
-      
-      </div>
-    </nav>
+      return (<>
+  <AppBar  style={{background:' -webkit-linear-gradient(180deg,#eee, #090979)'}}position="static">
+      <Container maxWidth="xl">
+        <Toolbar disableGutters>
+          <Box
+          component="img"
+          src="../images/HaldiaT4.png"
+          style={{ height: "3rem", width: "3rem", marginTop:"1vh", marginBottom:"5px"}}
+          href={PARENT_DOMAIN}
+          />
+          {enableMenu && <Box sx={{ flexGrow: 0 }} style={{marginTop: "1rem", marginRight: "2px", position:"absolute",   top:0, right:0}}>
+            
+            <CustomizedMenus  menuItems={["logout"]} onLogin={(e)=>setEnableMenu(e)}/>
+            
+            
+          </Box>}
+        </Toolbar>
+      </Container>
+    </AppBar>
 </>
   );
 };

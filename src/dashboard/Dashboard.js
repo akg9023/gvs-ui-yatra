@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './album.css'
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { IS_ACCOMODATION_ENABLED } from '../constants/Constants';
 export default () => {
     const navigate = useNavigate()
 
@@ -31,8 +32,8 @@ export default () => {
                                 <div className="card-body">
                                     <h4>Step 1: Add Members</h4>
                                     <p className="card-text">This is the first phase of yatra registration in which you will be only allowed to add members coming in yatra.</p>
-                                    <small>Registration Starts: <span style={{ color: "green" }}>26-Apr-2023</span></small><br />
-                                    <small>Last Date of Registration: <span style={{ color: "green" }}>07-May-2023</span></small><br /><br />
+                                    <small>Registration Starts: <span style={{ color: "green" }}>06-Aug-2024</span></small><br />
+                                    <small>Last Date of Registration: <span style={{ color: "green" }}>20-Aug-2024</span></small><br /><br />
                                     <div className="d-flex justify-content-between align-items-center">
                                         <div className="btn-group">
                                             <button type="button" className="btn btn-sm btn-outline-success" onClick={navigateToMemForm}>Register</button>&nbsp;
@@ -51,12 +52,12 @@ export default () => {
                                 <div className="card-body">
                                     <h4>Step 2: Accommodation</h4>
                                     <p className="card-text">Choose your accommodation for yatra. Feel comfortable!</p><br />
-                                    <small>Registration Starts: <span style={{ color: "green" }}>09-July-2023</span></small><br />
-                                    <small>Last Date of Registration: <span style={{ color: "green" }}>16-July-2023</span></small><br /><br />
+                                    <small>Registration Starts: <span style={{ color: "green" }}></span></small><br />
+                                    {/* <small>Last Date of Registration: <span style={{ color: "green" }}>16-July-2023</span></small><br /><br /> */}
                                     <div className="d-flex justify-content-between align-items-center">
                                         <div className="btn-group">
-                                            <button onClick={()=>navigate("/accomodation")} type="button" className="btn btn-sm btn-outline-success">Book</button>
-                                            <button type="button" onClick={()=>navigate("/manageBookings")} className="btn btn-sm btn-outline-success">Manage</button>
+                                            {IS_ACCOMODATION_ENABLED? <><button onClick={()=>navigate("/accomodation")} type="button" className="btn btn-sm btn-outline-success">Book</button>
+                                            <button type="button" onClick={()=>navigate("/manageBookings")} className="btn btn-sm btn-outline-success">Manage</button></>:<div style={{color:"red"}}>will start soon..</div>}
                                         </div>  
 
                                     </div>
