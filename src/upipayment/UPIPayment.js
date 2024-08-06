@@ -11,7 +11,6 @@ export const upiGatewayPayment = async ( membersList, setGWaitOn) => {
     //create a new client txn id
     const client_id = uuidv4();
     const redirect = (path) => {
-        console.log("redirecing...", path)
         window.location.replace(path);
     }
 
@@ -26,11 +25,9 @@ export const upiGatewayPayment = async ( membersList, setGWaitOn) => {
         "memberDetails": membersList,
     }
 
-    console.log("request", request)
     try {
         //Creating new order 
         const response = await axios.post(BACKEND_UPI_GATEWAY_CREATE_ORDER_URL, request)
-        console.log(response);
         const payload = response.data.data;
         setGWaitOn(false)
         redirect(payload.payment_url)

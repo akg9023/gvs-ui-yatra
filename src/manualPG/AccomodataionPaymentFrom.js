@@ -154,8 +154,6 @@ export default () => {
         }
 
         try {
-
-            console.log(apiReq);
             //save Transaction details in db
             setGWaitOn(true)
             const res = await axios.post(SAVE_ACC_TXN, apiReq)
