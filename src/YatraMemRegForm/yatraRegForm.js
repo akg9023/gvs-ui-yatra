@@ -6,15 +6,15 @@ import { upiGatewayPayment } from "../upipayment/UPIPayment";
 import { PleaseWaitContext } from "../context/PleaseWaitContextProvider.js";
 import axios from "axios";
 import LoadingSpinner from "../pleaseWait/loadingSpinner/LoadingSpinner";
-import { Button, Menu, MenuItem, Card, Container, Typography, Badge, Paper, TableRow, TableCell, Divider,Input } from "@mui/material";
-import { AddToQueue } from "@emotion-icons/boxicons-solid/AddToQueue";
+import { Button, Menu, MenuItem, Card, Container, Typography, Badge, Paper, TableRow, TableCell, Divider, Input, CircularProgress } from "@mui/material";
+import { PeopleSearch } from "@emotion-icons/fluentui-system-filled/PeopleSearch";
 import { CALCULATE_MEM_REG_AMOUNT, GVS_YATRA, GET_LIMITED_SINGLE_USER_DETAIL, GET_ALL_REG_MEM_ID, GET_LIMITED_USER_DEPENDENTS_DETAIL } from "../constants/Constants";
 
 export default function MemRegForm() {
   const [memId, setMemId] = useState("");
   const [userDependentLimitedData, setUserDependentLimitedData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [dbRegMemIdList, setDBRegMemIdList] = useState("");
+  const [dbRegMemIdList, setDBRegMemIdList] = useState([]);
   const [mem, setMem] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
@@ -48,7 +48,7 @@ export default function MemRegForm() {
   }, []);
 
   const checkAlreadyReg = (memId) => {
-    const found = dbRegMemIdList.filter((one) => one == memId)
+    const found = dbRegMemIdList?.filter((one) => one == memId)
     if (found.length == 0)
       return false;
 
@@ -156,7 +156,7 @@ export default function MemRegForm() {
               <hr />
             </div>
           </div>
-          <Card elevation={4} sx={{borderRadius:1}}>
+          <Card elevation={4} sx={{ borderRadius: 1 }}>
             <Container>
               {/* <div className="container" style={{ display: "flex", "flexDirection": "column", "alignItems": "start" }}> */}
               <div className="row">
@@ -185,26 +185,29 @@ export default function MemRegForm() {
             <form className="form-card" onSubmit={(e) => e.preventDefault()}>
               <div className="row justify-content-between text-left">
                 <div className="form-group col-sm-10 flex-column d-flex">
-                    <input
-                      type="text"
-                      id="fname"
-                      name="fname"
-                      style={{margin:"1rem",boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)"}}
+                  <input
+                    type="text"
+                    id="fname"
+                    name="fname"
+                    style={{ margin: "1rem", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)" }}
 
-                      placeholder="Enter your Registration ID"
-                      onChange={(e) => setMemId(e.target.value)}
-                    />
+                    placeholder="Enter your Registration ID"
+                    onChange={(e) => setMemId(e.target.value)}
+                  />
+
                 </div>
                 <div
-                  className="form-group col-sm-2 flex-column d-flex "
-                  onClick={handleSearch}
+                  className="form-group col-sm-2 flex-column d-flex ms-center"
+                  
+                  
                 >
-                  {isLoading ? <LoadingSpinner style={{ position: "relative", textAlign: "left" }} /> : <i className="bi bi-search search-icon" style={{margin:"1rem"}}/>}
+                  {isLoading ? <CircularProgress sx={{ margin: 3 }} /> : <icon className="bi search-icon" style={{ margin: "1rem"}}><PeopleSearch  onClick={handleSearch} size={30} /></icon>}
+
                 </div>
               </div>
               <br />
               <div className="row ">
-                <h5 className="text col-sm-6" style={{ display: "flex", margin:"1rem" }}>
+                <h5 className="text col-sm-6" style={{ display: "flex", margin: "1rem" }}>
                   Added Members
                 </h5>
                 <Button
@@ -214,6 +217,7 @@ export default function MemRegForm() {
                   aria-haspopup="true"
                   aria-expanded={open ? 'true' : undefined}
                   onClick={handleClick}
+                  sx={{margin:2}}
                 >
                   Add Dependents
                 </Button>
@@ -232,7 +236,7 @@ export default function MemRegForm() {
                 ))}
                 </Menu>
               </div>
-              <hr style={{margin:"1rem"}}/>
+              <hr style={{ margin: "1rem" }} />
               <div className="accordion" id="accordionExample">
                 {mem.map(({ id, fname, gender, age }, index) => (
                   <div key={id} className="container">
@@ -254,7 +258,7 @@ export default function MemRegForm() {
                 ))}
               </div>
               <br />
-              <p style={{ display: "flex", color: "red" }}>
+              <p style={{ margin: "1rem", display: "flex", color: "red" }}>
                 {errorMessage}
               </p>
 

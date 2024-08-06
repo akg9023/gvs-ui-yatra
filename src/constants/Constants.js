@@ -1,10 +1,10 @@
  // const BASE_URL = "https://copyhlzglobalregistration-production.up.railway.app"
 //  const BASE_URL = "http://localhost:8080"
 //const BASE_URL = "https://localhost:8443"
-//const BASE_URL = "https://api.gaurangavedic.org.in:8443"
+const BASE_URL = "https://api.gaurangavedic.org.in:8443"
  //const BASE_URL = "https://hlz-backend-e3b4688a7551.herokuapp.com/"
  export const PARENT_DOMAIN = "gaurangavedic.org.in";
-const BASE_URL = "https://dev.gaurangavedic.org.in:8443"
+//const BASE_URL = "https://dev.gaurangavedic.org.in:8443"
 
  export const CHECK_AUTHENTICATION_URL = BASE_URL+"/auth";
 export const GET_USER_DETAIL = BASE_URL+"/v1/hlzGlobalReg/fetchSpecefic"
