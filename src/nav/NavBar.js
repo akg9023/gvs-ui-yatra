@@ -1,32 +1,45 @@
-import { Link } from "react-router-dom";
 import React, { useEffect, useState } from 'react';
 import "./index.css";
-import { useNavigate } from "react-router-dom";
 import CustomizedMenus from "./CustomizedMenus.js";
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
-import Tooltip from '@mui/material/Tooltip';
-import { PARENT_DOMAIN } from "../constants/Constants";
+import { Typography } from "@mui/material";
+import { NAVIGATE_TO_MAIN_YATRA_REGISTRATION_PAGE } from "../constants/Constants";
 
 const NavBar = (props) => {
 
   const [enableMenu,setEnableMenu]=useState(true);
   
       return (<>
-  <AppBar  style={{background:' -webkit-linear-gradient(180deg,#eee, #090979)'}}position="static">
-      <Container maxWidth="xl">
+  <AppBar  style={{background:' -webkit-linear-gradient(180deg,#eee, #090979)',display:'flex',height:"8vh"}}position="static">
+      <Container maxWidth="xxl">
         <Toolbar disableGutters>
           <Box
           component="img"
           src="../images/HaldiaT4.png"
-          style={{ height: "3rem", width: "3rem", marginTop:"1vh", marginBottom:"5px"}}
-          href={PARENT_DOMAIN}
-          />
-          {enableMenu && <Box sx={{ flexGrow: 0 }} style={{marginTop: "1rem", marginRight: "2px", position:"absolute",   top:0, right:0}}>
+          style={{ height: "4rem", width: "70px", marginTop:"5px", marginBottom:"5px"}}
+          /><Typography
+          variant="h6"
+          noWrap
+          component="a"
+          href={NAVIGATE_TO_MAIN_YATRA_REGISTRATION_PAGE}
+          sx={{
+            mr: 2,
+            display: { xs: 'none', md: 'flex' },
+            fontFamily: 'monospace',
+            fontWeight: 700,
+            letterSpacing: '.3rem',
+            color: 'inherit',
+            textDecoration: 'none',
+          }}
+        >
+          GAURANGA VEDIC SOCIETY
+        </Typography>
+          {enableMenu && <Box sx={{flexGrow: 0,marginRight:2,margin:1,position:"absolute",top:0,right:0 }}>
             
-            <CustomizedMenus  menuItems={["logout"]} onLogin={(e)=>setEnableMenu(e)}/>
+            <CustomizedMenus  menuItems={["Logout","Dashboard","Main Yatra Page"]} onLogin={(e)=>setEnableMenu(e)}/>
             
             
           </Box>}
