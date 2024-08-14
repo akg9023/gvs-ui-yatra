@@ -39,7 +39,7 @@ const NavBar = (props) => {
         </Typography>
           {enableMenu && <Box sx={{flexGrow: 0,marginRight:2,margin:1,position:"absolute",top:0,right:0 }}>
             
-            <CustomizedMenus  menuItems={["Logout","Dashboard","Main Yatra Page"]} onLogin={(e)=>setEnableMenu(e)}/>
+            <CustomizedMenus  menuItems={["Dashboard","Main Yatra Page","Logout"]} onLogin={(e)=>setEnableMenu(e)}/>
             
             
           </Box>}
