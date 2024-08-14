@@ -1,14 +1,17 @@
 import "./googlelogin.css";
 import { useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
-import { PleaseWaitContext } from "../context/PleaseWaitContextProvider.js";
 import {
   LOGIN_URL,
   CHECK_AUTHENTICATION_URL,
   PARENT_DOMAIN,
 } from "../constants/Constants";
 import Cookies from "js-cookie";
-import LoadingSpinner from "../pleaseWait/loadingSpinner/LoadingSpinner";
+import { Box,Fab,CircularProgress } from "@mui/material";
+import  {Google}  from '@emotion-icons/boxicons-logos/Google';
+import  {Google3}  from '@emotion-icons/icomoon/Google3'
+
+
 
 export default function Home(props) {
   const [gWaitOn, setGWaitOn] = useState(false);
@@ -68,13 +71,8 @@ export default function Home(props) {
             </h5>
             <div className="card-body login-card-body">
               <h3>Welcome</h3>
-              <p className="mt-4">Login to your Account!!</p>
-              {gWaitOn ? (
-                <LoadingSpinner
-                  style={{ position: "relative", textAlign: "left" }}
-                />
-              ) : (
-                <button
+              <p className="mt-4">Login with <Google size={25} style={{color:"-webkit-linear-gradient(90deg,#eee, #090979)"}}/> Account!!</p>
+              <button
                   className="google-login-button"
                   type="button"
                   text="Login"
@@ -83,11 +81,34 @@ export default function Home(props) {
                     setGWaitOn(true);
                   }}
                 >
-                  <a style={{ color: "white" }} href={LOGIN_URL}>
-                    Login with Google
+              {gWaitOn ? (
+                <Box sx={{ m: 1, position: 'relative',borderRadius: "50%" }}>
+                <Fab
+                  color="primary"
+                  sx={{background:"rgba(0, 0, 0, 0)",pointerEvents:"none"}}
+                >
+                   <Google3 size={80}/> 
+                </Fab>
+        
+                  <CircularProgress
+                    size={68}
+                    sx={{
+                      color:"white",
+                      position: 'absolute',
+                      top: -6,
+                      left: -6,
+                      zIndex: 1,
+                    }}
+                  />
+              </Box>
+              ) : (
+                
+                  <a style={{ color: "white",textDecoration:"none" }} href={LOGIN_URL}>
+                     <Google size={25} /> Login
                   </a>
-                </button>
+                
               )}
+              </button>
             </div>
           </div>
         </div>
