@@ -42,8 +42,8 @@ function App() {
           <Route
             path="/yatraMemReg"
             element={
-              // <Timesup/>
-               <MemRegForm/>
+              <Timesup/>
+               // <MemRegForm/>
             }
           />
           <Route
