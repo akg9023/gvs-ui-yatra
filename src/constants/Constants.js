@@ -53,4 +53,4 @@ export const ADMIN_EMAIL_LIST = ["saurav109677@gmail.com", "gyan0prakash0@gmail.
 
 //UI Texts
 export const GVS_YATRA = "GVS Annual Yatra"
-export const IS_ACCOMODATION_ENABLED = false
+export const IS_ACCOMODATION_ENABLED = true
