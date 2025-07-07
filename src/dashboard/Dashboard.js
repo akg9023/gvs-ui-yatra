@@ -32,11 +32,11 @@ export default () => {
                                 <div className="card-body">
                                     <h4>Step 1: Add Members</h4>
                                     <p className="card-text">This is the first phase of yatra registration in which you will be only allowed to add members coming in yatra.</p>
-                                    <small>Registration Starts: <span style={{ color: "green" }}>06-Aug-2024</span></small><br />
-                                    <small>Last Date of Registration: <span style={{ color: "green" }}>20-Aug-2024</span></small><br /><br />
+                                    <small>Registration Starts: <span style={{ color: "green" }}>20-Jun-2024</span></small><br />
+                                    <small>Last Date of Registration: <span style={{ color: "green" }}>5-Jul-2024</span></small><br /><br />
                                     <div className="d-flex justify-content-between align-items-center">
-                                        <div className="btn-group">
-                                            <button type="button" className="btn btn-sm btn-outline-success" onClick={navigateToMemForm}>Register</button>&nbsp;
+                                        <div className="d-flex flex-wrap gap-2">
+                                            <button type="button" className="btn btn-sm btn-outline-success" onClick={navigateToMemForm}>Register</button>
                                             <button type="button" className="btn btn-sm btn-outline-success" onClick={manageMem}>Manage</button>
                                         </div>
 
@@ -56,8 +56,8 @@ export default () => {
                                     {/* <small>Last Date of Registration: <span style={{ color: "green" }}>16-July-2023</span></small><br /><br /> */}
                                     <div className="d-flex justify-content-between align-items-center">
                                         <div className="btn-group">
-                                            {IS_ACCOMODATION_ENABLED? <><button onClick={()=>navigate("/accomodation")} type="button" className="btn btn-sm btn-outline-success">Book</button>
-                                            <button type="button" onClick={()=>navigate("/manageBookings")} className="btn btn-sm btn-outline-success">Manage</button></>:<div style={{color:"red"}}>will start soon..</div>}
+                                            {IS_ACCOMODATION_ENABLED? <div className='d-flex flex-wrap gap-2' ><button onClick={()=>navigate("/accomodation")} type="button" className="btn btn-sm btn-outline-success">Book</button>
+                                            <button type="button" onClick={()=>navigate("/manageBookings")} className="btn btn-sm btn-outline-success">Manage</button></div>:<div style={{color:"red"}}>will start soon..</div>}
                                         </div>  
 
                                     </div>

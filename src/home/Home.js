@@ -10,13 +10,14 @@ import Cookies from "js-cookie";
 import { Box,Fab,CircularProgress } from "@mui/material";
 import  {Google}  from '@emotion-icons/boxicons-logos/Google';
 import  {Google3}  from '@emotion-icons/icomoon/Google3'
-
+import { useAuth } from "../context/AuthContext";
 
 
 export default function Home(props) {
   const [gWaitOn, setGWaitOn] = useState(false);
   const [errMsg, setErrMsg] = useState("");
   const navigate = useNavigate();
+  const {login,logout} = useAuth();
 
   setTimeout(() => {
     setErrMsg("");
@@ -43,10 +44,13 @@ export default function Home(props) {
     }).catch((e) => {
       setErrMsg("please sign In...");
       setGWaitOn(false);
+      logout();
     });
 
     const userData = await response.json();
     let { userEmail, roles, userName } = userData;
+    login(userData);
+    console.log(userData);
     sessionStorage.setItem("userEmail", userEmail);
     sessionStorage.setItem("userName", userName);
     setGWaitOn(false);
@@ -58,61 +62,58 @@ export default function Home(props) {
     });
   }, []);
 
-  return (
-    <>
-      <div className="row pt-5">
-        <div className="col-lg-4 offset-lg-4 col-md-6 offset-md-3 col-sm-6 offset-sm-3 col-xs-6 offset-xs-3">
-          <div className="card text-center mx-auto">
-            <h5
-              hidden={errMsg.length != 0 ? false : true}
-              style={{ color: "red" }}
-            >
-              {errMsg}
-            </h5>
-            <div className="card-body login-card-body">
-              <h3>Welcome</h3>
-              <p className="mt-4">Login with <Google size={25} style={{color:"-webkit-linear-gradient(90deg,#eee, #090979)"}}/> Account!!</p>
-              <button
-                  className="google-login-button"
-                  type="button"
-                  text="Login"
-                  onClick={() => {
-                    handleClick();
-                    setGWaitOn(true);
-                  }}
-                >
-              {gWaitOn ? (
-                <Box sx={{ m: 1, position: 'relative',borderRadius: "50%" }}>
-                <Fab
-                  color="primary"
-                  sx={{background:"rgba(0, 0, 0, 0)",pointerEvents:"none"}}
-                >
-                   <Google3 size={80}/> 
-                </Fab>
-        
-                  <CircularProgress
-                    size={68}
-                    sx={{
-                      color:"white",
-                      position: 'absolute',
-                      top: -6,
-                      left: -6,
-                      zIndex: 1,
-                    }}
-                  />
-              </Box>
-              ) : (
-                
-                  <a style={{ color: "white",textDecoration:"none" }} href={LOGIN_URL}>
-                     <Google size={25} /> Login
-                  </a>
-                
-              )}
-              </button>
+  const template = (
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-blue-900 p-4 relative overflow-hidden" >
+
+      {/* Glass Blur Background */}
+      <div className="absolute inset-0 backdrop-blur-sm bg-white/20"></div>
+
+  
+      <div className="relative w-full max-w-md bg-white/30 backdrop-blur-xl shadow-2xl border border-white/30 rounded-2xl p-8 text-center transform scale-105">
+  
+        {/* Logo + Name */}
+        <div className="mb-6 p-4 bg-white/70 rounded-xl shadow-lg flex flex-col items-center">
+          <img
+            src="../images/HaldiaT4.png"
+            alt="Gauranga Vedic Society"
+            className="h-35 mb-4 drop-shadow-md"
+            style={{ filter: 'brightness(0) saturate(100%) invert(36%) sepia(79%) saturate(630%) hue-rotate(180deg) brightness(60%) contrast(90%) drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.1))'}}
+          />
+          <h2 className="text-2xl font-extrabold text-gray-900 drop-shadow">
+            Gauranga Vedic Society
+          </h2>
+        </div>
+  
+  
+        <p className="text-sm text-gray-800 mb-6">
+          Login with your Google Account to continue
+        </p>
+  
+        {gWaitOn ? (
+          <div className="relative flex justify-center items-center">
+            <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center shadow">
+              <Google size={28} />
+            </div>
+            <div className="absolute">
+              <CircularProgress size={68} sx={{ color: "white" }} />
             </div>
           </div>
-        </div>
+        ) : (
+          <button
+            onClick={() => {
+              setGWaitOn(true);
+              handleClick();
+              window.location.href = LOGIN_URL;
+            }}
+            className="w-full flex items-center justify-center gap-2 bg-white/80 hover:bg-white text-gray-800 border border-gray-300 shadow-md rounded-lg px-4 py-2 font-semibold"
+          >
+            <Google3 size={20} />
+            Sign in with Google
+          </button>
+        )}
+  
       </div>
-    </>
+    </div>
   );
+  return <>{template}</>;
 }

@@ -1,6 +1,6 @@
 import './App.css';
 import MemRegForm from './YatraMemRegForm/yatraRegForm';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Home from './home/Home';
 import {
   BrowserRouter,
@@ -8,7 +8,6 @@ import {
   Routes
 } from "react-router-dom";
 import Dashboard from './dashboard/Dashboard';
-import NavBar from './nav/NavBar';
 import Success from './paymentResponse/Success';
 import ManageMembers from './members/ManageMembers';
 import PaymentForm from './manualPG/PaymentForm';
@@ -18,32 +17,39 @@ import AccomodataionPaymentFrom from './manualPG/AccomodataionPaymentFrom';
 import ManageBookings from './accomodation/ManageBookings';
 import Timesup from './timesup/Timesup';
 import Admin from './admin/Admin';
+import { useAuth } from './context/AuthContext';
+import Layout from './nav/Layout';
 
 
 function App() {
 
+  const {user}=useAuth();
+  useEffect(()=>{
+
+  },[user])
+
   const template = () => (
     <>
       <BrowserRouter>
-        <NavBar/>
-        <Routes>
+        {!user ?
+         <Routes>
           <Route
             index
+            path='*'
             element={
               <Home/>
             }
-          />
-          <Route
-            path="/ySpy"
-            element={
-              <MemRegForm/>
-            }
-          />
+           />
+           </Routes>
+          :
+          <>
+          <Layout>
+          <Routes>
           <Route
             path="/yatraMemReg"
             element={
-              <Timesup/>
-               // <MemRegForm/>
+              // <Timesup/>
+               <MemRegForm/>
             }
           />
           <Route
@@ -78,12 +84,6 @@ function App() {
               <Accomodation/>
             }
           />
-           <Route
-            path="/ySpyAcc"
-            element={
-              <Accomodation />
-            }
-          />
           <Route
             path="/yAdmin"
             element={
@@ -103,13 +103,17 @@ function App() {
               <ManageBookings />
             }
           />
+          {user.roles?.filter((e) => e.name === "ROLE_ADMIN")?
           <Route
             path="/admin"
             element={
               <Admin />
             }
-          />
+          />:<></>}
         </Routes>
+        </Layout>
+        </>
+    }
       </BrowserRouter>
     </>
   );

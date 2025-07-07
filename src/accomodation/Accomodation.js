@@ -10,6 +10,8 @@ import { useNavigate } from "react-router-dom"
 import LoadingSpinner from "../pleaseWait/loadingSpinner/LoadingSpinner";
 import Swal from "sweetalert2";
 import RegMemModal from "./RegMemModal"
+import {useAuth} from "../context/AuthContext";
+import PayDetailsOverlay from "../manualPG/PayDetailsDialogBox"
 
 
 export default () => {
@@ -28,6 +30,12 @@ export default () => {
     const [rooms, setRooms] = useState([1])
     const { gWaitOn, setGWaitOn } = useContext(PleaseWaitContext)
     const [savedMembersForBooking, setSavedMembersForBooking] = useState([])
+    const [payeeDetailsOverlayIsOpen,setPayeeDetailsOverlayIsOpen]=useState(false);
+    const [payeeName,setPayeeName]=useState("");
+    const [payeePhno,setPayeePhno]=useState("");
+
+
+    const {user}=useAuth();
     const navigate = useNavigate();
     let membersList = [];
 
@@ -35,7 +43,7 @@ export default () => {
     const getData=()=>{
 
         const res = axios.get(GET_ALL_ROOMS,{withCredentials:true})
-        res.then(data => setRooms(data.data))
+        res.then(data => setRooms(data.data)).catch()
 
         const memRes = axios.get(YATRA_REGISTERED_MEMBERS,{withCredentials:true})
         memRes.then(data => setMembersListForBooking(data.data))
@@ -50,11 +58,23 @@ export default () => {
          if (!sessionStorage.getItem("userEmail")===null)
           navigate("/");
 
-          else getData();
+          else {
+            getData();
+          }
+            const script = document.createElement('script');
+            script.src = "https://psa.atomtech.in/staticdata/ots/js/atomcheckout.js";  // If inside public folder
+            script.async = true;
+            document.body.appendChild(script);
         
-
-
+            script.onload = () => {
+              console.log("Script loaded!");
+            }
+        
+        return () => {
+            document.body.removeChild(script);
+          };
     }, [])
+    useEffect(()=>{console.log(payeeName,payeePhno)},[setPayeeName,setPayeePhno])
     const saveBookingData = (e) => {
         // console.log(e);
         setBookingDetails([...bookingDetails, e])
@@ -63,32 +83,40 @@ export default () => {
         //  console.log(bookingDetails)
     }
 
-
     const proceedAndPay = async () => {
 
         //save the data in db with INITIATED status
         const reqBody = {
-            "roomSet": [...bookingDetails]
+            "roomSet": [...bookingDetails],
+            "customerName": payeeName,
+            "customerEmail":user.userEmail,
+            "customerPhoneNo": payeePhno,
         }
+        console.log(reqBody)
 
 
         //save the data in db
         try {
             setGWaitOn(true)
-            const response = await axios.post(SAVE_ACCOMODATAION_DETAIL_WITHOUT_PAYMENT, reqBody,{withCredentials:true})
+            const response = await axios.post(SAVE_ACCOMODATAION_DETAIL_WITHOUT_PAYMENT, reqBody,{withCredentials:true}).catch(setGWaitOn(false))
             setGWaitOn(false)
-            const bookingId = response.data.bookingId
-            const amount = response.data.amount
+            console.log(response)
 
-            if (bookingId == null) {
-                const swalRes = await Swal.fire({
-                    icon: 'error',
-                    title: 'Failed',
-                    text: 'Something went wrong. ',
-                })
+            if(response.status===200){
+                new window.AtomPaynetz(response.data);
             }
+            // const bookingId = response.data.bookingId
+            // const amount = response.data.amount
+
+            // if (bookingId == null) {
+            //     const swalRes = await Swal.fire({
+            //         icon: 'error',
+            //         title: 'Failed',
+            //         text: 'Failed to generate Booking Id',
+            //     })
+            // }
             //procced to payment page
-            navigate("/payAcc", { state: { bookingId: bookingId, amount: amount } })
+            // navigate("/payAcc", { state: { bookingId: bookingId, amount: amount } })
         }
         catch (e) {
             // console.log(e);
@@ -100,16 +128,7 @@ export default () => {
         rooms.filter((l)=>e.roomType.roomId===l.roomId).map((l)=>l.count=l.count-1)
         else if(i==="2")
         rooms.filter((l)=>e.roomType.roomId===l.roomId).map((l)=>l.count=l.count+1)
-
-          
-      
-      
-          
       }
-
-    const showRegMemModal = () => {
-        <AccomodationModal />
-    }
 
 
 
@@ -145,9 +164,6 @@ export default () => {
                                 </div>
                             </div>
                         </div>
-
-
-
                     )
                 })}
                 {isOpen ? <AccomodationModal yatraRegisteredUsers={membersListForBooking} membersAccomoBooked={membersAccomoBooked} membersPendingApproval={membersPendingApproval} open={isOpen} oneRoom={oneRoom} roomType={roomType} minMemCount={minMemCount} memCount={memCount} onClose={() => setIsOpen(false)} savedMembersForBooking={savedMembersForBooking} onSave={saveBookingData} /> : ""}
@@ -161,17 +177,12 @@ export default () => {
                         setSavedMembersForBooking={setSavedMembersForBooking}
                         onClose={() => setIsRegModalOpen(false)} /> : ""}
 
-
-
-
-
-
             </div>
-
+            {payeeDetailsOverlayIsOpen?<PayDetailsOverlay proceedAndpay={() => proceedAndPay() } setPayeeName={(e)=>(setPayeeName(e))} setPayeePhno={(e)=>(setPayeePhno(e))} payeeName={payeeName} payeePhno={payeePhno}open={payeeDetailsOverlayIsOpen} onClose={()=>setPayeeDetailsOverlayIsOpen(false)}/>:<></>}
 
             <div className="payButton">
                 <button className="btn btn-dark " disabled={bookingDetails.length==0} onClick={() => { setIsRegModalOpen(true); }} >Review</button>
-                <button className="btn btn-success " style={{ marginLeft: "40px" }} onClick={() => proceedAndPay()} disabled={bookingDetails.length == 0}>Proceed to Pay</button>
+                <button className="btn btn-success " style={{ marginLeft: "40px" }} onClick={() => setPayeeDetailsOverlayIsOpen(true)} disabled={bookingDetails.length == 0}>Proceed to Pay</button>
 
             </div>
 
