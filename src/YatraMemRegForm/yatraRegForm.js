@@ -147,9 +147,9 @@ export default function MemRegForm() {
           <div className="jumbotron jumbotron-fluid">
             <div className="container">
               <h1 className="display-4">{GVS_YATRA}</h1>
-              <p className="lead">Organized by Haldia VOICE</p>
+              <p className="lead">Organized by G.V.S.</p>
               <hr />
-              <p className="lead"><b>20th to 24th November 2024 - Chitrakoot</b></p>
+              <p className="lead"><b>7th to 12th September 2025 - Goverdhan</b></p>
               <hr />
             </div>
           </div>
@@ -159,10 +159,10 @@ export default function MemRegForm() {
               <div className="row">
                 <div className="col-sm">
                   {/* <span className="badge text-bg-secondary">Adult (Above 10) : Rs.2200/-</span> */}
-                  <Paper className="badge text-bg-secondary">Adult (Above 10) : Rs.2200/-</Paper>
+                  <Paper className="badge text-bg-secondary">Adult (Above 10) : Rs.2500/-</Paper>
                 </div>
                 <div className="col-sm">
-                  <Paper className="badge text-bg-secondary">Teens (Age less than or equal to 10) : Rs.1100/-</Paper>
+                  <Paper className="badge text-bg-secondary">Teens (Age less than or equal to 10) : Rs.1300/-</Paper>
                 </div>
                 <div className="col-sm">
                   <Paper className="badge text-bg-secondary">Child (Age less than or equal to 5) : FREE</Paper>
@@ -280,9 +280,9 @@ export default function MemRegForm() {
 
   </>
 
-  const closedTemplate = <>
-    <h4 style={{ "color": "red" }}>Yatra Member Registration Closed.</h4>
-  </>
+  // const closedTemplate = <>
+  //   <h4 style={{ "color": "red" }}>Yatra Member Registration Closed.</h4>
+  // </>
 
   return (
     <>
