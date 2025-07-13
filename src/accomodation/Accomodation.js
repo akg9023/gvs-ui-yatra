@@ -83,8 +83,11 @@ export default () => {
         //  console.log(bookingDetails)
     }
 
-    const proceedAndPay = async () => {
+    useEffect(()=>{},[gWaitOn]);
 
+    const proceedAndPay = async () => {
+        setGWaitOn(true)
+         console.log(gWaitOn);
         //save the data in db with INITIATED status
         const reqBody = {
             "roomSet": [...bookingDetails],
@@ -97,13 +100,15 @@ export default () => {
 
         //save the data in db
         try {
-            setGWaitOn(true)
-            const response = await axios.post(SAVE_ACCOMODATAION_DETAIL_WITHOUT_PAYMENT, reqBody,{withCredentials:true}).catch(setGWaitOn(false))
-            setGWaitOn(false)
+            
+            const response = await axios.post(SAVE_ACCOMODATAION_DETAIL_WITHOUT_PAYMENT, reqBody,{withCredentials:true})
+            
             console.log(response)
 
             if(response.status===200){
-                new window.AtomPaynetz(response.data);
+                setGWaitOn(false)
+                console.log(gWaitOn);
+              new window.AtomPaynetz(response.data);
             }
             // const bookingId = response.data.bookingId
             // const amount = response.data.amount
@@ -119,7 +124,7 @@ export default () => {
             // navigate("/payAcc", { state: { bookingId: bookingId, amount: amount } })
         }
         catch (e) {
-            // console.log(e);
+            setGWaitOn(false)
         }
 
     }
@@ -133,6 +138,7 @@ export default () => {
 
 
     const template = <>
+    {gWaitOn?<LoadingSpinner/>:<></>}
 
         <div className="container">
             <h1 className="display-4">Accommodation</h1>
@@ -191,6 +197,6 @@ export default () => {
 
     const timeIsOver=<>Sorry! Booking window is now closed!!!</>
 
-    return <>{gWaitOn ? <PleaseWait /> : template}</>
+    return <>{gWaitOn ? <LoadingSpinner /> : template}</>
 }
 
