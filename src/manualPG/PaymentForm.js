@@ -44,14 +44,6 @@ export default () => {
 
     useEffect(() => {
         if (!sessionStorage.getItem("userEmail")) navigate("/");
-        // else {
-
-        //     // Converting the data into base64
-        //     QRCode.toString(paymentUrl, function (err, code) {
-        //         if (err) return console.log("error occurred")
-        //         setQR(code)
-        //     })
-        // }
 
     }, [])
 
@@ -105,7 +97,6 @@ export default () => {
             "txnDate": Date.now()
         }
 
-        // console.log(reqForMemList);
         setGWaitOn(true)
         try {
             //save in member registraion table

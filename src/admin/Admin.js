@@ -17,7 +17,6 @@ export default function Admin() {
         const resp = await axios.get(GET_ALL_REGISTERED_MEMBERS, { withCredentials: true })
             .catch((e) => { setErrorMsg("OOps!!There was some error. Please try again!!"); setLoading(false); });
         if (resp.data) {
-            console.log("data is set")
             setRegMem(resp.data.sort((a,b)=>b.txnDate-a.txnDate));
         }
         setLoading(false);

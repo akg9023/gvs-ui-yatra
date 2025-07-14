@@ -50,7 +50,6 @@ export default function Home(props) {
     const userData = await response.json();
     let { userEmail, roles, userName } = userData;
     login(userData);
-    console.log(userData);
     sessionStorage.setItem("userEmail", userEmail);
     sessionStorage.setItem("userName", userName);
     setGWaitOn(false);

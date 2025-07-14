@@ -79,7 +79,7 @@ export default () => {
 
             // Converting the data into base64
             QRCode.toString(paymentUrl, function (err, code) {
-                if (err) return console.log("error occurred")
+                if (err) return console.error("error occurred")
                 setQR(code)
             })
         
