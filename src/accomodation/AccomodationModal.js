@@ -11,7 +11,6 @@ export default function AccomodationModal(props) {
   const { oneRoom } = props
 
   let bookingDetails = { roomType: { roomId: props.roomType }, member: mem, memCheckInTime: arrDate, memCheckOutTime: depDate }
-  // console.log(props.yatraRegisteredUsers)
   const [memId, setMemId] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const extempedAge = 5
@@ -85,7 +84,6 @@ export default function AccomodationModal(props) {
   };
 
   const saveBookingDetails = () => {
-    //console.log(bookingDetails)
     const memAdultCount = mem.filter((mem) => mem.dbDevAge > 10)
     if (bookingDetails.member.length < props.minMemCount) {
       setArrDepError(`Please Add atleast ${props.minMemCount} Members before Saving`);
@@ -121,7 +119,7 @@ export default function AccomodationModal(props) {
   return (
     <>
       <Dialog open={props.open} onClose={onClose} >
-        <DialogTitle bgcolor="blue" color="whitesmoke"> Add Booking Details</DialogTitle>
+        <DialogTitle sx={{ background: '-webkit-linear-gradient(180deg,#eee, #090979)', color: 'whitesmoke' }}> Add Booking Details</DialogTitle>
         <DialogContent>
 
           <div>

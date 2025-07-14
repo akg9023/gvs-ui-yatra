@@ -74,20 +74,17 @@ export default () => {
             document.body.removeChild(script);
           };
     }, [])
-    useEffect(()=>{console.log(payeeName,payeePhno)},[setPayeeName,setPayeePhno])
+    useEffect(()=>{},[setPayeeName,setPayeePhno])
     const saveBookingData = (e) => {
-        // console.log(e);
         setBookingDetails([...bookingDetails, e])
         setSavedMembersForBooking([...savedMembersForBooking, ...e.member])
         manageRoomCount(e,"1");
-        //  console.log(bookingDetails)
     }
 
     useEffect(()=>{},[gWaitOn]);
 
     const proceedAndPay = async () => {
         setGWaitOn(true)
-         console.log(gWaitOn);
         //save the data in db with INITIATED status
         const reqBody = {
             "roomSet": [...bookingDetails],
@@ -95,33 +92,16 @@ export default () => {
             "customerEmail":user.userEmail,
             "customerPhoneNo": payeePhno,
         }
-        console.log(reqBody)
-
 
         //save the data in db
         try {
             
             const response = await axios.post(SAVE_ACCOMODATAION_DETAIL_WITHOUT_PAYMENT, reqBody,{withCredentials:true})
             
-            console.log(response)
-
             if(response.status===200){
                 setGWaitOn(false)
-                console.log(gWaitOn);
               new window.AtomPaynetz(response.data);
             }
-            // const bookingId = response.data.bookingId
-            // const amount = response.data.amount
-
-            // if (bookingId == null) {
-            //     const swalRes = await Swal.fire({
-            //         icon: 'error',
-            //         title: 'Failed',
-            //         text: 'Failed to generate Booking Id',
-            //     })
-            // }
-            //procced to payment page
-            // navigate("/payAcc", { state: { bookingId: bookingId, amount: amount } })
         }
         catch (e) {
             setGWaitOn(false)

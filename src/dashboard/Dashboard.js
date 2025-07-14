@@ -27,13 +27,13 @@ export default () => {
                 <div className="container">
                     <div className="row">
                         <div className="col-md-4">
-                            <div className="card mb-4 box-shadow">
+                            <div className="card mb-4 shadow-md rounded-xl">
                                 <img className="card-img-top myImg" src="https://tse3.mm.bing.net/th?id=OIP.A5rZGnnmCAixyCKce89DzwHaHa&pid=Api&P=0" alt="Card image cap" />
                                 <div className="card-body">
                                     <h4>Step 1: Add Members</h4>
                                     <p className="card-text">This is the first phase of yatra registration in which you will be only allowed to add members coming in yatra.</p>
-                                    <small>Registration Starts: <span style={{ color: "green" }}>20-Jun-2024</span></small><br />
-                                    <small>Last Date of Registration: <span style={{ color: "green" }}>5-Jul-2024</span></small><br /><br />
+                                    <small>Registration Starts: <span style={{ color: "green" }}>15-Jun-2025</span></small><br />
+                                    <small>Last Date of Registration: <span style={{ color: "green" }}>5-Jul-2025</span></small><br /><br />
                                     <div className="d-flex justify-content-between align-items-center">
                                         <div className="d-flex flex-wrap gap-2">
                                             <button type="button" className="btn btn-sm btn-outline-success" onClick={navigateToMemForm}>Register</button>
@@ -47,7 +47,7 @@ export default () => {
 
 
                         <div className="col-md-4 ">
-                            <div className="card mb-4 box-shadow boxx">
+                            <div className="card mb-4 shadow-md rounded-xl boxx">
                                 <img className="card-img-top myImg" src="https://icon-library.com/images/accommodation-icon/accommodation-icon-7.jpg" alt="Card image cap" />
                                 <div className="card-body">
                                     <h4>Step 2: Accommodation</h4>
@@ -65,7 +65,7 @@ export default () => {
                             </div>
                         </div>
                         <div className="col-md-4">
-                            <div className="card mb-4 box-shadow">
+                            <div className="card mb-4 shadow-md rounded-xl">
                                 <img className="card-img-top myImg" src="https://cdn.pixabay.com/photo/2015/06/09/16/12/icon-803718_960_720.png" alt="Card image cap" />
                                 <div className="card-body">
                                     <h4>Step 3: Confirmation</h4>

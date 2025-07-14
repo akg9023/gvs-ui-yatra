@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import "./index.css";
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -6,12 +6,11 @@ import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
 import { Typography } from "@mui/material";
 
-const NavBar = (props) => {
+const NavBar = () => {
 
-  const [enableMenu,setEnableMenu]=useState(true);
   
       return (<>
-  <AppBar  sx={{background:' -webkit-linear-gradient(180deg,#eee, #090979)',display:'flex',height:"8vh", justifyContent:"center"}}position="static">
+  <AppBar  sx={{background:' -webkit-linear-gradient(180deg,#eee, #090979)',display:'flex',height:"8vh", justifyContent:"center"}} position="fixed">
       <Container maxWidth="xl">
         <Toolbar disableGutters sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
           <Box

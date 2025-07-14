@@ -10,7 +10,7 @@ import { PeopleAdd } from "emotion-icons/fluentui-system-filled";
 import { Dashboard } from "emotion-icons/boxicons-solid";
 import { UserCog } from "emotion-icons/fa-solid";       // User with cog (great admin representation)
 
-export default function Sidebar() {
+export default function Sidebar(props) {
     const {logout,user} =useAuth();
     const navigate = useNavigate()
   const [darkMode, setDarkMode] = useState(false);
@@ -51,11 +51,10 @@ export default function Sidebar() {
     { icon: <PeopleAdd size="20"/>, label: "Reg. Summary" },
     { icon: <BrowserOutline size="20"/>, label: "Main Page" },
     { icon: <Registered size="20"/>, label: "DB. Registration" },
-    user.roles?.filter((e) => e.name === "ROLE_ADMIN")?{ icon: <UserCog size="20"/>, label: "Admin" }:"",
+    user.roles?.filter((e) => e === "ROLE_ADMIN")?{ icon: <UserCog size="20"/>, label: "Admin" }:"",
     { icon: <LogOutOutline size="20"/>, label: "Logout" },
   ];
   const handleClickedMenu = async (e) => {
-    console.log(e);
     switch (e.target.id) {
       case "Logout":
         {
@@ -110,9 +109,13 @@ export default function Sidebar() {
 
 
   return (
-    <div className={`${darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-800"} flex flex-col justify-between border-r border-gray-200 p-4 overflow-hidden transition-all duration-1000 ease-in-out`} style={{    width: collapsed ? "6rem" : "16rem",height: "calc(100vh - 8vh)"}} onTouchStart={()=>setCollapsed(!collapsed)} onMouseOver={()=>setCollapsed(false)} onMouseLeave={()=>setCollapsed(true)}>
+    <div className={`${darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-800"} fixed flex flex-col justify-between border-r border-gray-200 p-4 overflow-hidden transition-all duration-1000 ease-in-out`}
+     style={{    width: collapsed ? "6rem" : "16rem",height: "calc(100vh - 8vh)",boxShadow: "4px 0 15px rgba(0, 0, 0, 0.3)",
+     transform: "translateZ(0)",
+     borderRight: "1px solid rgba(0,0,0,0.1)"}}
+      onTouchStart={()=>{setCollapsed(!collapsed);props.onCollapseToggle(!collapsed)}}
+      onMouseOver={()=>{setCollapsed(false);props.onCollapseToggle(false)}} onMouseLeave={()=>{setCollapsed(true);props.onCollapseToggle(true)}}>
       
-      {/* Top Section */}
       <div>
         {/* Menu Items */}
         <nav className="space-y-4">

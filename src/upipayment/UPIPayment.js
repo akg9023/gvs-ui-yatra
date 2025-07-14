@@ -33,7 +33,7 @@ export const upiGatewayPayment = async ( membersList, setGWaitOn) => {
         redirect(payload.payment_url)
     }
     catch (error) {
-        console.log("error", error);
+        console.error("error", error);
     }
 
 
