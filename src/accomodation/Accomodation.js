@@ -146,7 +146,7 @@ export default () => {
 
                                 </div>
                                 <div className="card-body"  >
-                                    {membersListForBooking.length === 0 ? <LoadingSpinner style={{ position: "relative", textAlign: "left" }} /> : <button className="btn btn-warning" disabled={one.count <= 0} onClick={() => { setIsOpen(true); setRoomType(one?.roomId); setMemCount(one?.memberCount); setOneRoom(one); setMinMemCount(one?.minMemberCount) }}>Book Now</button>}
+                                    {membersListForBooking.length === 0 ? "no-members-registered" : <button className="btn btn-warning" disabled={one.count <= 0} onClick={() => { setIsOpen(true); setRoomType(one?.roomId); setMemCount(one?.memberCount); setOneRoom(one); setMinMemCount(one?.minMemberCount) }}>Book Now</button>}
                                 </div>
                             </div>
                         </div>

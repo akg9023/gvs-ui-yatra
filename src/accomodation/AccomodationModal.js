@@ -185,8 +185,8 @@ export default function AccomodationModal(props) {
 
                 </p></div>
                 <div>
-                  <div className="col"><a>Arrival: <input type="dateTime-local" id="arrDate" min="2025-09-06T09:00" max="2025-09-11T20:00" style={{ height: "20px", fontSize: 2 }} onChange={(e) => { setArrDate(e.target.value); setArrDepError("") }}></input></a><br />
-                    <a>Depart: <input type="dateTime-local" id="depDate" min="2025-09-08T09:00" max="2025-09-13T10:00" style={{ height: "20px", fontSize: 2 }} onChange={(e) => { setDepDate(e.target.value); setArrDepError("") }}></input></a></div>
+                  <div className="col"><a>Arrival: <input type="dateTime-local" id="arrDate" min="2025-09-07T04:00" max="2025-09-11T20:00" style={{ height: "20px", fontSize: 2 }} onChange={(e) => { setArrDate(e.target.value); setArrDepError("") }}></input></a><br />
+                    <a>Depart: <input type="dateTime-local" id="depDate" min="2025-09-08T00:00" max="2025-09-13T10:00" style={{ height: "20px", fontSize: 2 }} onChange={(e) => { setDepDate(e.target.value); setArrDepError("") }}></input></a></div>
                 </div>
               </div>
             </form>

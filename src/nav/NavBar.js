@@ -11,7 +11,7 @@ const NavBar = () => {
   
       return (<>
   <AppBar  sx={{background:' -webkit-linear-gradient(180deg,#eee, #090979)',display:'flex',height:"8vh", justifyContent:"center"}} position="fixed">
-      <Container maxWidth="xl">
+      <Container maxWidth="m">
         <Toolbar disableGutters sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
           <Box
           component="img"
@@ -21,7 +21,6 @@ const NavBar = () => {
           variant="h6"
           noWrap
           component="a"
-          // href={NAVIGATE_TO_MAIN_YATRA_REGISTRATION_PAGE}
           sx={{
             ml: 2,
             display: "block",

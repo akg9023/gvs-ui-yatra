@@ -28,7 +28,7 @@ export default () => {
 
     const template = <div className="container">
         <h1 className="display-4 rounded-xl px-4 py-2 text-blue-900 shadow-xl">Manage Bookings</h1><br /><br />
-        <div className="row" >
+        <div className="row gap-4" >
             {bookings.map((one, index) => (<>
                 <div className="col-sm-5 rounded-xl" style={{ padding: "20px",boxShadow: "4px 0 15px rgba(0, 0, 0, 0.3)" }}>
                     <div className="list-group">
@@ -66,7 +66,7 @@ export default () => {
                                 <li className="list-group-item">Transaction Id: {one.upiTxnId}</li>
                                 <li className="list-group-item">UPI Id : {one.customerVPA}</li>
                                 <li className="list-group-item">Amount : {one.amount} </li>
-                                <li className="list-group-item">Created Date : {one.createdDateTime}</li>
+                                <li className="list-group-item">Created Date : {one.createdDateTime.replace("T"," ")}</li>
                             </ul>
                         </a>
                     </div>
