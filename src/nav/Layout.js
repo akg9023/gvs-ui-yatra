@@ -12,7 +12,7 @@ export default function Layout({ children }) {
       <div className="flex flex-1" >
       <Sidebar onCollapseToggle={(bool)=>setCollapsed(bool)}/>
       <main className="flex-1 p-4 overflow-auto transition-all duration-1000 ease-in-out" style={{
-      marginLeft: collapsed ? "6rem" : "16rem", // match sidebar width
+      marginLeft: collapsed ? "5rem" : "15rem", // match sidebar width
       padding: "1rem"
     }}>{children}</main>
       </div>

@@ -6,9 +6,11 @@ import { upiGatewayPayment } from "../upipayment/UPIPayment";
 import { PleaseWaitContext } from "../context/PleaseWaitContextProvider.js";
 import axios from "axios";
 import LoadingSpinner from "../pleaseWait/loadingSpinner/LoadingSpinner";
-import { Button, Menu, MenuItem, Card, Container, Typography, Badge, Paper, TableRow, TableCell, Divider, Input, CircularProgress } from "@mui/material";
+import { Button, Menu, MenuItem, Card, Container, Typography, Badge, Paper, TableRow, TableCell, Divider, Input, CircularProgress, Box } from "@mui/material";
 import { PeopleSearch } from "@emotion-icons/fluentui-system-filled/PeopleSearch";
 import { CALCULATE_MEM_REG_AMOUNT, GVS_YATRA, GET_LIMITED_SINGLE_USER_DETAIL, GET_ALL_REG_MEM_ID, GET_LIMITED_USER_DEPENDENTS_DETAIL } from "../constants/Constants";
+import { Trash2Fill } from "emotion-icons/bootstrap";
+import { Trash2Outline } from "emotion-icons/evaicons-outline";
 
 export default function MemRegForm() {
   const [memId, setMemId] = useState("");
@@ -144,7 +146,7 @@ export default function MemRegForm() {
     <div className="container-fluid px-1 py-2 mx-auto">
       <div className="row d-flex justify-content-center">
         <div className="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
-          <div className="jumbotron jumbotron-fluid">
+          <div className="jumbotron jumbotron-fluid pt-2 pb-4">
             <div className="container">
               <h1 className="display-4">{GVS_YATRA}</h1>
               <p className="lead">Organized by G.V.S.</p>
@@ -180,41 +182,31 @@ export default function MemRegForm() {
 
             {/* <h2 className="text-center mb-4">Register Members</h2> */}
             <form className="form-card" onSubmit={(e) => e.preventDefault()}>
-              <div className="row justify-content-between text-left">
-                <div className="form-group col-sm-10 flex-column d-flex">
+              <div className="flex flex-wrap items-center gap-4">
                   <input
                     type="text"
                     id="fname"
                     name="fname"
                     style={{ margin: "1rem", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)" }}
-
+                    className="flex-1 min-w-[200px] px-3 py-2 rounded border shadow"
                     placeholder="Enter your Registration ID"
                     onChange={(e) => setMemId(e.target.value)}
                   />
-
-                </div>
-                <div
-                  className="form-group col-sm-2 flex-column d-flex ms-center"
-                  
-                  
-                >
-                  {isLoading ? <icon><CircularProgress sx={{ margin: 3 }} /></icon> : <icon className="bi search-icon" style={{ margin: "1rem"}}><PeopleSearch  onClick={handleSearch} size={30} /></icon>}
-
-                </div>
-              </div>
-              <br />
-              <div className="row ">
-                <h5 className="text col-sm-6" style={{ display: "flex", margin: "1rem" }}>
-                  Added Members
-                </h5>
+                      <div className="w-full sm:w-auto flex justify-center">
+                  {isLoading ? (<div className="flex items-center justify-center"> <CircularProgress /></div>) :
+                    (<div className="text-blue-700 hover:text-orange-900 transition duration-200cursor-pointer flex justify-center items-center" onClick={handleSearch}>
+                      <PeopleSearch size={30} />
+                    </div>
+                    )}
+                    </div>
                 <Button
-                  className="form-group col-sm-4 ms-auto"
+                  className="flex items-center whitespace-nowrap"
                   id="basic-button"
                   aria-controls={open ? 'basic-menu' : undefined}
                   aria-haspopup="true"
                   aria-expanded={open ? 'true' : undefined}
                   onClick={handleClick}
-                  sx={{margin:2}}
+                  sx={{ margin: 1 }}
                 >
                   Add Dependents
                 </Button>
@@ -233,26 +225,28 @@ export default function MemRegForm() {
                 ))}
                 </Menu>
               </div>
+              <br />
+              <div className="row ">
+                <h5 className="text col-sm-6" style={{ display: "flex", margin: "1rem" }}>
+                  Added Members
+                </h5>
+              </div>
               <hr style={{ margin: "1rem" }} />
               <div className="accordion" id="accordionExample">
-                {mem.map(({ id, fname, gender, age }, index) => (
-                  <div key={id} className="container">
-                    <div className="row align-items-start">
-                      <div className="col">
-                        <div style={{ display: "flex" }}>
-                          <h6>
+                {mem.length !==0 ? mem.map(({ id, fname, gender, age }, index) => (
+                  <div key={id} className="flex justify-between items-center px-4 py-1 mx-4 my-1 border-b">
+
+                        <div className="text-sm font-medium">
+                          <h6 className="text-sm font-medium">
                             {index + 1} | {id} | {fname} | {gender} | {age <= extempedAge ? <span style={{ color: "orange" }}>Child</span> : age <= teenAge ? <span style={{ color: "green" }}>Teen</span> : <span style={{ color: "olive" }}>Adult</span>}
                           </h6>
                         </div>
-                      </div>
-                      <div className="col-2">
-                        <button onClick={(e) => handleRemove(e, index)}>
-                          <i className="bi bi-trash"></i>
+                        <button className="p-0 m-0 bg-transparent border-none text-red-600 hover:text-red-800 " onClick={(e) => handleRemove(e, index)}>
+                          <Trash2Outline size={20}/>
                         </button>
-                      </div>
                     </div>
-                  </div>
-                ))}
+                )):<div className="text-sm font-medium">no one added yet..</div>
+              }
               </div>
               <br />
               <p style={{ margin: "1rem", display: "flex", color: "red" }}>

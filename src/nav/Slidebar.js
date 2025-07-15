@@ -8,6 +8,7 @@ import { Registered } from "emotion-icons/boxicons-regular";
 import { BrowserOutline } from "emotion-icons/evaicons-outline";
 import { PeopleAdd } from "emotion-icons/fluentui-system-filled";
 import { Dashboard } from "emotion-icons/boxicons-solid";
+import { BuildingHouse } from "emotion-icons/boxicons-solid";
 import { UserCog } from "emotion-icons/fa-solid";       // User with cog (great admin representation)
 
 export default function Sidebar(props) {
@@ -48,9 +49,10 @@ export default function Sidebar(props) {
 
   const menuItems = [
     { icon: <Dashboard size="20"/>, label: "Dashboard" },
-    { icon: <PeopleAdd size="20"/>, label: "Reg. Summary" },
-    { icon: <BrowserOutline size="20"/>, label: "Main Page" },
-    { icon: <Registered size="20"/>, label: "DB. Registration" },
+    { icon: <PeopleAdd size="20"/>, label: "My Registrations" },
+    { icon: <BuildingHouse size="20"/>, label: "My Bookings" },
+    { icon: <Registered size="20"/>, label: "DB Registration" },
+    { icon: <BrowserOutline size="20"/>, label: "GVS Portal" },
     user.roles?.filter((e) => e === "ROLE_ADMIN")?{ icon: <UserCog size="20"/>, label: "Admin" }:"",
     { icon: <LogOutOutline size="20"/>, label: "Logout" },
   ];
@@ -79,9 +81,14 @@ export default function Sidebar(props) {
           navigate("/dashboard")
         }
         break;
-      case "Reg. Summary":
+      case "My Registrations":
         {
           navigate("/manageMem")
+        }
+        break;
+        case "My Bookings":
+        {
+          navigate("/manageBookings")
         }
         break;
       case "Settings":
@@ -89,12 +96,12 @@ export default function Sidebar(props) {
           navigate("/myprofile")
         }
         break;
-      case "Main Page":
+      case "GVS Portal":
         {
           window.location.href = NAVIGATE_TO_MAIN_YATRA_REGISTRATION_PAGE+'/yatra';
         }
         break;
-        case "Database Registration":
+        case "DB-Registration":
         {
           window.location.href = NAVIGATE_TO_DATABASE_REGISTRATION_PAGE;
         }
@@ -110,7 +117,7 @@ export default function Sidebar(props) {
 
   return (
     <div className={`${darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-800"} fixed flex flex-col justify-between border-r border-gray-200 p-4 overflow-hidden transition-all duration-1000 ease-in-out`}
-     style={{    width: collapsed ? "6rem" : "16rem",height: "calc(100vh - 8vh)",boxShadow: "4px 0 15px rgba(0, 0, 0, 0.3)",
+     style={{    width: collapsed ? "5rem" : "15rem",height: "calc(100vh - 8vh)",boxShadow: "4px 0 15px rgba(0, 0, 0, 0.3)",
      transform: "translateZ(0)",
      borderRight: "1px solid rgba(0,0,0,0.1)"}}
       onTouchStart={()=>{setCollapsed(!collapsed);props.onCollapseToggle(!collapsed)}}
@@ -120,10 +127,10 @@ export default function Sidebar(props) {
         {/* Menu Items */}
         <nav className="space-y-4">
           {menuItems.filter(e=>e!=="").map((item, index) => (
-            <button key={index} id={item.label} onClick={(e)=>handleClickedMenu(e)} className="flex items-center w-full space-x-3 text-sm hover:text-purple-600 group focus:outline-none bg-transparent border-none">
+            <button key={index} id={item.label} onClick={(e)=>handleClickedMenu(e)} className="flex items-center w-full space-x-2 text-sm hover:text-purple-600 group focus:outline-none bg-transparent border-none">
               <span className="text-xl" id={item.label}>{item.icon}</span>
               {!collapsed && 
-              <span className={`overflow-hidden md:inline ml-5`}id={item.label}>{item.label}</span>
+              <span className={`overflow-hidden md:inline ml-5 whitespace-nowrap`}id={item.label}>{item.label}</span>
               }
             </button>
           ))}
@@ -133,7 +140,7 @@ export default function Sidebar(props) {
       {/* Bottom Section */}
       <div className="space-y-4">
         {/* User Info */}
-        <div className="flex items-center space-x-2">
+        <div className="lex flex-col items-center space-y-1">
           {/* <img src="https://via.placeholder.com/32" alt="User" className="w-8 h-8 rounded-full" /> */}
           <Avatar {...stringAvatar(sessionStorage.getItem("userEmail"))} sx={{ boxShadow: 2, fontSize: 16, marginRight: 1, background: stringToColor(sessionStorage.getItem("userEmail")) }} />
           {!collapsed && 
@@ -154,7 +161,7 @@ export default function Sidebar(props) {
             />
           </button>
           {!collapsed && 
-          <span className="hidden md:inline text-sm">{darkMode ? "Light mode" : "Dark mode"}</span>
+          <span className="hidden md:inline text-sm whitespace-nowrap">{darkMode ? "Light mode" : "Dark mode"}</span>
           }
         </div>
       </div>
