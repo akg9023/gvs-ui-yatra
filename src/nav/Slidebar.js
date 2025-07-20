@@ -101,7 +101,7 @@ export default function Sidebar(props) {
           window.location.href = NAVIGATE_TO_MAIN_YATRA_REGISTRATION_PAGE+'/yatra';
         }
         break;
-        case "DB-Registration":
+        case "DB Registration":
         {
           window.location.href = NAVIGATE_TO_DATABASE_REGISTRATION_PAGE;
         }

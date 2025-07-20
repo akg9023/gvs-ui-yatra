@@ -24,7 +24,7 @@ export const LOGIN_URL = BASE_URL + "/oauth2/authorization/google";
 export const LOGOUT = BASE_URL + "/logout";
 export const GET_ALL_REGISTERED_MEMBERS = BASE_URL + "/yatra/admin/fetchYatraRegisteredmembers"
 
-
+export const GET_ALL_BOOKED_MEMBERS = BASE_URL + "/yatra/admin/fetchAllBookedMembers"
 
 //manual  
 export const CALCULATE_MEM_REG_AMOUNT = BASE_URL + "/v1/manualPayment/memRegAmt"
