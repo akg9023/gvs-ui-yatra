@@ -8,10 +8,13 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import { styled } from '@mui/material/styles';
-import { Box, IconButton, TextField } from '@mui/material';
+import { Box, Button, IconButton, TextField } from '@mui/material';
 import { FileDownload } from 'emotion-icons/fa-solid';
 const columns = [
-  { id: 'memberIdList', label: 'Members', minWidth: 30 },
+  { id: 'id', label: 'Booking Id', minWidth: 30 },
+  { id: 'customerName', label: 'Booked By', minWidth: 30 },
+  { id: 'customerPhoneNo', label: 'Phone no', minWidth: 30 },
+  { id: 'roomSet', label: 'Members Room', minWidth: 30 },
   {
     id: 'amount',
     label: 'Amount',
@@ -19,14 +22,14 @@ const columns = [
     align: 'right',
   },
   {
-    id: 'upiTxnId',
+    id: 'customerTxnId',
     label: 'Txn Id',
     minWidth: 70,
     align: 'right',
   },
   {
     id: 'customerVPA',
-    label: 'APP Used',
+    label: 'method',
     minWidth: 50,
     align: 'right',
   },
@@ -42,10 +45,10 @@ const columns = [
     minWidth: 50,
     align: 'right',
   },
-  { id: 'userEmail', label: 'Email', minWidth: 100 },
+  { id: 'customerEmail', label: 'Email', minWidth: 100 },
 
 ];
-export default function StickyHeadTable(props) {
+export default function StickyHeadTableBooking(props) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [searchText, setSearchText] = React.useState("");
@@ -67,6 +70,7 @@ export default function StickyHeadTable(props) {
       border: 0,
     },
   }));
+
   const filteredRows = props.rows.filter((row) => {
     return Object.values(row).some((value) =>
       typeof value === "string"
@@ -88,7 +92,7 @@ export default function StickyHeadTable(props) {
   return (
     <Paper elevation={4} sx={{ width: '140%', overflow: 'hidden', rem: 4, alignSelf: 'center', marginLeft: 1, marginTop: 5, marginRight: 5 }}>
       <TableContainer >
-      <Box
+        <Box
           display="flex"
           justifyContent="space-between"
           alignItems="center"
@@ -99,6 +103,7 @@ export default function StickyHeadTable(props) {
             label="Search"
             variant="outlined"
             size="small"
+            // sx={{ width: 300 }}
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
           />
@@ -155,6 +160,7 @@ export default function StickyHeadTable(props) {
                   key={column.id}
                   align={'center'}
                   style={{ minWidth: column.minWidth }}
+                  sx={{ whiteSpace: 'nowrap', minWidth: 'fit-content' }}
                 >
                   {column.label}
                 </StyledTableCell>
@@ -172,16 +178,20 @@ export default function StickyHeadTable(props) {
                     </StyledTableCell>
                     {columns.map((column) => {
                       let value = row[column.id];
-                      if (column.id === "memberIdList") {
-                        value = value.map(o => `${o.dbDevId}_${o.dbDevName.toUpperCase()}_${o.dbDevGender.charAt(0)}${o.dbDevAge}`);
+                      if (column.id === "roomSet") {
+                        value = value.map(o => {
+                          const members = o.member
+                            .map(m => `${m.dbDevName.toUpperCase()}_${m.dbDevGender.charAt(0)}`)
+                            .join(", ");
+                          return `${o.roomType.roomId}->[${members}]`
+                        });
                       }
                       else if (column.id === "txnDate") {
-                        const date = new Date(Number(value));
-                        value = `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}_${String(date.getHours()).padStart(2, 0)}:${String(date.getMinutes()).padEnd(2, 0)}`;
+                        value = value.split('.')[0].replace("T", " ");
                       }
                       return (
-                        <StyledTableCell key={column.id} align={'left'}>
-                          {column.id === "memberIdList" ? value.join(" ,\n") : value}
+                        <StyledTableCell key={column.id} align={'left'} sx={{ whiteSpace: 'nowrap', minWidth: 'fit-content' }}>
+                          {column.id === "roomSet" ? value.join("\n") : value}
                         </StyledTableCell>
                       );
                     })}

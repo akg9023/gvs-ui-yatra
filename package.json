@@ -17,6 +17,7 @@
     "bootstrap-icons": "^1.10.4",
     "dotenv": "^16.0.3",
     "emotion-icons": "^3.27.0",
+    "file-saver": "^2.0.5",
     "html-react-parser": "^3.0.16",
     "html-to-image": "^1.11.11",
     "js-cookie": "^3.0.5",
@@ -27,11 +28,12 @@
     "react-router-dom": "^6.10.0",
     "react-scripts": "5.0.1",
     "react-spinners": "^0.13.8",
-    "sweetalert2": "^11.7.12",
     "redux-thunk": "^2.4.2",
+    "sweetalert2": "^11.7.12",
     "tailwind-merge": "^3.3.1",
     "tw-animate-css": "^1.3.4",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@babel/runtime": "7.13.8",

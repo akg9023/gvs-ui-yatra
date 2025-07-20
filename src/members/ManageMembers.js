@@ -29,9 +29,9 @@ export default () => {
     }, [])
 
     const template = <div className="container">
-        <h1 className="display-4 rounded-xl px-4 py-2 text-blue-900" style={{boxShadow: "4px 0 15px rgba(0, 0, 0, 0.3)"}}>Manage Members</h1><br /><br />
+        <h1 className="display-4 rounded-xl px-4 py-2 text-blue-900 shadow-xl">Manage Members</h1><br /><br />
         <div className="row gap-4">
-            {regMemDetails.map((one, index) => (<>
+            {regMemDetails.length!==0 ? regMemDetails.map((one, index) => (<>
                 <div className="col-sm-5 rounded-xl " style={{"padding":"20px",boxShadow: "4px 0 15px rgba(0, 0, 0, 0.3)"}}>
                         <div className="list-group">
                         <a href="#" className="list-group-item list-group-item-action flex-column align-items-start">
@@ -41,7 +41,7 @@ export default () => {
                             </div>
                             <ul className="list-group list-group-flush">
                                 {one.memberIdList.map((mem) => (
-                                    <li className="list-group-item">{mem.dbDevId} | {mem.dbDevName} | {mem.dbDevGender}</li>
+                                    <li className="list-group-item" key={mem.debDevId}>{mem.dbDevId} | {mem.dbDevName} | {mem.dbDevGender}</li>
                                 ))}
                             </ul>
                         </a>
@@ -60,7 +60,7 @@ export default () => {
                         </a>
                     </div>
                 </div></>
-            ))}
+            )):"Kindly register your members to see the summary here..."}
 
         </div>
     </div>
