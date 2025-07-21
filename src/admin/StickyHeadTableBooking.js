@@ -8,7 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import { styled } from '@mui/material/styles';
-import { Box, Button, IconButton, TextField } from '@mui/material';
+import { Box, IconButton, TextField } from '@mui/material';
 import { FileDownload } from 'emotion-icons/fa-solid';
 const columns = [
   { id: 'id', label: 'Booking Id', minWidth: 30 },
@@ -70,8 +70,29 @@ export default function StickyHeadTableBooking(props) {
       border: 0,
     },
   }));
+  const prepareExportData = (rows) => {
+    return rows.map((row) => {
+      return {
+        'Booking Id': row.id,
+        'Booked By':row.customerName,
+        'Phone no':row.customerPhoneNo,
+        'Members Room': row.roomSet.map(o => {
+          const members = o.member
+            .map(m => `${m.dbDevName.toUpperCase()}_${m.dbDevGender.charAt(0)}`)
+            .join(", ");
+          return `${o.roomType.roomId}->[${members}]`;
+        }).join("\n"),
+        'Amount': row.amount,
+        'Txn Id': row.customerTxnId,
+        'method': row.customerVPA,
+        'Status': row.paymentStatus,
+        'Txn Date': row.txnDate.split('.')[0].replace("T", " "),
+        'Email': row.customerEmail,
+      };
+    });
+  };
 
-  const filteredRows = props.rows.filter((row) => {
+  const filteredRows = prepareExportData(props.rows).filter((row) => {
     return Object.values(row).some((value) =>
       typeof value === "string"
         ? value.toLowerCase().includes(searchText.toLowerCase())
@@ -91,8 +112,7 @@ export default function StickyHeadTableBooking(props) {
   };
   return (
     <Paper elevation={4} sx={{ width: '140%', overflow: 'hidden', rem: 4, alignSelf: 'center', marginLeft: 1, marginTop: 5, marginRight: 5 }}>
-      <TableContainer >
-        <Box
+      <Box
           display="flex"
           justifyContent="space-between"
           alignItems="center"
@@ -147,6 +167,7 @@ export default function StickyHeadTableBooking(props) {
             <FileDownload size={20} />
           </IconButton>
         </Box>
+      <TableContainer >
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
@@ -177,21 +198,11 @@ export default function StickyHeadTableBooking(props) {
                       {index + 1}
                     </StyledTableCell>
                     {columns.map((column) => {
-                      let value = row[column.id];
-                      if (column.id === "roomSet") {
-                        value = value.map(o => {
-                          const members = o.member
-                            .map(m => `${m.dbDevName.toUpperCase()}_${m.dbDevGender.charAt(0)}`)
-                            .join(", ");
-                          return `${o.roomType.roomId}->[${members}]`
-                        });
-                      }
-                      else if (column.id === "txnDate") {
-                        value = value.split('.')[0].replace("T", " ");
-                      }
+                      let value = row[column.label];
+
                       return (
                         <StyledTableCell key={column.id} align={'left'} sx={{ whiteSpace: 'nowrap', minWidth: 'fit-content' }}>
-                          {column.id === "roomSet" ? value.join("\n") : value}
+                          {value}
                         </StyledTableCell>
                       );
                     })}

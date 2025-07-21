@@ -53,7 +53,7 @@ export default function Sidebar(props) {
     { icon: <BuildingHouse size="20"/>, label: "My Bookings" },
     { icon: <Registered size="20"/>, label: "DB Registration" },
     { icon: <BrowserOutline size="20"/>, label: "GVS Portal" },
-    user.roles?.filter((e) => e === "ROLE_ADMIN")?{ icon: <UserCog size="20"/>, label: "Admin" }:"",
+    user.roles?.filter((e) => e.name == "ROLE_ADMIN")?{ icon: <UserCog size="20"/>, label: "Admin" }:<></>,
     { icon: <LogOutOutline size="20"/>, label: "Logout" },
   ];
   const handleClickedMenu = async (e) => {
