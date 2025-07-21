@@ -1,7 +1,8 @@
 import { Dialog, DialogTitle, DialogActions, DialogContent, Button, DialogContentText } from "@mui/material";
-import { useContext, useState, useEffect } from "react";
-import { BookingDetailContext } from "../context/BookingDetailContextProvider";
+import { useState } from "react";
 import LoadingSpinner from "../pleaseWait/loadingSpinner/LoadingSpinner";
+import { Trash2Outline } from "emotion-icons/evaicons-outline";
+import DateTimeSelection from "../utils/DateTimeSelection";
 
 export default function AccomodationModal(props) {
   const [mem, setMem] = useState([]);
@@ -18,21 +19,21 @@ export default function AccomodationModal(props) {
 
   const checkAlreadyBooked = (memId) => {
     const found = props.membersAccomoBooked.filter((one) => one.dbDevId === memId)
-    if (found.length == 0)
+    if (found.length === 0)
       return false;
 
     return true;
   }
   const checkAlreadySaved = (memId) => {
     const found = props.savedMembersForBooking.filter((one) => one.dbDevId === memId)
-    if (found.length == 0)
+    if (found.length === 0)
       return false;
 
     return true;
   }
   const checkPendingApproval = (memId) => {
     const found = props.membersPendingApproval.filter((one) => one.dbDevId === memId)
-    if (found.length == 0)
+    if (found.length === 0)
       return false;
 
     return true;
@@ -61,7 +62,7 @@ export default function AccomodationModal(props) {
       const existMem = mem.filter((one) => found[0].dbDevId == one.dbDevId);
       const memAdultCount = mem.filter((mem) => mem.dbDevAge > 10)
       if (memAdultCount.length < props.memCount || found[0].dbDevAge < 10) {
-        if (existMem.length == 0) {
+        if (existMem.length === 0) {
           setMem([...mem, found[0]]);
         } else {
           setErrorMessage("Member already exists.");
@@ -99,6 +100,7 @@ export default function AccomodationModal(props) {
     }
     else {
       props.onSave(bookingDetails)
+      console.log(bookingDetails)
       setMem([]);
       setArrDate("");
       setDepDate("");
@@ -107,8 +109,6 @@ export default function AccomodationModal(props) {
   }
 
   const onClose = () => {
-
-
     setMem([]);
     setMemId("");
     setArrDate("");
@@ -169,9 +169,9 @@ export default function AccomodationModal(props) {
                           </div>
                         </div>
                         <div className="col-2">
-                          <button onClick={(e) => handleRemove(e, index)}>
-                            <i className="bi bi-trash"></i>
-                          </button>
+                          <button className="p-0 m-0 bg-transparent border-none text-red-600 hover:text-red-800 " onClick={(e) => handleRemove(e, index)}>
+                          <Trash2Outline size={20}/>
+                        </button>
                         </div>
                       </div>
                     </div>
@@ -185,8 +185,7 @@ export default function AccomodationModal(props) {
 
                 </p></div>
                 <div>
-                  <div className="col"><a>Arrival: <input type="dateTime-local" id="arrDate" min="2025-09-07T04:00" max="2025-09-11T20:00" style={{ height: "20px", fontSize: 2 }} onChange={(e) => { setArrDate(e.target.value); setArrDepError("") }}></input></a><br />
-                    <a>Depart: <input type="dateTime-local" id="depDate" min="2025-09-08T00:00" max="2025-09-13T10:00" style={{ height: "20px", fontSize: 2 }} onChange={(e) => { setDepDate(e.target.value); setArrDepError("") }}></input></a></div>
+                  <DateTimeSelection arrDate={arrDate} depDate={depDate} onArrivalUpdate={(value)=>{setArrDate(value); setArrDepError("")}} onDepartureUpdate={(value)=>{setDepDate(value); setArrDepError("")}}/>
                 </div>
               </div>
             </form>

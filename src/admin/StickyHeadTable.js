@@ -11,6 +11,7 @@ import { styled } from '@mui/material/styles';
 import { Box, IconButton, TextField } from '@mui/material';
 import { FileDownload } from 'emotion-icons/fa-solid';
 const columns = [
+  { id: 'userEmail', label: 'Email', minWidth: 100 },
   { id: 'memberIdList', label: 'Members', minWidth: 30 },
   {
     id: 'amount',
@@ -26,7 +27,7 @@ const columns = [
   },
   {
     id: 'customerVPA',
-    label: 'APP Used',
+    label: 'Gateway',
     minWidth: 50,
     align: 'right',
   },
@@ -42,7 +43,6 @@ const columns = [
     minWidth: 50,
     align: 'right',
   },
-  { id: 'userEmail', label: 'Email', minWidth: 100 },
 
 ];
 export default function StickyHeadTable(props) {
@@ -67,7 +67,22 @@ export default function StickyHeadTable(props) {
       border: 0,
     },
   }));
-  const filteredRows = props.rows.filter((row) => {
+  
+  const prepareExportData = () => {
+    return props.rows.map((row) => {
+      const date = new Date(Number(row.txnDate));
+      return {
+        'Email': row.userEmail,
+        'Members': row.memberIdList.map(o => `${o.dbDevId}_${o.dbDevName.toUpperCase()}_${o.dbDevGender.charAt(0)}${o.dbDevAge}`).join("\n"),
+        'Amount': row.amount,
+        'Txn Id': row.upiTxnId,
+        'Gateway': row.customerVPA,
+        'Status': row.paymentStatus,
+        'Txn Date': `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}_${String(date.getHours()).padStart(2, 0)}:${String(date.getMinutes()).padEnd(2, 0)}`,
+      };
+    });
+  };
+  const filteredRows = prepareExportData().filter((row) => {
     return Object.values(row).some((value) =>
       typeof value === "string"
         ? value.toLowerCase().includes(searchText.toLowerCase())
@@ -76,7 +91,6 @@ export default function StickyHeadTable(props) {
           : false
     );
   });
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -87,7 +101,6 @@ export default function StickyHeadTable(props) {
   };
   return (
     <Paper elevation={4} sx={{ width: '140%', overflow: 'hidden', rem: 4, alignSelf: 'center', marginLeft: 1, marginTop: 5, marginRight: 5 }}>
-      <TableContainer >
       <Box
           display="flex"
           justifyContent="space-between"
@@ -130,7 +143,7 @@ export default function StickyHeadTable(props) {
           />
           <IconButton
             variant="contained"
-            onClick={() => props.onExport(filteredRows, `Members_rooms_${searchText || 'all'}.xlsx`)}
+            onClick={() => props.onExport(filteredRows, `Members_Registered_${searchText || 'all'}.xlsx`)}
             sx={{
               mx: 1,
               transition: 'all 0.3s',
@@ -142,6 +155,7 @@ export default function StickyHeadTable(props) {
             <FileDownload size={20} />
           </IconButton>
         </Box>
+      <TableContainer >
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
@@ -171,17 +185,10 @@ export default function StickyHeadTable(props) {
                       {index + 1}
                     </StyledTableCell>
                     {columns.map((column) => {
-                      let value = row[column.id];
-                      if (column.id === "memberIdList") {
-                        value = value.map(o => `${o.dbDevId}_${o.dbDevName.toUpperCase()}_${o.dbDevGender.charAt(0)}${o.dbDevAge}`);
-                      }
-                      else if (column.id === "txnDate") {
-                        const date = new Date(Number(value));
-                        value = `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}_${String(date.getHours()).padStart(2, 0)}:${String(date.getMinutes()).padEnd(2, 0)}`;
-                      }
+                      let value = row[column.label];
                       return (
                         <StyledTableCell key={column.id} align={'left'}>
-                          {column.id === "memberIdList" ? value.join(" ,\n") : value}
+                          {value}
                         </StyledTableCell>
                       );
                     })}
