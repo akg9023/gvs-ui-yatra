@@ -23,7 +23,7 @@ export const GET_ALL_BOOKING_DETAILS_BY_EMAIL = BASE_URL + "/v1/room/bookings/fe
 export const LOGIN_URL = BASE_URL + "/oauth2/authorization/google";
 export const LOGOUT = BASE_URL + "/logout";
 export const GET_ALL_REGISTERED_MEMBERS = BASE_URL + "/yatra/admin/fetchYatraRegisteredmembers"
-
+export const GET_ALL_REGISTERED_MEMBERS_PENDING_FOR_BOOKING= BASE_URL + "/yatra/admin/fetchAllPendingMembersForRoomBooking"
 export const GET_ALL_BOOKED_MEMBERS = BASE_URL + "/yatra/admin/fetchAllBookedMembers"
 
 //manual  

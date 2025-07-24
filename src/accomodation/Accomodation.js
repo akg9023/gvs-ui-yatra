@@ -2,7 +2,6 @@
 import { useContext, useEffect, useState } from "react"
 import "./acc.css"
 import axios from "axios"
-import PleaseWait from "../pleaseWait/PleaseWait.js"
 import { GET_ALL_ROOMS, YATRA_REGISTERED_MEMBERS, FETCH_ALL_APPROVED_MEMBERS, FETCH_ALL_PENDING_MEMBERS, SAVE_ACCOMODATAION_DETAIL_WITHOUT_PAYMENT } from "../constants/Constants"
 import { PleaseWaitContext } from "../context/PleaseWaitContextProvider.js"
 import AccomodationModal from "./AccomodationModal"
@@ -22,11 +21,9 @@ export default () => {
     const [memCount, setMemCount] = useState()
     const [minMemCount, setMinMemCount] = useState()
     const [oneRoom, setOneRoom] = useState({})
-    const [regMemDetails, setRegMemDetails] = useState([])
     const [membersListForBooking, setMembersListForBooking] = useState([])
     const [membersAccomoBooked, setMembersAccomoBooked] = useState([])
     const [membersPendingApproval, setMembersPendingApproval] = useState([])
-    const [successMem, setSuccessMem] = useState([])
     const [rooms, setRooms] = useState([1])
     const { gWaitOn, setGWaitOn } = useContext(PleaseWaitContext)
     const [savedMembersForBooking, setSavedMembersForBooking] = useState([])
@@ -37,11 +34,9 @@ export default () => {
 
     const {user}=useAuth();
     const navigate = useNavigate();
-    let membersList = [];
-
 
     const getData=()=>{
-
+        setGWaitOn(true)
         const res = axios.get(GET_ALL_ROOMS,{withCredentials:true})
         res.then(data => setRooms(data.data)).catch()
 
@@ -51,6 +46,7 @@ export default () => {
         memBookedRes.then((data) => setMembersAccomoBooked(data.data))
         const memsPendingRes = axios.get(FETCH_ALL_PENDING_MEMBERS,{withCredentials:true})
         memsPendingRes.then((data) => setMembersPendingApproval(data.data))
+        setGWaitOn(false)
     }
 
 
@@ -59,6 +55,7 @@ export default () => {
           navigate("/");
 
           else {
+            setGWaitOn(true)
             getData();
           }
             const script = document.createElement('script');
@@ -69,7 +66,7 @@ export default () => {
             script.onload = () => {
               console.log("Script loaded!");
             }
-        
+            setGWaitOn(false)
         return () => {
             document.body.removeChild(script);
           };
@@ -130,16 +127,16 @@ export default () => {
                     return (
                         <div className="col cardColumn" key={index}>
 
-                            <div class="card " style={{ "width": "18rem", "padding": "0px" }}>
-                                <img class="card-img-top" style={{ "height": "100px" }} src="https://th.bing.com/th/id/OIP.qLVYj_t-HU2Yyx3v_wFgLwHaE6?pid=ImgDet&rs=1" alt="Card image cap" />
-                                <div class="card-body">
-                                    <h5 class="card-title">{one.type + " - " + one?.roomId + ""}</h5>
-                                    <p class="card-text">
+                            <div className="card " style={{ "width": "18rem", "padding": "0px" }}>
+                                <img className="card-img-top" style={{ "height": "100px" }} src="https://th.bing.com/th/id/OIP.qLVYj_t-HU2Yyx3v_wFgLwHaE6?pid=ImgDet&rs=1" alt="Card image cap" />
+                                <div className="card-body">
+                                    <h5 className="card-title">{one.type + " - " + one?.roomId + ""}</h5>
+                                    <p className="card-text">
                                         <small>Description:</small> <div class="desc">{one.description}</div>
                                         <hr />
                                         <small>CheckIn Time:{one.checkInTime}</small><br />
                                         <small>CheckOut Time: {one.checkOutTime}</small><br />
-                                        <span><b>Price: <span class="price">{one.price}</span></b><i> (full yatra)</i></span><br />
+                                        <span><b>Price: <span className="price">{one.price}</span></b><i> (full yatra)</i></span><br />
                                         {avail ? <li className="list-group-item" style={{ "color": "green" }}><b>AVAILABLE: </b><h5 style={{ "display": "inline-block" }}>{one.count}</h5></li>
                                             : <li className="list-group-item" style={{ "color": "red" }}><b>AVAILABLE: </b><h5 style={{ "display": "inline-block" }}>{one.count}</h5></li>}
                                     </p>

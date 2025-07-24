@@ -88,13 +88,16 @@ export default () => {
 
         const reqForMemList = {
             "memberIdList": memberList,
+            "payeeName":formData.customerName,
             "userEmail": "",
             "amount": amount,
             "paymentStatus": "pending",
+            "phoneNo":formData.customerPhoneNo,
             "upiTxnId": formData.customerUTR,
             "customerVPA": formData.customerUPIApp,
             "customerEmail": "",
-            "txnDate": Date.now()
+            "txnDate": Date.now(),
+            
         }
 
         setGWaitOn(true)
