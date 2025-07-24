@@ -100,7 +100,6 @@ export default function AccomodationModal(props) {
     }
     else {
       props.onSave(bookingDetails)
-      console.log(bookingDetails)
       setMem([]);
       setArrDate("");
       setDepDate("");

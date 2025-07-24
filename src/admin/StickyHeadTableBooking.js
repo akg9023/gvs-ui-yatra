@@ -80,7 +80,7 @@ export default function StickyHeadTableBooking(props) {
           const members = o.member
             .map(m => `${m.dbDevName.toUpperCase()}_${m.dbDevGender.charAt(0)}`)
             .join(", ");
-          return `${o.roomType.roomId}->[${members}]`;
+          return `${o.roomType.roomId}:[${members}]`;
         }).join("\n"),
         'Amount': row.amount,
         'Txn Id': row.customerTxnId,
@@ -172,7 +172,7 @@ export default function StickyHeadTableBooking(props) {
           <TableHead>
             <TableRow>
               <StyledTableCell
-                style={{ minWidth: "40" }}
+                style={{ minWidth: "40" }} key={"sl"}
               >
                 Sl
               </StyledTableCell>
@@ -194,14 +194,14 @@ export default function StickyHeadTableBooking(props) {
               .map((row, index) => {
                 return (
                   <StyledTableRow hover role="checkbox" tabIndex={-1} key={row.id}>
-                    <StyledTableCell >
+                    <StyledTableCell key={index} >
                       {index + 1}
                     </StyledTableCell>
                     {columns.map((column) => {
                       let value = row[column.label];
 
                       return (
-                        <StyledTableCell key={column.id} align={'left'} sx={{ whiteSpace: 'nowrap', minWidth: 'fit-content' }}>
+                        <StyledTableCell key={column.id} align={'left'} sx={{ whiteSpace: column.label === 'Members Room' ? 'pre' : 'nowrap', minWidth: 'fit-content' }}>
                           {value}
                         </StyledTableCell>
                       );

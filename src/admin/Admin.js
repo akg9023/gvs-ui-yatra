@@ -3,12 +3,14 @@ import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import StickyHeadTable from './StickyHeadTable';
 import axios from 'axios';
-import { GET_ALL_BOOKED_MEMBERS, GET_ALL_REGISTERED_MEMBERS } from '../constants/Constants';
+import { GET_ALL_BOOKED_MEMBERS, GET_ALL_REGISTERED_MEMBERS, GET_ALL_REGISTERED_MEMBERS_PENDING_FOR_BOOKING } from '../constants/Constants';
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2.js";
-import { Box, Tab, Tabs } from '@mui/material';
+import { Box, Tab, Tabs,useMediaQuery } from '@mui/material';
 import StickyHeadTableBooking from './StickyHeadTableBooking';
+import StickyHeadTablePendingMembers from './PendingMembers.js';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
+import { useTheme } from '@mui/material/styles';
 
 export default function Admin() {
     const [regMem, setRegMem] = useState([]);
@@ -16,6 +18,9 @@ export default function Admin() {
     const [errorMsg, setErrorMsg] = useState("");
     const [selectedTab, setSelectedTab] = useState(0);
     const [accommodationData, setAccomodationData] = useState("");
+    const [pendingMemData, setPendingMemData] = useState("");
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
     const exportToXLSX = (data, filename = 'export.xlsx') => {
         const worksheet = XLSX.utils.json_to_sheet(data);
@@ -55,6 +60,17 @@ const handleTabChange = (event, newValue) => {
         }
         setLoading(false);
     }
+    const fetchPendingMembersData = async () => {
+        setErrorMsg("")
+        setLoading(true);
+        const response = await axios.get(GET_ALL_REGISTERED_MEMBERS_PENDING_FOR_BOOKING, { withCredentials: true })
+        .catch((e) => { setErrorMsg("OOps!!There was some error. Please try again!!"); setLoading(false); });
+    if (response.data) {
+      setPendingMemData(response.data);
+    }
+
+        setLoading(false);
+    }
 
     useEffect(() => {
         fetchData();
@@ -69,9 +85,19 @@ const handleTabChange = (event, newValue) => {
         <div >
 
 <Box sx={{ borderBottom: 1, borderColor: 'divider', mb:2 }}>
-  <Tabs value={selectedTab} onChange={handleTabChange}>
+  <Tabs value={selectedTab} onChange={handleTabChange} variant="scrollable"
+  scrollButtons="auto"
+  sx={{
+    '& .MuiTab-root': {
+      minWidth: isMobile ? '80px' : '130px',
+      fontSize: isMobile ? '8px' : '20px',
+      padding: isMobile ? '6px 8px' : '12px 16px',
+    },
+  }}>
     <Tab label="YATRA REGISTERED MEMBERS" onClick={fetchData}/>
-    <Tab sx={{ whiteSpace: 'nowrap', minWidth: 'fit-content' }} label="REGISTIRED MEMBER ACCOMODATION" onClick={fetchAccomodationData}/>
+    <Tab sx={{ whiteSpace: 'nowrap', minWidth: 'fit-content' }} label="MEMBER ACCOMODATION DETAILS" onClick={fetchAccomodationData}/>
+    <Tab sx={{ whiteSpace: 'nowrap', minWidth: 'fit-content' }} label="MEMBERS ROOM NOT BOOKED" onClick={fetchPendingMembersData}/>
+
   </Tabs>
 </Box>
             <Backdrop
@@ -90,6 +116,11 @@ const handleTabChange = (event, newValue) => {
             <Grid2 container>
 
                 {!errorMsg.length > 0 || !loading ? <StickyHeadTableBooking rows={accommodationData} onExport={exportToXLSX}/> : <i style={{ margin: "1rem", color: "red" }}>{errorMsg}</i>}
+            </Grid2>)}
+            {selectedTab === 2 && !loading && (
+            <Grid2 container>
+
+                {!errorMsg.length > 0 || !loading ? <StickyHeadTablePendingMembers rows={pendingMemData} onExport={exportToXLSX}/> : <i style={{ margin: "1rem", color: "red" }}>{errorMsg}</i>}
             </Grid2>)}
 
 

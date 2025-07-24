@@ -11,41 +11,30 @@ import { styled } from '@mui/material/styles';
 import { Box, IconButton, TextField } from '@mui/material';
 import { FileDownload } from 'emotion-icons/fa-solid';
 const columns = [
-  { id: 'userEmail', label: 'Email', minWidth: 100 },
-  { id: 'memberIdList', label: 'Members', minWidth: 30 },
+  { id: 'id', label: 'Member id', minWidth: 30 },
+  { id: 'name', label: 'Member name', minWidth: 30 },
+  { id: 'gender', label: 'Gender', minWidth: 30 },
+  { id: 'age', label: 'Age', minWidth: 30 },
   {
-    id: 'amount',
-    label: 'Amount',
+    id: 'BookedBy',
+    label: 'Booked by',
     minWidth: 50,
     align: 'right',
   },
   {
-    id: 'upiTxnId',
-    label: 'Txn Id',
-    minWidth: 70,
+    id: 'Payee email',
+    label: 'Payee email',
+    minWidth: 100,
     align: 'right',
   },
   {
-    id: 'customerVPA',
-    label: 'Gateway',
+    id: 'Payee phno',
+    label: 'Payee phno',
     minWidth: 50,
     align: 'right',
-  },
-  {
-    id: 'paymentStatus',
-    label: 'Status',
-    minWidth: 50,
-    align: 'right',
-  },
-  {
-    id: 'txnDate',
-    label: "Txn Date",
-    minWidth: 50,
-    align: 'right',
-  },
-
+  }
 ];
-export default function StickyHeadTable(props) {
+export default function PendingMembers(props) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [searchText, setSearchText] = React.useState("");
@@ -67,22 +56,21 @@ export default function StickyHeadTable(props) {
       border: 0,
     },
   }));
-  
-  const prepareExportData = () => {
-    return props.rows.map((row) => {
-      const date = new Date(Number(row.txnDate));
+  const prepareExportData = (rows) => {
+    return rows.map((row) => {
       return {
-        'Email': row.userEmail,
-        'Members': row.memberIdList.map(o => `${o.dbDevId}_${o.dbDevName.toUpperCase()}_${o.dbDevGender.charAt(0)}${o.dbDevAge}`).join("\n"),
-        'Amount': row.amount,
-        'Txn Id': row.upiTxnId,
-        'Gateway': row.customerVPA,
-        'Status': row.paymentStatus,
-        'Txn Date': `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}_${String(date.getHours()).padStart(2, 0)}:${String(date.getMinutes()).padEnd(2, 0)}`,
+        'Member id': row.member.dbDevId,
+        'Member name': row.member.dbDevName,
+        'Gender': row.member.dbDevGender,
+        'Age': row.member.dbDevAge,
+        'Booked by':row.payeeName,
+        'Payee email':row.customerEmail,
+        'Payee phno':row.phoneNo,
       };
     });
   };
-  const filteredRows = prepareExportData().filter((row) => {
+
+  const filteredRows = prepareExportData(props.rows).filter((row) => {
     return Object.values(row).some((value) =>
       typeof value === "string"
         ? value.toLowerCase().includes(searchText.toLowerCase())
@@ -91,6 +79,7 @@ export default function StickyHeadTable(props) {
           : false
     );
   });
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -112,6 +101,7 @@ export default function StickyHeadTable(props) {
             label="Search"
             variant="outlined"
             size="small"
+            // sx={{ width: 300 }}
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
           />
@@ -143,7 +133,7 @@ export default function StickyHeadTable(props) {
           />
           <IconButton
             variant="contained"
-            onClick={() => props.onExport(filteredRows, `Members_Registered_${searchText || 'all'}.xlsx`)}
+            onClick={() => props.onExport(filteredRows, `Pending_members_${searchText || 'all'}.xlsx`)}
             sx={{
               mx: 1,
               transition: 'all 0.3s',
@@ -155,25 +145,12 @@ export default function StickyHeadTable(props) {
             <FileDownload size={20} />
           </IconButton>
         </Box>
-      <TableContainer   sx={{
-    position: 'relative',
-    overflowX: 'auto',
-    '&::after': {
-      content: '""',
-      position: 'absolute',
-      right: 0,
-      top: 0,
-      width: '30px',
-      height: '100%',
-      background: 'linear-gradient(to left, white, transparent)',
-      pointerEvents: 'none',
-    },
-  }}>
-        <Table stickyHeader aria-label="sticky table" >
+      <TableContainer >
+        <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
               <StyledTableCell
-                style={{ minWidth: "40" }}
+                style={{ minWidth: "40" }} key={'sl'}
               >
                 Sl
               </StyledTableCell>
@@ -182,6 +159,7 @@ export default function StickyHeadTable(props) {
                   key={column.id}
                   align={'center'}
                   style={{ minWidth: column.minWidth }}
+                  sx={{ whiteSpace: 'nowrap', minWidth: 'fit-content' }}
                 >
                   {column.label}
                 </StyledTableCell>
@@ -199,8 +177,9 @@ export default function StickyHeadTable(props) {
                     </StyledTableCell>
                     {columns.map((column) => {
                       let value = row[column.label];
+
                       return (
-                        <StyledTableCell key={column.id} align={'left'}>
+                        <StyledTableCell key={column.id} align={'left'} sx={{ whiteSpace:'nowrap', minWidth: 'fit-content' }}>
                           {value}
                         </StyledTableCell>
                       );
